@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>(주)유진바이오 학술부 반추영양학 스터디</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+  :root {
+    --bg:       #FFFFFF;
+    --bg2:      #F8F9FA;
+    --bg3:      #F1F3F5;
+    --border:   #DEE2E6;
+    --text:     #1A1D23;
+    --muted:    #495057;
+    --dim:      #868E96;
+    --accent:   #1B6B3A;   /* 유진바이오 — 초록 계열 */
+    --accent-l: #E8F5EE;
+    --accent2:  #D4820A;   /* 한우 amber */
+    --accent2-l:#FFF8EC;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--text);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-brand {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .header-brand span {
+    font-size: 13px;
+    color: #ADB5BD;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--text);
+    padding: 72px 40px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(27,107,58,0.15) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(27,107,58,0.25);
+    border: 1px solid rgba(27,107,58,0.5);
+    color: #5DBF82;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(24px, 4vw, 44px);
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.4;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: #5DBF82;
+  }
+  .hero-sub {
+    color: #868E96;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 60px 24px 40px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 28px;
+  }
+  .section-label-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-label-text {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    white-space: nowrap;
+  }
+
+  /* ── LECTURE CARD ── */
+  .lecture-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .lecture-card {
+    display: flex;
+    align-items: stretch;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.15s;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .lecture-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(27,107,58,0.12);
+    transform: translateY(-2px);
+  }
+  .lecture-card:hover .card-arrow {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .card-num {
+    background: var(--accent-l);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 900;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 0.12em;
+    padding: 20px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(27,107,58,0.15);
+    min-width: 44px;
+  }
+
+  .card-body {
+    padding: 22px 24px;
+    flex: 1;
+  }
+  .card-tag {
+    display: inline-block;
+    background: var(--accent2-l);
+    color: var(--accent2);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .card-keywords {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 14px;
+  }
+  .kw {
+    background: var(--bg3);
+    color: var(--dim);
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .card-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px;
+    color: var(--dim);
+    font-size: 18px;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0 14px 14px 0;
+  }
+
+  /* ── COMING SOON CARD ── */
+  .lecture-card.coming {
+    opacity: 0.55;
+    pointer-events: none;
+    cursor: default;
+  }
+  .lecture-card.coming .card-num {
+    background: var(--bg3);
+    color: var(--dim);
+    border-right-color: var(--border);
+  }
+  .coming-badge {
+    display: inline-block;
+    background: var(--bg3);
+    color: var(--dim);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .footer-logo img {
+    height: 36px;
+    object-fit: contain;
+  }
+  .footer-info {
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.8;
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; }
+    .hero  { padding: 52px 20px 60px; }
+    footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    .footer-info { text-align: left; }
+    .card-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-brand">
+    <img src="https://github.com/ruminoDesign/imageSource/blob/main/logoEG.png?raw=true"
+         alt="유진바이오 로고" style="height:32px; object-fit:contain;">
+    <span>(주)유진바이오 학술부</span>
+  </div>
+  <span style="font-size:12px; color:#6E7681; letter-spacing:0.06em;">RUMINANT NUTRITION STUDY</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Academic Study Series</div>
+  <h1>(주)유진바이오 학술부<br><em>반추영양학 스터디</em></h1>
+  <p class="hero-sub">사료첨가제 개발을 위한 반추동물 영양·사양 심화 학습</p>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <div class="section-label">
+    <div class="section-label-line"></div>
+    <div class="section-label-text">강의 목록</div>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="lecture-list">
+
+    <!-- 강의 1 -->
+    <div class="lecture-card coming">
+      <div class="card-num">01</div>
+      <div class="card-body">
+        <div class="coming-badge">준비 중</div>
+        <div class="card-title">육성기 근육 위성세포 발달과 근내지방도 결정</div>
+        <div class="card-desc">MSC(근육 위성세포)의 분열·분화 기전과 비육 잠재력의 조기 결정 메커니즘</div>
+        <div class="card-keywords">
+          <span class="kw">Satellite Cell</span>
+          <span class="kw">Myogenesis</span>
+          <span class="kw">IMF 잠재력</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 강의 2 -->
+    <div class="lecture-card coming">
+      <div class="card-num">02</div>
+      <div class="card-body">
+        <div class="coming-badge">준비 중</div>
+        <div class="card-title">비육전기 지방침착의 대사적 기전</div>
+        <div class="card-desc">Hyperplasia 중심 — 전지방세포 분화와 지방세포 수 결정의 분자적 기전</div>
+        <div class="card-keywords">
+          <span class="kw">Hyperplasia</span>
+          <span class="kw">PPARγ</span>
+          <span class="kw">mTORC1</span>
+          <span class="kw">Methionine</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 강의 3 — ACTIVE -->
+    <a class="lecture-card" href="hanwoo_hypertrophy.html" target="_blank" rel="noopener">
+      <div class="card-num">03</div>
+      <div class="card-body">
+        <div class="card-tag">한우 비육후기</div>
+        <div class="card-title">한우 비육후기 Hypertrophy의 이해와 전략</div>
+        <div class="card-desc">
+          지방세포 비대(Hypertrophy) 중심 — Propionate → 인슐린 경로, mTOR 마스터 스위치,
+          LPL·DNL·HSL 3대 엔진, 산화 스트레스 방어까지.
+          타이멧(RPM 55%) + 루프루콜(염화콜린 25%), Vitamin E + Selenium의 분자적 역할과
+          한우 기준 처방량 계산 포함.
+        </div>
+        <div class="card-keywords">
+          <span class="kw">Hypertrophy</span>
+          <span class="kw">Propionate</span>
+          <span class="kw">mTOR</span>
+          <span class="kw">LPL / DNL / HSL</span>
+          <span class="kw">타이멧</span>
+          <span class="kw">루프루콜</span>
+          <span class="kw">Vitamin E</span>
+          <span class="kw">Selenium</span>
+        </div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <!-- 강의 4 -->
+    <div class="lecture-card coming">
+      <div class="card-num">04</div>
+      <div class="card-body">
+        <div class="coming-badge">준비 중</div>
+        <div class="card-title">근내지방 품질 결정 인자와 등급 최적화 전략</div>
+        <div class="card-desc">SCD1, 올레산 비율, 도체 등급과 사료첨가제 전략</div>
+        <div class="card-keywords">
+          <span class="kw">SCD1</span>
+          <span class="kw">올레산</span>
+          <span class="kw">도체 등급</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="https://github.com/ruminoDesign/imageSource/blob/main/logoEG.png?raw=true"
+         alt="유진바이오 로고">
+    <div>
+      <div style="font-size:14px; font-weight:700; color:var(--text);">(주)유진바이오</div>
+      <div style="font-size:12px; color:var(--dim);">학술부 반추영양학 스터디</div>
+    </div>
+  </div>
+  <div class="footer-info">
+    본 자료는 사내 교육 목적으로 제작되었습니다.<br>
+    NRC (2016, 2021) 및 최신 반추동물 영양학 문헌 기반
+  </div>
+</footer>
+
+</body>
+</html>
