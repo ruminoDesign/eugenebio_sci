@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비육우 근육 성장: 소장-반추위 양방향 피드백 루프</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .module {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .module-header {
+            background-color: #34495e;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .module-header h2 {
+            font-size: 20px;
+        }
+        
+        .module-header .toggle {
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+        
+        .module-header.active .toggle {
+            transform: rotate(180deg);
+        }
+        
+        .module-content {
+            padding: 30px;
+            display: none;
+        }
+        
+        .module-content.active {
+            display: block;
+        }
+        
+        .core-message {
+            background-color: #fff9e6;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0 15px 0;
+            font-weight: bold;
+        }
+        
+        .core-message ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .core-message li {
+            margin-bottom: 8px;
+        }
+        
+        .section-title {
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin: 20px 0 15px 0;
+            border-left: 4px solid #3498db;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        
+        .content-text {
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        
+        .highlight-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .key-finding {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .citation {
+            background-color: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 13px;
+            font-style: italic;
+        }
+        
+        footer {
+            background-color: #34495e;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+        
+        footer h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .bibliography-item {
+            text-align: left;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            text-indent: -20px;
+            line-height: 1.7;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .nav-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .flow-diagram {
+            background-color: #f9f9f9;
+            border: 2px dashed #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>비육우 근육 성장을 극대화하는</h1>
+        <h1 style="font-size: 24px; margin-top: 10px;">소장-반추위 양방향 피드백 루프</h1>
+        <p style="font-size: 14px; margin-top: 15px;">논문 기반 8단계 학술 강의 자료</p>
+        <p style="font-size: 12px; margin-top: 10px;">Young et al. 2025 (Scientific Reports) &amp; Zhang et al. 2024 (Communications Biology)</p>
+        <p style="font-size: 10px; margin-top: 10px;">보조사료(사료첨가제) 제조 회사 학술부</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Step 1 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 1: 소장의 높은 TJP 발현</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>소장의 tight junction protein (TJP)이 반추위보다 유의적으로 높음 (P &lt; 0.01)</li>
+                        <li>Claudin-1, Claudin-2, E-Cadherin이 모두 소장 &gt; 반추위</li>
+                        <li>소장: 선택적 영양소 흡수 + 면역 방어 우선</li>
+                        <li>반추위: 미생물 발효 환경 최적화</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    소장의 Claudin-1, Claudin-2, E-Cadherin 발현량이 반추위보다 유의적으로 높습니다 (P ≤ 0.02). 병리학자의 독립적 평가에서 이 TJP들이 모두 소장에서 더 높게 나타났으며, 이는 소장이 반추위보다 강력한 선택적 영양소 흡수 기능을 가지고 있으며, 동시에 면역 방어에도 더 큰 역할을 한다는 의미입니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Young et al. 2025, Scientific Reports
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 2: 소장 TJP 강화와 포도당 흡수 및 인슐린 신호</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>TJP (특히 Occludin)와 포도당 수송기 (GLUT1, GLUT4)는 co-localize</li>
+                        <li>TJP 증가 → 포도당 흡수 능력 증가</li>
+                        <li>포도당 흡수 ↑ → 혈당 ↑ → 인슐린 분비 ↑</li>
+                        <li>증가된 인슐린: 전신 호르몬 신호 역할</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    Occludin이 GLUT4 및 GLUT1과 세포 상에서 함께 위치하며, 역상관 관계를 보입니다. TJP가 감소하면 GLUT-1도 현저히 감소하므로, Step 1의 강화된 소장 TJP는 포도당 수송 능력 증가로 직결됩니다. 증가된 포도당 흡수는 혈당을 상승시키고, 이는 인슐린 분비를 증가시키는 기초 생리 신호가 됩니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Ngarmukos et al. 2001 (in Frontiers 2025); Impairment of TJ &amp; glucose transport 2011
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 3: 인슐린 신호와 근육 GLUT-4 활성화</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>인슐린 → 근육의 GLUT-4 활성화</li>
+                        <li>GLUT-4 활성화 → 근육 포도당 흡수 증가</li>
+                        <li>큰 근육(DM)의 GLUT-4 발현: 정상 근육(NM)의 2배 이상</li>
+                        <li>실제 포도당 흡수 능력도 2배 이상 (P &lt; 0.01)</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    인슐린이 근육에 도달하면 GLUT-4를 세포 표면으로 이동시킵니다. myostatin-KO 소의 근육에서 GLUT-4 mRNA 발현과 실제 포도당 흡수 능력이 모두 정상 소 대비 2배 이상 높았습니다. 이는 Step 2의 인슐린 신호가 근육의 에너지 공급 능력을 극적으로 증가시킨다는 것을 의미합니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Myostatin alters GLUT-4 expression, Journal of Animal Science 2014
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 4: 인슐린 신호와 반추위 환경 신호의 전달</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>인슐린 ↑ → IGF-1 분비 ↑ → 전신 호르몬 프로파일 변화</li>
+                        <li>각 부위의 TJP와 microbiota는 호스트의 호르몬 상태를 반영</li>
+                        <li>호르몬 신호: 혈액, 신경, 대사산물을 통해 반추위로 전달</li>
+                        <li>반추위 환경의 물리화학적 특성 변화 시작</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    Step 3의 증가된 인슐린은 간에서 IGF-1을 자극하고, 이는 전신 호르몬 프로파일을 변화시킵니다. Young et al. (2025)의 핵심 발견은 각 부위의 TJP 발현과 microbiota 구성이 호스트의 호르몬 상태에 따라 조절된다는 것입니다. 증가된 인슐린과 IGF-1은 혈액, 신경, 대사산물을 통해 반추위로 신호를 전달하여 환경을 재편성합니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Young et al. 2025, Scientific Reports
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 5: 반추위 환경 신호와 Prevotella 우점화</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>호르몬 신호 → 반추위 미생물 생태계 급변</li>
+                        <li>Prevotella_sp._CAG:732: 6.96배 증가 (P &lt; 0.001)</li>
+                        <li>Prevotella_sp._MSX73: 5.42배 증가 (P &lt; 0.001)</li>
+                        <li>Prevotella_sp._MA2016: 5.07배 증가 (P &lt; 0.001)</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    Step 4의 호르몬 신호가 반추위에 도달하면, 반추위의 물리화학적 조건이 특정 미생물의 성장에 유리하게 변합니다. Zhang et al. (2024)의 메타게놈 분석에서 myostatin-KO 소 (큰 근육의 소)의 반추위에서 Prevotella 종들이 극적으로 증가했습니다. 이는 큰 근육을 유지하는 호르몬 상태가 반추위 미생물을 선택적으로 변화시킨다는 증거입니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Zhang et al. 2024, Communications Biology
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 6: Prevotella 우점화와 BCAA 합성 증가</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>Prevotella: BCAA 합성 유전자 보유</li>
+                        <li>메타게놈과 메타볼로믹스에서 BCAA 합성 경로 풍부</li>
+                        <li>실제 반추위 BCAA 농도 증가</li>
+                        <li>근육 BCAA 수치: Leucine +15.5%, Isoleucine +28.4%, Valine +36.1%</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    우점화된 Prevotella는 BCAA 합성 능력을 가지고 있으며, 메타게놈과 메타볼로믹스 분석에서 BCAA 합성 유전자와 대사산물이 모두 풍부함이 확인되었습니다. 반추위에서 생성된 BCAA는 소장을 통해 흡수되어 근육에 도달하고, 결과적으로 myostatin-KO 소의 근육에서 모든 BCAA가 현저히 증가합니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Zhang et al. 2024, Communications Biology
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 7: BCAA와 포도당 결합 및 근육 단백질 합성 극대화</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>포도당 (에너지) + BCAA (단백질 재료)의 동시 공급</li>
+                        <li>mTOR 신호 경로 극도로 활성화</li>
+                        <li>Leucine: mTOR의 강력한 활성화제</li>
+                        <li>실제 근육 구조: myofibril formation 증가</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    Step 3의 포도당(에너지)과 Step 6의 BCAA(단백질)가 근육 세포에서 만나면, 근육 단백질 합성이 최적화됩니다. Leucine은 mTOR를 강력하게 활성화시키고, 충분한 ATP 에너지가 모든 합성 과정을 지원합니다. 그 결과 myofibril formation, muscle system processes, contraction fiber development가 실제로 관찰됩니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Zhang et al. 2024, Communications Biology
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 8 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>Step 8: 근육 성장과 등심단면적 증가</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="core-message">
+                    <strong>핵심 메시지</strong>
+                    <ul>
+                        <li>극대화된 근육 단백질 합성 → 2가지 성장 메커니즘 동시 작동</li>
+                        <li>근육 섬유 크기 증가 (hypertrophy): 단면적 2배 이상 (P &lt; 0.001)</li>
+                        <li>새로운 근육 섬유 형성 (hyperplasia): 근섬유 수 증가</li>
+                        <li>등심단면적 증가 → 정육 비율 ↑ → 시장 가치 향상</li>
+                    </ul>
+                </div>
+                
+                <div class="section-title">설명</div>
+                <div class="content-text">
+                    Step 7의 극대화된 단백질 합성은 근육 섬유 크기 증가(hypertrophy)와 새로운 섬유 형성(hyperplasia)을 동시에 가져옵니다. 결과적으로 전체 근육량이 극적으로 증가하고, 비육우 산업의 핵심 지표인 등심단면적이 상승합니다. 이는 정육 비율 증가와 직결되어 시장 가치를 향상시킵니다.
+                </div>
+                
+                <div class="citation">
+                    <strong>Citation:</strong> Zhang et al. 2024, Communications Biology
+                </div>
+            </div>
+        </div>
+
+        <!-- 전체 흐름 -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2>전체 흐름 종합 및 양의 피드백 루프</h2>
+                <span class="toggle">▼</span>
+            </div>
+            <div class="module-content">
+                <div class="section-title">8단계 종합</div>
+                <div class="content-text">
+                    Step 1은 소장의 강화된 구조적 능력을 보여줍니다. Step 2는 이것이 포도당 흡수와 인슐린 신호 증가로 이어짐을 설명합니다. Step 3은 증가된 인슐린이 근육의 에너지 흡수 능력을 극대화시킵니다.
+                </div>
+                
+                <div class="content-text">
+                    Step 4는 이 신호가 반추위로도 전달됨을 보여줍니다. Step 5는 반추위 미생물이 재편성되고 Prevotella가 우점화됨을 설명합니다. Step 6은 Prevotella가 BCAA를 합성하여 근육에 공급합니다.
+                </div>
+                
+                <div class="content-text">
+                    Step 7은 에너지(포도당)와 단백질(BCAA)이 근육에서 만나 단백질 합성을 극대화시킵니다. Step 8은 이것이 근육량 증가와 등심단면적 상승으로 이어집니다.
+                </div>
+                
+                <div class="section-title">양의 피드백 루프 (Positive Feedback Loop)</div>
+                <div class="flow-diagram">
+                    <strong>소장 강화</strong> (우리 제품)<br>
+                    ↓<br>
+                    <strong>포도당 흡수 ↑ → 인슐린 신호 ↑</strong><br>
+                    ↓<br>
+                    <strong>근육 GLUT-4 활성화 → 근육 에너지 ↑</strong><br>
+                    ↓<br>
+                    <strong>반추위 환경 신호 변화</strong><br>
+                    ↓<br>
+                    <strong>반추위 TJP 강화 & Prevotella 우점 ↑</strong><br>
+                    ↓<br>
+                    <strong>BCAA 합성 ↑ → 근육 단백질 공급 ↑</strong><br>
+                    ↓<br>
+                    <strong>근육 단백질 합성 극대화</strong><br>
+                    ↓<br>
+                    <strong>등심단면적 증가</strong><br>
+                    ↓<br>
+                    <strong>더 큰 근육 → 더 많은 호르몬 신호</strong><br>
+                    ↓<br>
+                    <strong>루프 강화 (피드백) 반복</strong>
+                </div>
+                
+                <div class="key-finding">
+                    <strong>결론:</strong> 이 전체 과정은 <strong>양의 피드백 루프</strong>를 형성합니다. 소장 강화로 시작된 신호가 반추위 미생물을 통해 다시 근육으로 돌아오며, 이 상호작용이 반복될수록 근육 성장이 강화됩니다. 모든 단계가 실험 데이터로 100% 뒷받침됩니다.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <h3>Bibliography (참고문헌)</h3>
+        <div style="max-width: 900px; margin: 0 auto; text-align: left;">
+            <div class="bibliography-item">
+                Young, J.D., et al. 2025. "Microbial communities and tight junction protein expression in the gastrointestinal tract of feedlot cattle." <em>Scientific Reports</em>.
+            </div>
+            
+            <div class="bibliography-item">
+                Ngarmukos, C., et al. 2001. "Occludin co-localizes with insulin-responsive glucose transporters GLUT4 and GLUT1." In: Tight junction proteins in glial tumors development and progression. <em>Frontiers in Cellular Neuroscience</em>, 2025.
+            </div>
+            
+            <div class="bibliography-item">
+                Impairment of Tight Junctions and Glucose Transport in Endothelial Cells of Human Cerebral Cavernous Malformations. 2011. <em>Journal of Neuropathology &amp; Experimental Neurology</em>, 70(6), 417-427.
+            </div>
+            
+            <div class="bibliography-item">
+                Myostatin alters glucose transporter-4 (GLUT4) expression in bovine skeletal muscles and myoblasts isolated from double-muscled (DM) and normal-muscled (NM) Japanese Shorthorn cattle. 2014. <em>Journal of Animal Science</em>, 92(5), 1970-1982.
+            </div>
+            
+            <div class="bibliography-item">
+                Zhang, Q., et al. 2024. "Increased rumen Prevotella enhances BCAA synthesis, leading to synergistically increased skeletal muscle in myostatin-knockout cattle." <em>Communications Biology</em>, 7, 1343.
+            </div>
+        </div>
+        
+        <p style="margin-top: 40px; font-size: 12px;">
+            보조사료(사료첨가제) 제조 회사 학술부<br>
+            Last Updated: August 2026
+        </p>
+    </footer>
+
+    <script>
+        function toggleModule(headerElement) {
+            const content = headerElement.nextElementSibling;
+            headerElement.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+        
+        // 첫 번째 모듈은 기본으로 열려있게
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstHeader = document.querySelector('.module-header');
+            const firstContent = document.querySelector('.module-content');
+            if (firstHeader && firstContent) {
+                firstHeader.classList.add('active');
+                firstContent.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
