@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생물정보학을 통한 반추위 미생물 분석</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #2c3e50;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #7f8c8d;
+        }
+        
+        section {
+            background-color: white;
+            margin-bottom: 50px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .part-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        .subsection-title {
+            font-size: 1.4em;
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .key-points {
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .key-points h4 {
+            font-size: 1.1em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .key-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .key-points li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .key-points li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .description {
+            margin-bottom: 20px;
+            line-height: 1.9;
+            font-size: 0.95em;
+        }
+        
+        .description p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .comparison {
+            background-color: #f0f8ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #2980b9;
+        }
+        
+        .comparison p {
+            margin-bottom: 10px;
+        }
+        
+        .terms {
+            background-color: #fef9e7;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 5px;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .terms h4 {
+            font-size: 1.1em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .term-item {
+            margin-bottom: 15px;
+        }
+        
+        .term-item strong {
+            color: #e67e22;
+            font-size: 0.95em;
+        }
+        
+        .term-item p {
+            margin-left: 10px;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+        
+        table th {
+            background-color: #34495e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        
+        table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            font-size: 0.95em;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #bdc3c7;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>생물정보학을 통한 반추위 미생물 분석</h1>
+            <p class="subtitle">Live Yeast와 Yeast Culture의 미생물군집 및 대사산물 분석</p>
+        </header>
+
+        <!-- PART 1 -->
+        <section>
+            <h2 class="part-title">Part 1: 생물정보학 기초</h2>
+            
+            <div class="subsection-title">1.1 생물정보학이란?</div>
+            <div class="description">
+                <p>생물정보학(Bioinformatics)은 생명과학 데이터를 컴퓨터와 통계학으로 분석하는 학문입니다. 현대 생명과학은 DNA 시퀀싱, 단백질 분석, 미생물군집 연구 등을 통해 엄청난 양의 데이터를 생산합니다. 이러한 빅데이터는 손으로 분석할 수 없으므로, 프로그래밍과 통계 기법을 활용해 의미 있는 정보를 추출합니다.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>생물정보학의 핵심</h4>
+                <ul>
+                    <li>대량의 생물학적 데이터 처리 (예: 수백만 개의 DNA 서열)</li>
+                    <li>패턴 발견 및 분류 (어떤 박테리아가 어디에 있는가?)</li>
+                    <li>예측 및 함수 분석 (이 미생물은 뭘 할 수 있는가?)</li>
+                    <li>결과 시각화 (그래프, 히트맵으로 표현)</li>
+                </ul>
+            </div>
+            
+            <div class="subsection-title">1.2 왜 필요한가?</div>
+            <div class="description">
+                <p>반추위 내 미생물은 1,000종 이상이 존재합니다. 기존의 배양 기반 미생물학으로는 전체 미생물의 1-10%만 연구 가능했습니다. 하지만 DNA 시퀀싱 기술 발달로 배양하지 않고도 모든 미생물을 동시에 분석할 수 있게 되었습니다. 이때 필요한 것이 생물정보학입니다.</p>
+            </div>
+        </section>
+
+        <!-- PART 2 -->
+        <section>
+            <h2 class="part-title">Part 2: 미생물군집 분석</h2>
+            
+            <div class="subsection-title">2.1 16S rDNA 시퀀싱</div>
+            <div class="description">
+                <p>16S rRNA 유전자는 모든 박테리아가 가지고 있는 구조이며, 종(species)에 따라 서열이 조금씩 다릅니다. 이를 "박테리아의 신분증"이라고 생각하면 됩니다. 반추위 액체에서 DNA를 추출한 후, PCR로 16S 유전자 부분만 증폭하고 고성능 시퀀서(PacBio)로 수백만 개의 서열을 읽어냅니다.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>16S 시퀀싱의 특징</h4>
+                <ul>
+                    <li>빠르고 비교적 저렴</li>
+                    <li>배양하지 않아도 가능</li>
+                    <li>종 수준의 분류 가능</li>
+                    <li>상대 풍도(비율) 측정 가능</li>
+                </ul>
+            </div>
+            
+            <div class="subsection-title">2.2 OTU 클러스터링</div>
+            <div class="description">
+                <p>수백만 개의 reads를 그대로 분석할 수 없으므로, 비슷한 것끼리 묶습니다. 이것을 OTU(Operational Taxonomic Unit) 클러스터링이라고 합니다. 97% 이상 비슷한 reads를 한 그룹으로 묶으면, 각 OTU는 "하나의 미생물"로 간주됩니다. 왜 97%인가? 박테리아 종 간 16S 서열 차이가 약 3%이기 때문입니다.</p>
+            </div>
+            
+            <div class="subsection-title">2.3 택소노미 분류</div>
+            <div class="description">
+                <p>각 OTU를 실제 박테리아 이름으로 붙입니다. SILVA 데이터베이스(알려진 16S 서열 백만 개 이상 포함)와 비교하여, 각 OTU가 어떤 박테리아인지 판정합니다. 분류 수준은 큰 것부터 문(Phylum) → 강(Class) → 목(Order) → 과(Family) → 속(Genus) → 종(Species)입니다. 이 논문에서는 속(Genus) 수준으로 분석합니다.</p>
+            </div>
+            
+            <div class="subsection-title">2.4 Alpha Diversity (미생물 다양성)</div>
+            <div class="description">
+                <p>"우리 표본의 미생물들이 얼마나 다양한가?"를 측정합니다. 주요 지표는 Chao1(종의 개수 추정), Shannon(다양성과 균등성), Simpson(우점도)입니다. 이 논문에서는 ADY 그룹의 Shannon index가 유의하게 높았으므로, ADY가 반추위 미생물의 다양성을 증가시켰습니다.</p>
+            </div>
+            
+            <div class="subsection-title">2.5 Beta Diversity: PCA vs PCoA</div>
+            <div class="key-points">
+                <h4>PCA (Principal Component Analysis)</h4>
+                <ul>
+                    <li>목적: 개별 OTU의 빈도 변화 분석</li>
+                    <li>비유: 나무를 비교 (특정 균주의 증감)</li>
+                    <li>특징: 비지도 학습, 시각화 도구</li>
+                    <li>통계: 없음</li>
+                </ul>
+            </div>
+            
+            <div class="key-points">
+                <h4>PCoA (Principal Coordinates Analysis)</h4>
+                <ul>
+                    <li>목적: 전체 OTU 조성의 계통적 차이 분석</li>
+                    <li>비유: 숲을 비교 (미생물군집 생태 구조)</li>
+                    <li>기반: Bray-Curtis 거리 계산</li>
+                    <li>결과: 표본 간 생태적 유사성/차이</li>
+                </ul>
+            </div>
+            
+            <div class="description">
+                <p><strong>PCA 분석:</strong> PCA는 1,000개 이상의 OTU들 간의 상호 관계와 패턴을 분석합니다. 분산이 최대인 방향을 새로운 축으로 설정하여, 고차원 데이터를 2D로 표현합니다. "어느 OTU가 증가하고 어느 OTU가 감소했는가?"를 시각적으로 확인할 수 있습니다. 논문의 Figure 2A에서 ADY와 Control 그룹이 명확히 분리되었으므로, 그들의 OTU 조성이 다릅니다.</p>
+                
+                <p><strong>PCoA 분석:</strong> PCoA는 Bray-Curtis 거리를 기반으로 두 표본 간 OTU 조성 차이를 측정합니다. 단순한 빈도 차이를 넘어, 전체 미생물군집의 계통적(phylogenetic) 구조 차이를 분석합니다. "ADY 생태계와 Control 생태계가 얼마나 다른 구조를 가졌는가?"를 알 수 있습니다.</p>
+            </div>
+            
+            <div class="comparison">
+                <p><strong>비유:</strong> PCA는 "나무를 비교"하는 것 (Verruc이 많고, Lactobacillus가 적다). PCoA는 "숲을 비교"하는 것 (ADY 숲은 Prevotella+Verruc 주도 생태계, Control 숲은 Ruminobacter 주도 생태계).</p>
+            </div>
+            
+            <div class="subsection-title">2.6 Metastats 통계 분석</div>
+            <div class="key-points">
+                <h4>문제와 해결책</h4>
+                <ul>
+                    <li>문제: PCA/PCoA는 "시각적" 차이만 제공, "통계적 유의성"은 미답변</li>
+                    <li>해결책: Metastats를 이용한 Fisher's exact test</li>
+                </ul>
+            </div>
+            
+            <div class="description">
+                <p>Metastats는 메타게노믹 데이터 전문 통계 소프트웨어입니다. 각 OTU마다 Fisher's exact test를 수행하여, 그룹 간 상대 풍도 차이의 유의성을 검정합니다.</p>
+                
+                <p><strong>작동 원리:</strong> 각 OTU마다 2×2 Contingency Table을 만듭니다. 예를 들어 Verruc의 경우, ADY 그룹에서 총 100,000개 reads 중 5,200개가 Verruc (5.2%), Control 그룹에서 100,000개 중 2,100개가 Verruc (2.1%)입니다. Fisher's exact test로 "이 두 빈도가 통계적으로 다른가?"를 검정합니다. P-value를 계산하고, P < 0.05이면 "유의하게 다르다"고 판단합니다. 이 과정을 모든 OTU에 대해 반복합니다.</p>
+            </div>
+            
+            <div class="terms">
+                <h4>용어 설명</h4>
+                <div class="term-item">
+                    <strong>Contingency Table (분할표):</strong>
+                    <p>두 범주형 변수의 빈도를 나타낸 표. 2×2 표는 각 행과 열이 2개씩입니다.</p>
+                </div>
+                <div class="term-item">
+                    <strong>Fisher's exact test:</strong>
+                    <p>두 범주형 변수의 연관성을 검정하는 통계 방법. P-value로 유의성을 판정합니다.</p>
+                </div>
+                <div class="term-item">
+                    <strong>다중검정 (Multiple Testing):</strong>
+                    <p>여러 개의 통계 검정을 동시에 수행할 때, 각각의 P-value를 계산하는 것. 개별 OTU마다 검정합니다.</p>
+                </div>
+                <div class="term-item">
+                    <strong>P-value:</strong>
+                    <p>귀무가설이 참일 확률. P < 0.05이면 95% 신뢰도에서 "차이가 있다"고 판단합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 3 -->
+        <section>
+            <h2 class="part-title">Part 3: 미생물 기능 예측</h2>
+            
+            <div class="subsection-title">3.1 PICRUSt2란?</div>
+            <div class="description">
+                <p>PICRUSt2는 "Phylogenetic Investigation of Communities by Reconstruction of Unobserved States"의 약자입니다. 16S 시퀀싱 데이터만으로, 실제 전체 유전체를 시퀀싱하지 않고도 "그 미생물들이 뭘 할 수 있는가?"를 예측합니다.</p>
+                
+                <p><strong>핵심 아이디어:</strong> "Prevotella는 같은 종이므로 거의 같은 유전자를 가질 것이다." 이미 알려진 Prevotella의 게놈 정보를 참고하여, 우리 표본의 Prevotella도 같은 능력이 있다고 가정합니다. 이를 전체 미생물군집에 적용하면, 미생물군집의 전체 기능을 예측할 수 있습니다.</p>
+            </div>
+            
+            <div class="note">
+                <strong>주의:</strong> PICRUSt2는 "예측"일 뿐입니다. 정확도는 일반적으로 50-80%입니다. 하지만 이 논문은 LC-MS로 실제 대사산물을 측정해 검증했으므로 신뢰도가 높습니다.
+            </div>
+            
+            <div class="subsection-title">3.2 KEGG 데이터베이스</div>
+            <div class="description">
+                <p>KEGG(Kyoto Encyclopedia of Genes and Genomes)는 생화학 경로의 "백과사전"입니다. PICRUSt2의 출력값(복잡한 유전자 기호)을 KEGG와 매칭하여 실제 생화학 경로로 해석합니다.</p>
+                
+                <p><strong>KEGG의 구조:</strong> EC 번호(각 효소마다 고유한 번호)와 Pathway(생화학 경로)로 구성됩니다. 예를 들어 Amino Acid Metabolism에는 Leucine 합성 경로, Lysine 합성 경로, Valine 합성 경로 등이 포함됩니다.</p>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>대사 경로</th>
+                        <th>ADY</th>
+                        <th>YC</th>
+                        <th>의미</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Amino acid metabolism</td>
+                        <td>↑↑↑</td>
+                        <td>→</td>
+                        <td>BCAA 생성 능력</td>
+                    </tr>
+                    <tr>
+                        <td>Carbohydrate metabolism</td>
+                        <td>↑↑</td>
+                        <td>→</td>
+                        <td>에너지 생성 능력</td>
+                    </tr>
+                    <tr>
+                        <td>Lipid metabolism</td>
+                        <td>↑</td>
+                        <td>→</td>
+                        <td>지질 처리 능력</td>
+                    </tr>
+                    <tr>
+                        <td>Energy metabolism</td>
+                        <td>↑↑</td>
+                        <td>→</td>
+                        <td>ATP 생성 능력</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- PART 4 -->
+        <section>
+            <h2 class="part-title">Part 4: 대사체 분석</h2>
+            
+            <div class="subsection-title">4.1 LC-MS 메타볼로믹스</div>
+            <div class="description">
+                <p>PICRUSt2는 예측일 뿐입니다. 실제로 "그 미생물들이 생성한 대사산물은 뭔가?"를 측정하기 위해 메타볼로믹스(Metabolomics)를 사용합니다.</p>
+                
+                <p><strong>원리:</strong> 반추위 액체 샘플을 메탄올로 추출하여 모든 화학 분자를 추출합니다. UPLC(초고성능 액체크로마토그래프)로 대사산물들을 하나하나 분리하고, MS(질량분석계)로 각 대사산물의 분자량과 구조를 파악합니다. 결과적으로 1,000개 이상의 대사산물을 동시에 검출할 수 있습니다.</p>
+            </div>
+            
+            <div class="subsection-title">4.2 대사산물 동정</div>
+            <div class="description">
+                <p>LC-MS에서 나온 수백만 개의 신호를 정리하고, 각 신호가 어떤 화학물질인지 파악합니다. XCMS로 체류시간을 보정하고 피크를 정렬합니다. 그 다음 KEGG, HMDB, Lipid Maps 등의 데이터베이스와 매칭하여 각 대사산물을 동정합니다.</p>
+                
+                <p><strong>결과:</strong> ADY 그룹에서 63개의 차등 대사산물이 발견되었고, YC 그룹에서는 17개만 발견되었습니다. 비율로는 ADY가 3.7배 더 많은 대사산물을 생성합니다.</p>
+            </div>
+            
+            <div class="subsection-title">4.3 통계 분석</div>
+            
+            <div class="key-points">
+                <h4>PCA (개별 대사산물 수준)</h4>
+                <ul>
+                    <li>목적: 1,000개 대사산물의 패턴 분석</li>
+                    <li>특징: 분산 최대 방향으로 축 설정</li>
+                    <li>결과: 그룹의 시각적 분리 정도 확인</li>
+                </ul>
+            </div>
+            
+            <div class="description">
+                <p>PCA는 1,000개 이상의 대사산물(변수)들의 상호 관계와 패턴을 분석합니다. 분산이 최대인 방향을 새로운 축(주성분)으로 설정하여, 고차원 데이터를 2D로 표현합니다. 결과적으로 "어느 대사산물이 증가하고 어느 대사산물이 감소했는가?"를 시각적으로 확인할 수 있습니다. 논문의 Supplementary Figure 3에서 ADY, YC, Control이 대체로 분리되었지만, 완벽하지는 않습니다.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>OPLS-DA (지도 학습)</h4>
+                <ul>
+                    <li>목적: 그룹 간 구별 가능한 대사산물 찾기</li>
+                    <li>특징: 그룹 정보 미리 입력</li>
+                    <li>평가: R2Y(설명력), Q2(예측력)</li>
+                </ul>
+            </div>
+            
+            <div class="description">
+                <p>OPLS-DA는 PCA와 달리, 그룹 간 차이를 최대한 강조하여 2D로 표현합니다. ADY와 Control을 구분하는 축을 찾아, 명확하게 분리된 그림을 만듭니다. 평가 지표는 R2Y(모델의 설명력)와 Q2(모델의 예측력)입니다. 논문의 Figure 7에서 ADY vs Control은 R2Y와 Q2가 높고 명확히 분리되었지만, YC vs Control은 분리가 약했습니다.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>Volcano Plot (차등 대사산물)</h4>
+                <ul>
+                    <li>X축: 변화량 (log2 FC)</li>
+                    <li>Y축: 통계 유의성 (-log10 P-value)</li>
+                    <li>기준: VIP > 1.5, FC > 1.5, P < 0.05</li>
+                </ul>
+            </div>
+            
+            <div class="description">
+                <p>Volcano Plot은 어느 대사산물이 "크게 변했으면서 통계적으로 유의한가?"를 한 번에 봅니다. X축은 변화량 (왼쪽=감소, 오른쪽=증가), Y축은 통계 유의성입니다. 색깔로는 파란점(감소), 회색점(유의미하지 않음), 빨간점(증가)로 표현됩니다. 논문의 Figure 8A에서 ADY는 45개의 up-regulated 대사산물(특히 BCAA)을 보였지만, Figure 8B에서 YC는 13개만 up-regulated되어 효과가 약했습니다.</p>
+            </div>
+            
+            <div class="key-points">
+                <h4>Spearman 상관분석</h4>
+                <ul>
+                    <li>목적: 박테리아 ↔ 대사산물 관계 분석</li>
+                    <li>결과: 상관계수 r과 P-value</li>
+                    <li>시각화: 히트맵 (파란색=음의 상관, 빨간색=양의 상관)</li>
+                </ul>
+            </div>
+            
+            <div class="description">
+                <p>상관분석은 "어떤 박테리아가 어떤 대사산물을 만드는가?"를 찾습니다. 상관계수 r은 -1~+1로 나타나며, r > 0이면 양의 상관(함께 증가), r < 0이면 음의 상관(반대 방향)입니다. 히트맵으로 시각화하면, 파란색은 음의 상관, 빨간색은 양의 상관을 나타냅니다. 논문의 Figure 9에서 Oligosphaera와 Verruc은 Lysyl-threonine, Pyroglutamic acid, L-Lysine 등 BCAA 관련 대사산물과 양의 상관을 보였습니다. 이는 "이 박테리아들이 BCAA를 만든다"는 증거입니다.</p>
+            </div>
+            
+            <div class="terms">
+                <h4>용어 설명</h4>
+                <div class="term-item">
+                    <strong>Fold Change (FC):</strong>
+                    <p>변화량. FC > 1.5 = 1.5배 이상 증가를 의미합니다.</p>
+                </div>
+                <div class="term-item">
+                    <strong>VIP (Variable Importance in Projection):</strong>
+                    <p>변수의 중요도. 높을수록 그룹을 잘 구분합니다.</p>
+                </div>
+                <div class="term-item">
+                    <strong>R2Y, Q2:</strong>
+                    <p>OPLS-DA 모델의 설명력과 예측력을 나타내는 지수입니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 5 -->
+        <section>
+            <h2 class="part-title">Part 5: 논문 결과 종합 해석</h2>
+            
+            <div class="subsection-title">5.1 전체 기전 흐름</div>
+            <div class="comparison">
+                <p><strong>Level 1 (미생물 수준):</strong> Prevotella ↑, Verruc ↑, Lactobacillus ↓</p>
+                <p><strong>Level 2 (기능 예측):</strong> Amino acid metabolism ↑↑↑, Carbohydrate metabolism ↑↑</p>
+                <p><strong>Level 3 (대사산물 실측):</strong> Lysine ↑, BCAA dipeptides ↑, L-DOPA ↑, Pyroglutamic acid ↑</p>
+                <p><strong>Level 4 (최종 기전):</strong> BCAA ↑ → mTOR ↑ → 근육단백질 합성 ↑</p>
+            </div>
+            
+            <div class="subsection-title">5.2 ADY vs YC 최종 비교</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th>ADY</th>
+                        <th>YC</th>
+                        <th>의미</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>미생물 다양성</td>
+                        <td>↑ (Shannon ↑)</td>
+                        <td>→</td>
+                        <td>ADY가 다양한 미생물군 유지</td>
+                    </tr>
+                    <tr>
+                        <td>Prevotella</td>
+                        <td>↑</td>
+                        <td>↑ (약함)</td>
+                        <td>ADY가 더 강력히 증식</td>
+                    </tr>
+                    <tr>
+                        <td>미생물 기능</td>
+                        <td>3차원적 개선</td>
+                        <td>거의 없음</td>
+                        <td>PICRUSt2 예측</td>
+                    </tr>
+                    <tr>
+                        <td>차등 대사산물</td>
+                        <td>63개</td>
+                        <td>17개</td>
+                        <td>3.7배 차이</td>
+                    </tr>
+                    <tr>
+                        <td>BCAA 관련</td>
+                        <td>매우 풍부</td>
+                        <td>거의 없음</td>
+                        <td>핵심 차이</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="subsection-title">5.3 결론</div>
+            <div class="description">
+                <p>Live Yeast (ADY)는 반추위 미생물군집을 근본적으로 변화시킵니다. Prevotella와 Verruc 같은 유용한 박테리아를 증식시키고, 이들이 BCAA(분지쇄 아미노산)를 풍부하게 생성하도록 합니다. BCAA는 소장에서 흡수되어 혈류를 통해 근육세포에 도달하고, mTOR 신호전달을 활성화하여 근육단백질 합성을 극대화합니다. 결과적으로 육우의 일당증체와 육질이 개선됩니다.</p>
+                
+                <p>반면 Yeast Culture (YC)는 미생물군집에 미미한 영향을 미치고, BCAA 생성도 불충분하므로 이러한 효과를 기대하기 어렵습니다.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>생물정보학을 통한 반추위 미생물 분석 강의 자료</p>
+            <p>기준 논문: Alterations in the rumen bacterial communities and metabolites of finishing bulls fed high-concentrate diets supplemented with active dry yeast and yeast culture (Frontiers in Microbiology, 2022)</p>
+        </footer>
+    </div>
+</body>
+</html>
