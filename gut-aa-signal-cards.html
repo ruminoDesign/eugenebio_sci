@@ -1,0 +1,733 @@
+<title>장내 아미노산과 성장 스위치</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single column of lecture cards; each card = tinted summary panel on top, plain detail below. KEGG map conventions (green gene boxes, +p, ⊣) are the visual language. */
+:root{
+  --bg:#ECF0ED;
+  --card:#FFFFFF;
+  --ink:#17201B;
+  --muted:#56635B;
+  --line:#CDD6D0;
+  --accent:#2C7A4B;
+  --accent-soft:#DDEDE2;
+  --brake:#A3335B;
+  --brake-soft:#F6E1E8;
+  --f-display:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111613;--card:#19201C;--ink:#E4EBE6;--muted:#9BA8A0;--line:#2E3933;
+    --accent:#6CC48F;--accent-soft:#1F3328;--brake:#E683A6;--brake-soft:#3A2230;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111613;--card:#19201C;--ink:#E4EBE6;--muted:#9BA8A0;--line:#2E3933;
+  --accent:#6CC48F;--accent-soft:#1F3328;--brake:#E683A6;--brake-soft:#3A2230;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.7;padding:0 16px;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:22px}
+
+/* masthead */
+.mast{display:flex;flex-direction:column;gap:10px;padding-block:8px 4px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mast h1{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,6vw,40px);line-height:1.25;margin:0;text-wrap:balance}
+.mast p{margin:0;color:var(--muted);max-width:62ch}
+
+/* chapter nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.nav ul{list-style:none;margin:0 auto;padding:0;max-width:760px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a{display:inline-flex;gap:6px;align-items:center;white-space:nowrap;text-decoration:none;color:var(--ink);font-size:13px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.nav a b{font-family:var(--f-mono);font-weight:500;color:var(--accent)}
+.nav a:hover,.nav a:focus-visible{border-color:var(--accent);outline:none}
+
+/* chapter divider */
+.chap-head{display:flex;align-items:baseline;gap:12px;padding-block:18px 0;scroll-margin-top:64px}
+.chap-head .n{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+.chap-head h3{margin:0;font-family:var(--f-display);font-weight:700;font-size:18px}
+.chap-head .q{color:var(--muted);font-size:13.5px}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;scroll-margin-top:64px}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 22px 0;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.meta .no{color:var(--accent)}
+.summary{margin:10px 14px 0;padding:18px 18px 20px;background:var(--accent-soft);border-radius:11px;display:flex;flex-direction:column;gap:8px}
+.lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.summary h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(20px,4.4vw,25px);line-height:1.35;text-wrap:balance}
+.summary p{margin:0;font-size:15px}
+.detail{padding:18px 22px 22px;display:flex;flex-direction:column;gap:12px}
+.detail .lbl{color:var(--muted)}
+.detail p{margin:0;max-width:66ch}
+.detail ul,.detail ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:4px}
+.detail h4{margin:4px 0 0;font-size:15px;font-weight:600}
+.note{font-size:13.5px;color:var(--muted)}
+.callout{border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14.5px}
+.callout.brake{background:var(--brake-soft);border-color:transparent}
+.callout.brake strong{color:var(--brake)}
+
+/* cover */
+.cover .summary{background:var(--accent);color:var(--card)}
+.cover .summary .lbl{color:var(--card);opacity:.8}
+.cover .summary h2{font-size:clamp(22px,4.8vw,28px)}
+
+/* inline tokens */
+code.k{font-family:var(--f-mono);font-size:.86em;padding:1px 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.sym{font-family:var(--f-mono);font-weight:500;color:var(--accent)}
+.sym.b{color:var(--brake)}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:12.5px;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.gene{font-family:var(--f-mono);font-size:12.5px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.tag.ok{background:var(--accent-soft);color:var(--accent)}
+.tag.no{background:var(--brake-soft);color:var(--brake)}
+
+/* flow line */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px}
+.flow span{padding:4px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg)}
+.flow span.hl{border-color:var(--accent);color:var(--accent);font-weight:600}
+.flow i{font-style:normal;color:var(--muted)}
+
+/* diagrams */
+.fig{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px}
+.fig svg{display:block;width:100%;min-width:560px;height:auto}
+.fig figcaption{font-size:12.5px;color:var(--muted);padding:6px 6px 2px}
+svg text{font-family:var(--f-body);fill:var(--ink)}
+svg .t-sub{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+svg .t-h{font-size:13.5px;font-weight:600}
+svg .box{fill:var(--card);stroke:var(--line);stroke-width:1.25}
+svg .box.acc{fill:var(--accent-soft);stroke:var(--accent);stroke-width:2}
+svg .box.ext{fill:var(--card);stroke:var(--brake);stroke-dasharray:5 4;stroke-width:1.5}
+svg .e{fill:none;stroke-width:1.75}
+svg .e.act{stroke:var(--accent)}
+svg .e.brk{stroke:var(--brake)}
+svg .e.dash{stroke-dasharray:6 5}
+svg .mk-act{fill:var(--accent)}
+svg .mk-brk{stroke:var(--brake);stroke-width:2.5}
+svg .e.plain{stroke:var(--muted)}
+svg .mk-plain{fill:var(--muted)}
+
+/* closing */
+.refs{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px;padding-left:1.1em;margin:0}
+.refs a{color:var(--accent)}
+footer{font-size:12.5px;color:var(--muted);text-align:center;padding-top:8px}
+
+@media (max-width:480px){
+  body{font-size:15px}
+  .meta{padding:12px 16px 0}
+  .summary{margin:10px 10px 0;padding:16px 14px 18px}
+  .detail{padding:16px 16px 20px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<nav class="nav" aria-label="장 바로가기">
+  <ul>
+    <li><a href="#ch1"><b>1</b>여정</a></li>
+    <li><a href="#ch2"><b>2</b>감지</a></li>
+    <li><a href="#ch3"><b>3</b>키놈</a></li>
+    <li><a href="#ch4"><b>4</b>KEGG</a></li>
+    <li><a href="#ch5"><b>5</b>GCN2</a></li>
+    <li><a href="#ch6"><b>6</b>분석</a></li>
+    <li><a href="#ch7"><b>7</b>주장</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+<header class="mast">
+  <span class="eyebrow">학술부 교육 · 카드뉴스 · 2026.10</span>
+  <h1>장내 아미노산은 어떻게 세포의 성장 스위치를 움직이는가</h1>
+  <p>키놈과 KEGG로 읽는 영양 신호. 카드마다 위의 요약을 먼저 읽고, 아래 상세 설명으로 내려가세요. 입문 수준, 90~120분 강의용입니다.</p>
+</header>
+
+<!-- COVER -->
+<article class="card cover" id="c00">
+  <div class="meta"><span class="no">00 / 21</span><span>핵심 주장</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>장에서 풀려난 아미노산이 세포 안 센서를 거쳐 mTORC1과 GCN2를 움직이고, 이것이 장의 단백질 합성 상태를 결정할 수 있다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <p>이 문장은 우리 학술부가 준비하는 바이오인포매틱스 논문의 핵심 주장입니다. 일곱 개의 장으로 나눠 따라갑니다.</p>
+    <div class="flow" aria-label="교육 흐름">
+      <span>아미노산의 여정</span><i>→</i><span>감지</span><i>→</i><span>키놈</span><i>→</i><span>KEGG 지도</span><i>→</i><span>지도 밖 GCN2</span><i>→</i><span>데이터로 평가</span><i>→</i><span class="hl">주장의 범위</span>
+    </div>
+    <p class="note">각 장 약 15분. R 분석 실습은 포함하지 않습니다.</p>
+  </div>
+</article>
+
+<!-- CH1 -->
+<div class="chap-head" id="ch1"><span class="n">1장</span><h3>장내 아미노산의 여정</h3><span class="q">사료 단백질은 어떻게 장 세포 안으로 들어오는가</span></div>
+
+<article class="card" id="c01">
+  <div class="meta"><span class="no">01 / 21</span><span>1장 · 여정</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>사료 단백질은 세 단계로 잘려 아미노산과 짧은 펩타이드가 되고, 두 가지 통로로 장 세포에 들어간다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 720 150" role="img" aria-label="사료 단백질이 장 상피세포로 흡수되는 과정">
+        <defs>
+          <marker id="j-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk-plain" d="M0 0L10 5L0 10z"/></marker>
+        </defs>
+        <g>
+          <rect class="box" x="10" y="20" width="120" height="58" rx="8"/>
+          <text class="t-h" x="70" y="46" text-anchor="middle">사료 단백질</text>
+          <text class="t-sub" x="70" y="64" text-anchor="middle">위</text>
+        </g>
+        <g>
+          <rect class="box" x="150" y="20" width="120" height="58" rx="8"/>
+          <text class="t-h" x="210" y="46" text-anchor="middle">펩타이드</text>
+          <text class="t-sub" x="210" y="64" text-anchor="middle">소장 내강</text>
+        </g>
+        <g>
+          <rect class="box" x="290" y="20" width="140" height="58" rx="8"/>
+          <text class="t-h" x="360" y="46" text-anchor="middle">아미노산·소펩타이드</text>
+          <text class="t-sub" x="360" y="64" text-anchor="middle">솔가장자리</text>
+        </g>
+        <g>
+          <rect class="box acc" x="450" y="20" width="130" height="58" rx="8"/>
+          <text class="t-h" x="515" y="46" text-anchor="middle">장 상피세포</text>
+          <text class="t-sub" x="515" y="64" text-anchor="middle">먼저 쓰고 감지</text>
+        </g>
+        <g>
+          <rect class="box" x="600" y="20" width="110" height="58" rx="8"/>
+          <text class="t-h" x="655" y="46" text-anchor="middle">혈액·몸</text>
+          <text class="t-sub" x="655" y="64" text-anchor="middle">남은 몫</text>
+        </g>
+        <path class="e plain" d="M130 49H148" marker-end="url(#j-arr)"/>
+        <path class="e plain" d="M270 49H288" marker-end="url(#j-arr)"/>
+        <path class="e plain" d="M430 49H448" marker-end="url(#j-arr)"/>
+        <path class="e plain" d="M580 49H598" marker-end="url(#j-arr)"/>
+        <text class="t-sub" x="70" y="104" text-anchor="middle">펩신</text>
+        <text class="t-sub" x="210" y="104" text-anchor="middle">트립신·키모트립신</text>
+        <text class="t-sub" x="360" y="104" text-anchor="middle">막 펩티다아제</text>
+        <text class="t-sub" x="515" y="104" text-anchor="middle">PepT1 · SLC 수송체</text>
+        <text class="t-sub" x="655" y="104" text-anchor="middle">1차 통과 후</text>
+        <text class="t-sub" x="360" y="134" text-anchor="middle">← 소화가 불완전하면 방출되는 아미노산의 양과 비율이 달라진다 →</text>
+      </svg>
+      <figcaption>소화 → 흡수 → 장 세포의 사용과 감지</figcaption>
+    </figure>
+    <h4>소화의 세 단계</h4>
+    <ol>
+      <li><strong>위</strong>: 펩신이 단백질을 큰 조각으로 자른다.</li>
+      <li><strong>소장 내강</strong>: 췌장의 트립신, 키모트립신이 더 작은 펩타이드로 자른다.</li>
+      <li><strong>장 상피 표면(솔가장자리)</strong>: 막에 붙은 펩티다아제가 아미노산이나 2~3개짜리 펩타이드로 마무리한다.</li>
+    </ol>
+    <h4>흡수의 두 통로</h4>
+    <ul>
+      <li><strong>짧은 펩타이드</strong>는 PepT1(<code class="k">SLC15A1</code>)로 한꺼번에 흡수되고, 세포 안에서 아미노산으로 분해된다.</li>
+      <li><strong>유리 아미노산</strong>은 성질(중성, 염기성, 산성)에 따라 서로 다른 SLC 계열 수송체로 흡수된다.</li>
+    </ul>
+  </div>
+</article>
+
+<article class="card" id="c02">
+  <div class="meta"><span class="no">02 / 21</span><span>1장 · 여정</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>장 세포는 사료 아미노산을 가장 먼저 만나고, 먼저 쓰고, 먼저 감지한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <p>흡수된 아미노산이 모두 혈액으로 가지 않는다. 장 조직은 흡수한 아미노산의 상당 부분을 자신의 에너지, 단백질 합성, 점액 생산에 먼저 사용한다. 이것을 <strong>1차 통과 대사(first-pass metabolism)</strong>라고 한다. 새끼돼지 연구에서 장과 주변 내장 조직이 사료 아미노산을 상당량 소비하고 분해한다는 것이 보고되었다(Baracos, 2004).</p>
+    <div class="callout"><strong>그래서 우리 논문은 장 조직을 본다.</strong> 장내에서 방출되는 아미노산의 양과 균형은 장 세포 자신의 상태를 직접 바꿀 수 있다.</div>
+    <p class="note">아미노산별 구체적인 소비 비율은 원문 확인 후 추가 예정.</p>
+  </div>
+</article>
+
+<!-- CH2 -->
+<div class="chap-head" id="ch2"><span class="n">2장</span><h3>아미노산을 감지하는 두 방식</h3><span class="q">세포는 아미노산이 들어온 것을 어떻게 아는가</span></div>
+
+<article class="card" id="c03">
+  <div class="meta"><span class="no">03 / 21</span><span>2장 · 감지</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>세포 밖에서는 수용체가 감지해 호르몬을 내보내고, 세포 안에서는 센서가 감지해 성장 스위치를 움직인다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>구분</th><th>어디서</th><th>감지 장치</th><th>결과</th></tr></thead>
+      <tbody>
+        <tr><td><strong>세포 밖 감지</strong><br><span class="note">luminal chemosensing</span></td><td>장 내강 쪽 세포막</td><td class="gene">T1R1/T1R3, CaSR, GPRC6A</td><td>장내분비세포가 CCK, GLP-1 등 호르몬 분비</td></tr>
+        <tr><td><strong>세포 안 감지</strong><br><span class="note">intracellular sensing</span></td><td>장 상피세포 안</td><td class="gene">Sestrin2, CASTOR1, SLC38A9, GCN2</td><td>mTORC1 켜짐·꺼짐</td></tr>
+      </tbody>
+    </table></div>
+    <p>보통 "장의 chemosensing"은 세포 밖 감지를 뜻한다. 세포 밖 감지는 호르몬으로 소화 효소 분비, 위 배출, 섭식 행동을 조절한다. 세포 안 감지는 장 세포 <strong>자신의 단백질 합성</strong>을 직접 결정한다.</p>
+    <p class="note">수용체 정보는 포유류 일반 기준. 돼지 장의 발현 근거는 원문 확인 후 추가 예정.</p>
+  </div>
+</article>
+
+<article class="card" id="c04">
+  <div class="meta"><span class="no">04 / 21</span><span>2장 · 감지</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>세포 안에는 특정 아미노산을 재는 전용 센서와, 무엇이든 부족하면 울리는 범용 경보 GCN2가 있다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>센서</th><th>감지하는 것</th><th>위치</th><th>종류</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">Sestrin2</td><td>류신</td><td>세포질</td><td>전용 센서</td></tr>
+        <tr><td class="gene">CASTOR1</td><td>아르기닌</td><td>세포질</td><td>전용 센서</td></tr>
+        <tr><td class="gene">SLC38A9</td><td>아르기닌 등</td><td>리소좀 막</td><td>전용 센서</td></tr>
+        <tr><td class="gene">GCN2</td><td>아미노산이 실리지 않은 tRNA</td><td>세포질</td><td>범용 경보</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>이번 교육은 세포 안 감지에 집중한다.</strong> 우리 논문의 질문이 "장내 아미노산이 장 세포의 성장 상태를 어떻게 바꾸는가"이기 때문이다. 세포 밖 감지는 논문 서론에서 배경으로 소개한다.</p>
+  </div>
+</article>
+
+<!-- CH3 -->
+<div class="chap-head" id="ch3"><span class="n">3장</span><h3>키놈</h3><span class="q">감지한 결과를 무엇이 실행하는가</span></div>
+
+<article class="card" id="c05">
+  <div class="meta"><span class="no">05 / 21</span><span>3장 · 키놈</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>키나아제는 단백질에 인산기를 붙여 켜고 끄는 스위치이고, 키놈은 그 스위치 전체의 목록이다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <p>키나아제는 ATP의 인산기를 다른 단백질에 붙이는 효소다. 이 반응이 <strong>인산화</strong>이고, 인산기가 붙은 단백질은 모양이 바뀌어 기능이 켜지거나 꺼진다. 인산기를 떼는 효소는 포스파타아제다.</p>
+    <div class="flow" aria-label="비유">
+      <span>키나아제 = 스위치</span><span>인산화 = 켜는 동작</span><span>키놈 = 스위치 목록</span><span>KEGG = 배선도 모음</span>
+    </div>
+    <p>사람의 단백질 키나아제는 <strong>518개</strong>로 전체 유전자의 약 2%다(Manning et al., 2002). 서열에 따라 AGC, CAMK, CK1, CMGC, STE, TK, TKL 그룹으로 나뉜다. 입문 단계에서는 "세린·트레오닌을 인산화하는 것"과 "티로신을 인산화하는 것" 두 종류만 기억해도 충분하다.</p>
+  </div>
+</article>
+
+<article class="card" id="c06">
+  <div class="meta"><span class="no">06 / 21</span><span>3장 · 키놈</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>키놈이 중요한 이유는 세 가지다. 실행자이고, 검증된 표적이며, 서로 다른 자극의 공통 언어다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <ol>
+      <li><strong>세포 결정의 실행자.</strong> 유전자 발현은 몇 시간 단위로 바뀌지만 인산화는 몇 분 안에 일어나고 되돌릴 수 있다. 성장할지, 아낄지, 방어할지는 인산화 단계에서 실행된다.</li>
+      <li><strong>의학에서 검증된 표적.</strong> 2025년 기준 미국 FDA가 승인한 저분자 키나아제 억제제는 85개이고, 그중 75개가 항암제다(Roskoski, 2025). 스위치 하나를 끄면 질병이 바뀐다.</li>
+      <li><strong>서로 다른 자극의 공통 언어.</strong> 영양소, 스트레스, 병원균은 다른 물질이지만 세포 안에서는 몇 개의 핵심 키나아제로 모인다. 그래서 서로 다른 처리도 같은 기준으로 비교할 수 있다.</li>
+    </ol>
+  </div>
+</article>
+
+<article class="card" id="c07">
+  <div class="meta"><span class="no">07 / 21</span><span>3장 · 키놈</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>아미노산 센서는 대부분 키나아제가 아니다. 센서가 감지한 결과로 키나아제의 활성이 바뀐다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="flow" aria-label="신호 순서">
+      <span>장내 아미노산 방출</span><i>→</i><span>흡수</span><i>→</i><span>세포 안 센서 감지</span><i>→</i><span class="hl">키나아제 활성 변화</span><i>→</i><span>단백질 합성 결정</span>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>키나아제</th><th>감지하는 것</th><th>켜지면</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">mTORC1</td><td>아미노산, 에너지, 성장인자</td><td>단백질 합성, 성장</td><td><span class="tag ok">성장 스위치</span></td></tr>
+        <tr><td class="gene">S6K1</td><td>mTORC1의 신호</td><td>리보솜 활성</td><td><span class="tag ok">실행</span></td></tr>
+        <tr><td class="gene">AMPK</td><td>에너지 부족</td><td>에너지 절약, mTORC1 억제</td><td><span class="tag no">브레이크</span></td></tr>
+        <tr><td class="gene">GCN2</td><td>아미노산 부족</td><td>단백질 합성 감소, mTORC1 억제</td><td><span class="tag no">브레이크</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>GCN2는 예외다. 키나아제 자체가 센서 역할을 한다. 세포는 성장 스위치 하나와 브레이크 둘의 균형으로 "지금 성장해도 되는가"를 판단한다.</p>
+  </div>
+</article>
+
+<!-- CH4 -->
+<div class="chap-head" id="ch4"><span class="n">4장</span><h3>KEGG map04150</h3><span class="q">실행 과정을 지도로 어떻게 읽는가</span></div>
+
+<article class="card" id="c08">
+  <div class="meta"><span class="no">08 / 21</span><span>4장 · KEGG</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>KEGG 지도는 번호로 종류를, 기호로 관계를 읽는다. <span class="sym">+p</span>가 붙은 화살표가 키나아제가 일하는 자리다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <h4>번호 읽기</h4>
+    <ul>
+      <li><code class="k">00</code>으로 시작: 대사 경로 (예: <code class="k">map00010</code> 해당과정)</li>
+      <li><code class="k">04</code>로 시작: 신호·세포 과정 (예: <code class="k">map04150</code> mTOR 신호)</li>
+      <li><code class="k">map</code>은 모든 생물 공통의 기준 지도. <code class="k">hsa</code> 사람, <code class="k">mmu</code> 생쥐, <code class="k">ssc</code> 돼지처럼 바꾸면 그 생물의 지도가 된다.</li>
+    </ul>
+    <h4>기호 읽기</h4>
+    <div class="tbl"><table>
+      <thead><tr><th>기호</th><th>뜻</th></tr></thead>
+      <tbody>
+        <tr><td>상자</td><td>유전자 또는 단백질</td></tr>
+        <tr><td><span class="sym">→</span></td><td>활성화</td></tr>
+        <tr><td><span class="sym b">⊣</span></td><td>억제</td></tr>
+        <tr><td>점선</td><td>간접 작용</td></tr>
+        <tr><td><span class="sym">+p</span></td><td>인산화 (키나아제의 자리)</td></tr>
+        <tr><td>원</td><td>대사물질 (주로 대사 지도)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</article>
+
+<article class="card" id="c09">
+  <div class="meta"><span class="no">09 / 21</span><span>4장 · KEGG</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>map04150은 세 입력이 mTORC1로 모이고, mTORC1이 단백질 합성, 자가포식, 지질 대사를 조절하는 구조다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 720 390" role="img" aria-label="mTORC1으로 모이는 입력과 출력">
+        <defs>
+          <marker id="m-act" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk-act" d="M0 0L10 5L0 10z"/></marker>
+          <marker id="m-brk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path class="mk-brk" d="M8 0V10"/></marker>
+        </defs>
+        <text class="t-sub" x="20" y="20">입력</text>
+        <text class="t-sub" x="300" y="20">중심</text>
+        <text class="t-sub" x="530" y="20">출력</text>
+        <g>
+          <rect class="box" x="20" y="34" width="180" height="52" rx="8"/>
+          <text class="t-h" x="34" y="56">성장인자</text>
+          <text class="t-sub" x="34" y="75">INSR → PI3K → AKT</text>
+        </g>
+        <g>
+          <rect class="box" x="20" y="112" width="180" height="52" rx="8"/>
+          <text class="t-h" x="34" y="134">에너지</text>
+          <text class="t-sub" x="34" y="153">LKB1 → AMPK</text>
+        </g>
+        <g>
+          <rect class="box" x="20" y="190" width="180" height="52" rx="8"/>
+          <text class="t-h" x="34" y="212">아미노산</text>
+          <text class="t-sub" x="34" y="231">Sestrin2·CASTOR1 → Rag</text>
+        </g>
+        <g>
+          <rect class="box ext" x="20" y="280" width="180" height="52" rx="8"/>
+          <text class="t-h" x="34" y="302">GCN2 (지도 밖)</text>
+          <text class="t-sub" x="34" y="321">아미노산 부족 경보</text>
+        </g>
+        <g>
+          <rect class="box acc" x="292" y="150" width="140" height="74" rx="10"/>
+          <text class="t-h" x="362" y="183" text-anchor="middle" style="font-size:16px">mTORC1</text>
+          <text class="t-sub" x="362" y="203" text-anchor="middle">Raptor 포함</text>
+        </g>
+        <g>
+          <rect class="box" x="524" y="60" width="180" height="52" rx="8"/>
+          <text class="t-h" x="538" y="82">단백질 합성</text>
+          <text class="t-sub" x="538" y="101">S6K1 · 4E-BP1</text>
+        </g>
+        <g>
+          <rect class="box" x="524" y="161" width="180" height="52" rx="8"/>
+          <text class="t-h" x="538" y="183">자가포식</text>
+          <text class="t-sub" x="538" y="202">ULK1 · map04140</text>
+        </g>
+        <g>
+          <rect class="box" x="524" y="262" width="180" height="52" rx="8"/>
+          <text class="t-h" x="538" y="284">지질 대사</text>
+          <text class="t-sub" x="538" y="303">Lipin1 · map00561</text>
+        </g>
+        <path class="e act" d="M200 60C250 60 250 165 288 168" marker-end="url(#m-act)"/>
+        <path class="e brk" d="M200 138C245 138 250 180 286 182" marker-end="url(#m-brk)"/>
+        <path class="e act" d="M200 216C245 216 250 198 288 196" marker-end="url(#m-act)"/>
+        <path class="e brk dash" d="M200 306C255 306 255 214 286 212" marker-end="url(#m-brk)"/>
+        <path class="e act" d="M432 172C480 170 480 86 520 86" marker-end="url(#m-act)"/>
+        <path class="e brk" d="M432 187H518" marker-end="url(#m-brk)"/>
+        <path class="e act" d="M432 202C480 204 480 288 520 288" marker-end="url(#m-act)"/>
+        <g>
+          <path class="e act" d="M20 366H48" marker-end="url(#m-act)"/>
+          <text class="t-sub" x="56" y="370">켬</text>
+          <path class="e brk" d="M110 366H138" marker-end="url(#m-brk)"/>
+          <text class="t-sub" x="146" y="370">끔</text>
+          <path class="e brk dash" d="M200 366H228" marker-end="url(#m-brk)"/>
+          <text class="t-sub" x="236" y="370">KEGG 지도에 없는 연결</text>
+        </g>
+      </svg>
+      <figcaption>단순화한 map04150. 성장인자와 아미노산은 켜고, 에너지 부족과 GCN2는 끈다.</figcaption>
+    </figure>
+    <p>mTOR는 두 복합체를 만든다. <strong>mTORC1</strong>(Raptor 포함)은 성장인자, 아미노산, 에너지, 스트레스, 산소 신호를 받아 단백질 합성, 리보솜 생성, 자가포식, 지질 대사를 조절한다. <strong>mTORC2</strong>(Rictor 포함)는 성장인자에 반응해 세포 생존과 세포골격을 조절한다.</p>
+  </div>
+</article>
+
+<article class="card" id="c10">
+  <div class="meta"><span class="no">10 / 21</span><span>4장 · KEGG</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>mTORC1은 성장인자와 아미노산이 둘 다 있어야 켜지는 AND 회로다. 신호가 있어도 재료가 없으면 성장하지 않는다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <h4>① 성장인자: "성장해도 된다"</h4>
+    <p>인슐린 → 인슐린 수용체(티로신 키나아제) → IRS1 → PI3K → PDK1 → AKT. AKT가 TSC2를 <span class="sym">+p</span>하면 TSC 복합체가 기능을 잃는다. TSC는 Rheb를 <span class="sym b">⊣</span>하는 브레이크이므로, 브레이크가 풀린 Rheb가 mTORC1을 켠다. 키나아제가 브레이크를 인산화해서 브레이크를 푸는 구조다.</p>
+    <h4>② 에너지: "지금은 아껴야 한다"</h4>
+    <p>LKB1이 AMPK를 켠다. AMPK는 TSC2를 <span class="sym">+p</span>해 브레이크를 더 세게 걸고, Raptor를 직접 <span class="sym">+p</span>해 mTORC1을 억제한다. AKT와 같은 TSC2를 인산화하지만 결과는 반대다. 어느 키나아제가 어느 자리를 인산화하느냐가 결과를 정한다.</p>
+    <h4>③ 아미노산: "재료가 있다"</h4>
+    <p>Sestrin2, CASTOR1, SLC38A9의 신호는 GATOR2 → GATOR1 → Rag GTPase로 이어진다. Rag는 Ragulator와 함께 mTORC1을 리소좀 표면으로 끌어오고, 그곳의 Rheb와 만나야 mTORC1이 완전히 켜진다. 이 경로에는 키나아제가 거의 없다. 아미노산은 인산화가 아니라 <strong>위치 이동</strong>으로 감지된다.</p>
+  </div>
+</article>
+
+<article class="card" id="c11">
+  <div class="meta"><span class="no">11 / 21</span><span>4장 · KEGG</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>mTORC1이 인산화하는 대상을 따라가면 신호 지도(04)에서 대사 지도(00)로 넘어간다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>인산화 대상</th><th>결과</th><th>이어지는 지도</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">S6K1 → S6, eIF4B</td><td>리보솜 활성, 단백질 합성 증가</td><td>번역, 리보솜 생성</td></tr>
+        <tr><td class="gene">4E-BP1</td><td>eIF4E를 놓아줘 번역 개시</td><td>번역</td></tr>
+        <tr><td class="gene">ULK1</td><td>자가포식 억제</td><td><code class="k">map04140</code></td></tr>
+        <tr><td class="gene">Lipin1</td><td>지질 합성 조절</td><td><code class="k">map00561</code></td></tr>
+        <tr><td class="gene">(mTORC2) AKT, SGK1, PKC</td><td>생존, 세포골격</td><td><code class="k">map04810</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><strong>음성 피드백.</strong> S6K1은 상류의 IRS1을 인산화해 억제한다. mTORC1이 오래 켜져 있으면 스스로 인슐린 신호를 약하게 만든다. 키나아제가 경로를 앞뒤로 조절하는 예다.</div>
+  </div>
+</article>
+
+<article class="card" id="c12">
+  <div class="meta"><span class="no">12 / 21</span><span>4장 · KEGG</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>KEGG는 map04150과 직접 연결된 지도 일곱 개를 지정해 두었다. 화살표를 따라가면 대사 지도에 도착한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>종류</th><th>연결된 지도</th></tr></thead>
+      <tbody>
+        <tr><td>신호</td><td><code class="k">04010</code> MAPK · <code class="k">04151</code> PI3K-Akt · <code class="k">04152</code> AMPK · <code class="k">04910</code> 인슐린 신호</td></tr>
+        <tr><td>세포 과정</td><td><code class="k">04140</code> 자가포식 · <code class="k">04810</code> 액틴 세포골격</td></tr>
+        <tr><td>대사</td><td><code class="k">00561</code> 글리세로지질 대사</td></tr>
+      </tbody>
+    </table></div>
+    <p>이것이 키놈과 KEGG를 연결하는 기본 방식이다. 신호 지도의 키나아제가 대사 지도의 효소를 조절해 대사의 방향을 바꾼다.</p>
+  </div>
+</article>
+
+<!-- CH5 -->
+<div class="chap-head" id="ch5"><span class="n">5장</span><h3>지도 밖의 연결: GCN2</h3><span class="q">지도에 없는 중요한 연결은 무엇인가</span></div>
+
+<article class="card" id="c13">
+  <div class="meta"><span class="no">13 / 21</span><span>5장 · GCN2</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>KEGG mTOR 지도에는 GCN2가 없다. 그러나 GCN2는 거의 모든 아미노산의 부족을 mTORC1에 전달한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <p>아미노산이 부족하면 tRNA에 아미노산이 실리지 않은 상태가 늘고, GCN2가 이를 감지해 켜진다. 켜진 GCN2는 eIF2α를 인산화해 전체 단백질 합성을 줄이고, 전사인자 ATF4를 늘려 아미노산 합성과 수송 유전자를 켠다.</p>
+    <h4>Figlia et al. (2025), EMBO Journal</h4>
+    <ol>
+      <li>글루타민은 GCN2를 통해 감지된다. 초기 신호는 함께 줄어드는 아스파라긴의 부족에서 시작된다.</li>
+      <li>GCN2는 두 단계로 mTORC1을 끈다. 1시간 이내에 Rag GTPase를 거쳐 빠르게 억제하고, 이후 ATF4가 DDIT4와 Sestrin2를 늘려 추가로 억제한다.</li>
+      <li>거의 모든 아미노산의 부족이 GCN2를 거쳐 mTORC1을 억제한다. 전용 센서와 GCN2는 서로 독립된 두 감지 시스템이다.</li>
+    </ol>
+    <div class="callout"><strong>의미.</strong> 성장 신호는 아미노산의 평균이 아니라 <strong>가장 부족한 하나</strong>에 의해 막힐 수 있다. 사료 영양학의 제한 아미노산 개념이 세포 신호 수준에서도 작동한다.</div>
+    <p class="note">한계: 세포 배양 실험이며, AMPK는 다루지 않았다.</p>
+  </div>
+</article>
+
+<article class="card" id="c14">
+  <div class="meta"><span class="no">14 / 21</span><span>5장 · GCN2</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>KEGG는 출발점이고 완성본이 아니다. 최신 문헌으로 보완하고, ATF4 신호는 조심해서 해석한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>유전자</th><th>역할</th><th>map04150</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">GCN2 (EIF2AK4)</td><td>아미노산 부족 경보</td><td><span class="tag no">없음</span></td></tr>
+        <tr><td class="gene">SREBP (SREBF1)</td><td>mTORC1 하류 지질 합성 전사인자</td><td><span class="tag no">없음</span></td></tr>
+        <tr><td class="gene">HIF-1α (HIF1A)</td><td>mTORC1 하류 해당과정 전환 전사인자</td><td><span class="tag no">없음</span></td></tr>
+        <tr><td class="gene">DDIT4, SESN2</td><td>스트레스·아미노산 신호로 mTORC1 억제</td><td><span class="tag ok">있음</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>KEGG는 전문가가 문헌을 검토해 그리는 지도라 최신 연구가 반영되기까지 시간이 걸린다.</p>
+    <div class="callout brake"><strong>ATF4는 GCN2 전용 표지가 아니다.</strong> ATF4는 통합 스트레스 반응(ISR)의 공통 출구다. 소포체 스트레스를 감지하는 PERK 등도 eIF2α를 인산화해 ATF4를 올린다. ATF4 하류 유전자(ASNS, DDIT4, SESN2)가 올랐다고 곧바로 아미노산 부족이라고 단정하지 말고, "ISR/아미노산 반응 시그니처"로 부르며 다른 스트레스 표지와 함께 본다.</div>
+  </div>
+</article>
+
+<!-- CH6 -->
+<div class="chap-head" id="ch6"><span class="n">6장</span><h3>바이오인포매틱스로 검증하는 법</h3><span class="q">실험 없이 이 경로를 어떻게 평가하는가</span></div>
+
+<article class="card" id="c15">
+  <div class="meta"><span class="no">15 / 21</span><span>6장 · 분석</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>"map04150이 농축되었다"는 결과만으로는 mTOR가 켜졌는지 꺼졌는지 알 수 없다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <p>차등발현 유전자로 KEGG 농축 분석을 돌려 경로 이름만 보고하는 방식은 약하다. 이유는 세 가지다.</p>
+    <ol>
+      <li>mTOR 경로는 대부분 <strong>인산화와 위치 이동</strong>으로 조절되어 RNA 양에 잘 드러나지 않는다.</li>
+      <li>지도 유전자 목록에는 <strong>활성화 요소</strong>(AKT, Rheb)와 <strong>억제 요소</strong>(TSC2, DEPDC5)가 섞여 있다.</li>
+      <li>GCN2, SREBP 같은 <strong>중요한 연결이 지도에 없다</strong>.</li>
+    </ol>
+  </div>
+</article>
+
+<article class="card" id="c16">
+  <div class="meta"><span class="no">16 / 21</span><span>6장 · 분석</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>지도를 모듈로 나누고, 부품의 양(구성 요소)과 켜진 결과(하류 흔적)를 따로 본다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <ul>
+      <li><strong>구성 요소 (capacity)</strong>: 스위치 부품이 얼마나 있는가. 지도 안 유전자의 발현량.</li>
+      <li><strong>하류 흔적 (activity)</strong>: 스위치가 실제로 켜졌는가. 켜진 결과로 바뀐 표적 유전자.</li>
+    </ul>
+    <div class="tbl"><table>
+      <thead><tr><th>모듈</th><th>내용</th><th>근거 층</th></tr></thead>
+      <tbody>
+        <tr><td>입력: 성장인자</td><td class="gene">INSR, IRS1, PI3K, AKT</td><td>구성 요소</td></tr>
+        <tr><td>입력: 에너지</td><td class="gene">LKB1, AMPK, DDIT4</td><td>구성 요소</td></tr>
+        <tr><td>입력: 아미노산</td><td class="gene">SLC38A9, CASTOR1, SESN2, Rag, GATOR</td><td>구성 요소</td></tr>
+        <tr><td>지도 밖: GCN2/ISR</td><td>ATF4 표적 유전자</td><td><span class="tag ok">하류 흔적</span></td></tr>
+        <tr><td>출력: 단백질 합성</td><td>mTORC1 반응 유전자, 리보솜 생성</td><td><span class="tag ok">하류 흔적</span></td></tr>
+        <tr><td>출력: 지질 합성</td><td>SREBP 표적 유전자</td><td><span class="tag ok">하류 흔적</span></td></tr>
+        <tr><td>출력: 자가포식</td><td>TFEB 표적 유전자</td><td><span class="tag ok">하류 흔적</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</article>
+
+<article class="card" id="c17">
+  <div class="meta"><span class="no">17 / 21</span><span>6장 · 분석</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>문헌으로 경로를 확장하고, 여러 공개 데이터셋의 결과를 통계적으로 합쳐 일관성을 평가한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <ol>
+      <li><strong>경로 확장</strong>: map04150에 문헌으로 검증된 연결(GCN2/ISR 등)을 근거와 함께 추가한다.</li>
+      <li><strong>모듈 점수</strong>: 각 샘플에서 모듈마다 점수를 계산한다.</li>
+      <li><strong>데이터셋별 비교</strong>: 각 데이터셋 안에서 조건 간(예: 급여 대 절식) 점수 차이를 구한다.</li>
+      <li><strong>메타분석</strong>: 여러 데이터셋의 차이를 통계적으로 합쳐 결과가 일관되는지 본다.</li>
+      <li><strong>일관성 판정</strong>: ISR 흔적이 오르고 단백질 합성과 지질 합성 흔적이 함께 내려가면 "아미노산 부족에 의한 mTORC1 억제 상태"와 일관된다.</li>
+      <li><strong>확장 지도</strong>: map04150 위에 모듈별 변화를 색으로 칠하고 GCN2 축을 덧붙인다.</li>
+    </ol>
+    <div class="callout"><strong>첫 번째 시험 데이터: <code class="k">GSE203439</code></strong><br>4주령과 6주령 자돈의 공장을 급여군과 절식군으로 비교한 RNA-seq. 절식은 아미노산과 에너지가 함께 부족한 상태이므로 mTORC1 출력은 내려가고 AMPK·ISR 흔적은 올라가야 한다. 이 예상이 보이면 방법이 작동한다는 양성 대조가 된다.</div>
+  </div>
+</article>
+
+<!-- CH7 -->
+<div class="chap-head" id="ch7"><span class="n">7장</span><h3>말할 수 있는 것과 없는 것</h3><span class="q">우리의 결과로 어디까지 주장할 수 있는가</span></div>
+
+<article class="card" id="c18">
+  <div class="meta"><span class="no">18 / 21</span><span>7장 · 주장</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>바이오인포매틱스로 말할 수 있는 것은 "일관된다"와 "가설을 제시한다"까지다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>수준</th><th>표현 예</th><th>우리 논문</th></tr></thead>
+      <tbody>
+        <tr><td>지식 통합</td><td>문헌에서 검증된 GCN2–mTORC1 연결을 반영해 경로를 확장했다</td><td><span class="tag ok">가능</span></td></tr>
+        <tr><td>데이터 일관성</td><td>공개 데이터의 발현 패턴은 아미노산 부족에 의한 mTORC1 억제와 일관된다</td><td><span class="tag ok">가능 · 중심 주장</span></td></tr>
+        <tr><td>가설 제시</td><td>장내 아미노산 공급이 이 축을 통해 장 단백질 합성과 관련될 수 있다</td><td><span class="tag ok">가능 · 가설로 명시</span></td></tr>
+        <tr><td>새 기전 발견</td><td>GCN2가 장에서 mTORC1을 조절함을 밝혔다</td><td><span class="tag no">불가능 · 실험 필요</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</article>
+
+<article class="card" id="c19">
+  <div class="meta"><span class="no">19 / 21</span><span>7장 · 주장</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>문헌을 모으는 것은 메타분석이 아니다. 새로움은 맥락, 통합, 방법, 검증 가능한 가설에서 나온다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <div class="tbl"><table>
+      <thead><tr><th>하는 일</th><th>정확한 이름</th></tr></thead>
+      <tbody>
+        <tr><td>문헌으로 경로를 정리</td><td>문헌 기반 경로 통합</td></tr>
+        <tr><td>여러 공개 데이터셋의 효과 크기를 통계적으로 합침</td><td>전사체 데이터 메타분석</td></tr>
+      </tbody>
+    </table></div>
+    <h4>그러면 무엇이 새로운가</h4>
+    <ol>
+      <li><strong>맥락</strong>: 세포 배양에서 밝혀진 연결이 실제 장 조직 데이터에서도 일관되게 보이는지 평가한다.</li>
+      <li><strong>통합</strong>: 흩어진 공개 데이터를 같은 틀로 비교해 어떤 조건에서 이 축이 움직이는지 정리한다.</li>
+      <li><strong>방법</strong>: 구성 요소와 하류 흔적을 나눠 해석하는 재사용 가능한 틀을 제시한다.</li>
+      <li><strong>검증 가능한 가설</strong>: 다음 실험의 측정 지표(인산화 S6K1, 4E-BP1, eIF2α)를 구체적으로 제시한다.</li>
+    </ol>
+  </div>
+</article>
+
+<article class="card" id="c20">
+  <div class="meta"><span class="no">20 / 21</span><span>7장 · 주장</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>논문은 "왜 장내 아미노산이 중요한가"를 말하고, 제품의 효과는 별도의 자사 시험이 말한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <ul>
+      <li><strong>논문</strong>: 장 아미노산과 mTORC1/GCN2 연결의 과학적 틀을 제시한다. 회사 소속은 이해상충으로 공개한다.</li>
+      <li><strong>자사 시험</strong>: 특정 제품이나 첨가제가 이 축을 실제로 바꾸는지 따로 증명한다.</li>
+      <li><strong>학술 마케팅</strong>: 두 근거를 구분해서 인용한다.</li>
+    </ul>
+    <p>이렇게 나누면 논문은 독립된 과학으로 인정받고, 회사는 그 논문을 신뢰할 수 있는 근거로 인용할 수 있다.</p>
+  </div>
+</article>
+
+<!-- CLOSING -->
+<article class="card cover" id="c21">
+  <div class="meta"><span class="no">21 / 21</span><span>마치며</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>세포는 아미노산을 감지해 키나아제로 실행하고, KEGG는 그 과정을 읽는 지도이며, 데이터는 가설을 만든다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">상세 설명</span>
+    <ol>
+      <li>장 상피세포는 사료 아미노산을 가장 먼저 만나고, 쓰고, 감지한다.</li>
+      <li>세포 안 센서가 아미노산을 감지하면 키나아제(mTORC1, GCN2) 활성이 바뀐다.</li>
+      <li>KEGG map04150에서는 세 입력이 모여 출력 대사를 결정한다.</li>
+      <li>지도에 없는 GCN2 연결은 최신 문헌으로 보완한다.</li>
+      <li>구성 요소와 하류 흔적을 구분해 공개 데이터로 평가하고, 결과는 가설로 표현한다.</li>
+    </ol>
+    <h4>참고문헌</h4>
+    <ul class="refs">
+      <li>Baracos VE (2004). Animal models of amino acid metabolism: a focus on the intestine. <em>J Nutr</em> 134(6).</li>
+      <li>Figlia G, et al. (2025). mTORC1 senses glutamine and other amino acids through GCN2. <em>EMBO J</em> 44(17):4825–4866. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12402317/" target="_blank" rel="noopener">PMC12402317</a></li>
+      <li>Manning G, et al. (2002). The protein kinase complement of the human genome. <em>Science</em> 298:1912–1934.</li>
+      <li>Roskoski R Jr (2025). Properties of FDA-approved small molecule protein kinase inhibitors: a 2025 update. <em>Pharmacol Res</em>.</li>
+      <li>KEGG PATHWAY map04150: mTOR signaling pathway. <a href="https://www.kegg.jp/pathway/map04150" target="_blank" rel="noopener">kegg.jp</a></li>
+      <li>GSE203439: RNA-seq of jejunal scrapings of fed or fasted piglets, Wageningen University &amp; Research. <a href="https://research.wur.nl/en/datasets/rnaseq-of-jejunal-scrapings-of-pigs-fed-or-fasted-four-and-six-we/" target="_blank" rel="noopener">research.wur.nl</a></li>
+    </ul>
+  </div>
+</article>
+
+<footer>학술부 교육 자료 · 공개 문헌과 데이터베이스 기반 · 가설 생성 목적</footer>
+</main>
