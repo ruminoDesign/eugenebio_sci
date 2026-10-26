@@ -1,0 +1,626 @@
+<title>겨울 이유와 칼슘 스위치</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one column of lecture cards. Each card = tinted summary panel (large type) + detail in small type below.
+   Visual language: cold blue for the winter gut, crimson for calcium spikes and damage. */
+:root{
+  --bg:#ECEFF3;
+  --card:#FFFFFF;
+  --ink:#151C24;
+  --muted:#56616E;
+  --line:#CCD4DD;
+  --accent:#2A5D88;
+  --accent-soft:#DCE7F1;
+  --hot:#B23A48;
+  --hot-soft:#F6E0E3;
+  --calm:#2F7D5B;
+  --calm-soft:#DDEEE5;
+  --f-display:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151B;--card:#18202A;--ink:#E3E9F0;--muted:#9AA6B3;--line:#2C3743;
+    --accent:#7FB1DD;--accent-soft:#1E2E3E;--hot:#EE8A96;--hot-soft:#3A2328;--calm:#7CC9A4;--calm-soft:#1E3329;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151B;--card:#18202A;--ink:#E3E9F0;--muted:#9AA6B3;--line:#2C3743;
+  --accent:#7FB1DD;--accent-soft:#1E2E3E;--hot:#EE8A96;--hot-soft:#3A2328;--calm:#7CC9A4;--calm-soft:#1E3329;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.7;padding:0 16px;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:22px}
+
+.mast{display:flex;flex-direction:column;gap:10px;padding-block:8px 4px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mast h1{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,6vw,40px);line-height:1.25;margin:0;text-wrap:balance}
+.mast p{margin:0;color:var(--muted);max-width:62ch}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.nav ul{list-style:none;margin:0 auto;padding:0;max-width:760px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a{display:inline-flex;gap:6px;align-items:center;white-space:nowrap;text-decoration:none;color:var(--ink);font-size:13px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.nav a b{font-family:var(--f-mono);font-weight:500;color:var(--accent)}
+.nav a:hover,.nav a:focus-visible{border-color:var(--accent);outline:none}
+
+.chap-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-block:18px 0;scroll-margin-top:64px}
+.chap-head .n{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+.chap-head h3{margin:0;font-family:var(--f-display);font-weight:700;font-size:18px}
+.chap-head .q{color:var(--muted);font-size:13.5px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;scroll-margin-top:64px}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 22px 0;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.meta .no{color:var(--accent)}
+.summary{margin:10px 14px 0;padding:18px 18px 20px;background:var(--accent-soft);border-radius:11px;display:flex;flex-direction:column;gap:8px}
+.summary.hot{background:var(--hot-soft)}
+.summary.hot .lbl{color:var(--hot)}
+.lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.summary h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(20px,4.4vw,25px);line-height:1.35;text-wrap:balance}
+.summary p{margin:0;font-size:15px}
+
+.detail{padding:16px 22px 22px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.75}
+.detail .lbl{color:var(--muted)}
+.detail p{margin:0;max-width:70ch}
+.detail ul,.detail ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:3px}
+.detail h4{margin:4px 0 0;font-size:14px;font-weight:600}
+.cite{font-family:var(--f-mono);font-size:11.5px;color:var(--accent);white-space:nowrap}
+.note{font-size:12.5px;color:var(--muted)}
+.callout{border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+.callout.hot{background:var(--hot-soft);border-color:transparent}
+.callout.hot strong{color:var(--hot)}
+.callout.calm{background:var(--calm-soft);border-color:transparent}
+.callout.calm strong{color:var(--calm)}
+
+.cover .summary{background:var(--accent);color:var(--card)}
+.cover .summary .lbl{color:var(--card);opacity:.8}
+.cover .summary h2{font-size:clamp(22px,4.8vw,28px)}
+
+code.k{font-family:var(--f-mono);font-size:.9em;padding:1px 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:460px}
+th,td{text-align:left;vertical-align:top;padding:7px 11px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:12px;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.gene{font-family:var(--f-mono);font-size:12px;white-space:nowrap}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.tag.hot{background:var(--hot-soft);color:var(--hot)}
+.tag.calm{background:var(--calm-soft);color:var(--calm)}
+.tag.cool{background:var(--accent-soft);color:var(--accent)}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px}
+.flow span{padding:3px 9px;border:1px solid var(--line);border-radius:7px;background:var(--bg)}
+.flow span.hl{border-color:var(--accent);color:var(--accent);font-weight:600}
+.flow span.hot{border-color:var(--hot);color:var(--hot);font-weight:600}
+.flow i{font-style:normal;color:var(--muted)}
+
+.temps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.temp{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;background:var(--bg)}
+.temp b{font-family:var(--f-mono);font-size:20px;font-weight:500}
+.temp.cold{border-color:var(--hot);background:var(--hot-soft)}
+.temp.cold b{color:var(--hot)}
+.temp span{font-size:12.5px;color:var(--muted)}
+
+.fig{margin:0;overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px}
+.fig svg{display:block;width:100%;min-width:560px;height:auto}
+.fig figcaption{font-size:12px;color:var(--muted);padding:6px 6px 2px}
+svg text{font-family:var(--f-body);fill:var(--ink)}
+svg .t-h{font-size:13.5px;font-weight:600}
+svg .t-sub{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+svg .t-hot{fill:var(--hot);font-weight:600;font-size:12.5px}
+svg .t-calm{fill:var(--calm);font-weight:600;font-size:12.5px}
+svg .t-acc{fill:var(--accent);font-weight:600;font-size:12.5px}
+svg .box{fill:var(--card);stroke:var(--line);stroke-width:1.25}
+svg .box.acc{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.75}
+svg .box.hot{fill:var(--hot-soft);stroke:var(--hot);stroke-width:1.75}
+svg .e{fill:none;stroke:var(--muted);stroke-width:1.6}
+svg .mk{fill:var(--muted)}
+svg .axis{stroke:var(--muted);stroke-width:1.2;fill:none}
+svg .grid{stroke:var(--line);stroke-width:1;fill:none}
+svg .c-hot{fill:none;stroke:var(--hot);stroke-width:2.5}
+svg .c-calm{fill:none;stroke:var(--calm);stroke-width:2.5}
+svg .c-acc{fill:none;stroke:var(--accent);stroke-width:2.5}
+svg .thr{fill:none;stroke:var(--hot);stroke-width:1.2;stroke-dasharray:6 5}
+
+.refs{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px;padding-left:1.3em;margin:0}
+footer{font-size:12.5px;color:var(--muted);text-align:center;padding-top:8px}
+
+@media (max-width:480px){
+  body{font-size:15px}
+  .meta{padding:12px 16px 0}
+  .summary{margin:10px 10px 0;padding:16px 14px 18px}
+  .detail{padding:14px 16px 20px}
+  .temps{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<nav class="nav" aria-label="단계 바로가기">
+  <ul>
+    <li><a href="#s1"><b>1</b>설상가상</a></li>
+    <li><a href="#s2"><b>2</b>채널과 키나아제</a></li>
+    <li><a href="#s3"><b>3</b>칼슘 스파이크</a></li>
+    <li><a href="#s4"><b>4</b>정유와 칼슘</a></li>
+    <li><a href="#s5"><b>5</b>같은 정유, 다른 결과</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+<header class="mast">
+  <span class="eyebrow">학술부 교육 · 카드뉴스 · 2026.10</span>
+  <h1>추운 날의 이유, 장 세포의 칼슘 스위치</h1>
+  <p>추위와 이유가 겹친 자돈의 장에서 무슨 일이 일어나는지, 그리고 같은 정유가 왜 다른 결과를 낼 수 있는지를 칼슘 채널과 키나아제로 읽습니다. 카드마다 위의 요약을 먼저 읽고, 아래 작은 글씨로 자세한 내용을 확인하세요.</p>
+</header>
+
+<!-- COVER -->
+<article class="card cover" id="c00">
+  <div class="meta"><span class="no">00 / 17</span><span>핵심 메시지</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>스트레스는 칼슘으로 번역되고, 키나아제가 그 번역을 실행한다. 같은 정유도 칼슘 신호의 모양에 따라 진정제가 되기도, 자극제가 되기도 한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <p>이번 교육은 다섯 단계로 진행합니다.</p>
+    <div class="flow" aria-label="교육 흐름">
+      <span>설상가상 스트레스</span><i>→</i><span>칼슘 채널과 키나아제</span><i>→</i><span class="hot">칼슘 스파이크</span><i>→</i><span>정유와 칼슘</span><i>→</i><span class="hl">같은 정유, 다른 결과</span>
+    </div>
+    <p class="note">이 교육의 마지막 결론은 증명된 사실이 아니라 검증해야 할 과학적 가설입니다. 제품 우월성 주장과는 구분해서 사용합니다.</p>
+  </div>
+</article>
+
+<!-- STEP 1 -->
+<div class="chap-head" id="s1"><span class="n">1단계</span><h3>설상가상 스트레스와 장 점막 약화</h3><span class="q">추운 날 이유한 자돈의 장에서는 무슨 일이 일어나는가</span></div>
+
+<article class="card" id="c01">
+  <div class="meta"><span class="no">01 / 17</span><span>1단계 · 설상가상</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>추위는 혼자보다 이유, 병원균과 겹칠 때 피해를 키운다.</h2>
+    <p>같은 대장균 감염이라도 15°C에서 설사가 가장 심했고, 적정 온도에서는 설사가 잘 생기지 않았다.</p>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <p>3주령에 이유한 자돈에 독소원성 대장균(ETEC)을 감염시키고 세 온도에서 키운 고전 연구입니다 <span class="cite">Wathes et al., 1989</span>.</p>
+    <div class="temps" aria-label="온도별 결과">
+      <div class="temp cold"><b>15°C</b><span>증체와 사료효율 가장 나쁨. 설사 발생과 정도 가장 높음</span></div>
+      <div class="temp"><b>20°C</b><span>15°C보다 증체와 사료효율 양호</span></div>
+      <div class="temp"><b>30°C</b><span>설사 발생과 정도 가장 낮음</span></div>
+    </div>
+    <ul>
+      <li>설사 차이는 사료를 자유 채식한 자돈에서 나타났습니다.</li>
+      <li>저자들은 다른 위험 요인이 없다면 <strong>적정 온도에서 키운 자돈은 ETEC가 있어도 이유 후 설사가 잘 생기지 않는다</strong>고 결론 내렸습니다.</li>
+    </ul>
+    <p>현장의 메시지: 겨울철 이유 후 설사는 병원균만의 문제가 아니라 온도, 이유, 병원균이 함께 만드는 문제입니다.</p>
+  </div>
+</article>
+
+<article class="card" id="c02">
+  <div class="meta"><span class="no">02 / 17</span><span>1단계 · 설상가상</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>에너지 부족과 염증이 겹치면 장벽이 약해지고, 약해진 장벽으로 병원균과 독소가 들어온다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <figure class="fig">
+      <svg viewBox="0 0 720 360" role="img" aria-label="추위와 이유가 장 점막을 약화시키는 연쇄">
+        <defs>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0 0L10 5L0 10z"/></marker>
+        </defs>
+        <rect class="box acc" x="20" y="20" width="200" height="52" rx="8"/>
+        <text class="t-h" x="120" y="42" text-anchor="middle">추위</text>
+        <text class="t-sub" x="120" y="60" text-anchor="middle">체온 유지에 에너지 소모</text>
+        <rect class="box acc" x="260" y="20" width="200" height="52" rx="8"/>
+        <text class="t-h" x="360" y="42" text-anchor="middle">이유</text>
+        <text class="t-sub" x="360" y="60" text-anchor="middle">사료 섭취 급감, 스트레스</text>
+        <rect class="box acc" x="500" y="20" width="200" height="52" rx="8"/>
+        <text class="t-h" x="600" y="42" text-anchor="middle">병원균</text>
+        <text class="t-sub" x="600" y="60" text-anchor="middle">ETEC 등 장내 자극</text>
+
+        <rect class="box" x="100" y="112" width="240" height="52" rx="8"/>
+        <text class="t-h" x="220" y="134" text-anchor="middle">장 세포의 에너지 부족</text>
+        <text class="t-sub" x="220" y="152" text-anchor="middle">세포 유지와 회복이 느려짐</text>
+        <rect class="box hot" x="380" y="112" width="240" height="52" rx="8"/>
+        <text class="t-h" x="500" y="134" text-anchor="middle">점막 염증</text>
+        <text class="t-sub" x="500" y="152" text-anchor="middle">TLR4 · MyD88 · NLRP3 증가</text>
+
+        <rect class="box hot" x="210" y="204" width="300" height="52" rx="8"/>
+        <text class="t-h" x="360" y="226" text-anchor="middle">장벽 약화</text>
+        <text class="t-sub" x="360" y="244" text-anchor="middle">occludin 감소, 밀착연접 느슨</text>
+
+        <rect class="box" x="170" y="296" width="380" height="52" rx="8"/>
+        <text class="t-h" x="360" y="318" text-anchor="middle">병원균·독소 침투 → 설사, 성장 저하</text>
+        <text class="t-sub" x="360" y="336" text-anchor="middle">다시 염증과 섭취 감소를 키움</text>
+
+        <path class="e" d="M120 72C120 92 190 92 200 110" marker-end="url(#a1)"/>
+        <path class="e" d="M340 72C330 92 270 92 250 110" marker-end="url(#a1)"/>
+        <path class="e" d="M380 72C390 92 450 92 470 110" marker-end="url(#a1)"/>
+        <path class="e" d="M600 72C600 92 540 92 530 110" marker-end="url(#a1)"/>
+        <path class="e" d="M220 164C220 184 290 186 310 202" marker-end="url(#a1)"/>
+        <path class="e" d="M500 164C500 184 430 186 410 202" marker-end="url(#a1)"/>
+        <path class="e" d="M360 256V294" marker-end="url(#a1)"/>
+      </svg>
+      <figcaption>설상가상 연쇄. 이유는 에너지 부족과 염증 양쪽에 작용한다.</figcaption>
+    </figure>
+    <p>돼지를 7°C에 21일 두었을 때 공장의 융모가 짧아지고, 밀착연접 단백질 occludin이 줄고, 혈중 D-젖산이 늘어 장 투과성이 높아졌습니다. 공장에서는 TLR4, MyD88, NLRP3 같은 염증 신호가 늘었습니다 <span class="cite">Sun et al., 2022</span>.</p>
+    <p class="note">같은 연구에서 재래종인 민(Min) 돼지는 같은 추위에도 장 손상이 거의 없었고, 요크셔에서만 손상이 나타났습니다. 품종에 따라 추위 저항성이 다릅니다.</p>
+  </div>
+</article>
+
+<article class="card" id="c03">
+  <div class="meta"><span class="no">03 / 17</span><span>1단계 · 설상가상</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>세포 안에서 이 연쇄는 "칼슘 채널 → 칼슘 → 키나아제 가족"이라는 길을 지난다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <figure class="fig">
+      <svg viewBox="0 0 720 130" role="img" aria-label="스트레스가 칼슘과 키나아제로 번역되는 흐름">
+        <defs>
+          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0 0L10 5L0 10z"/></marker>
+        </defs>
+        <rect class="box" x="10" y="24" width="124" height="66" rx="8"/>
+        <text class="t-h" x="72" y="52" text-anchor="middle">스트레스 신호</text>
+        <text class="t-sub" x="72" y="72" text-anchor="middle">염증 · 에너지 부족</text>
+        <rect class="box acc" x="154" y="24" width="124" height="66" rx="8"/>
+        <text class="t-h" x="216" y="52" text-anchor="middle">TRPA1 (문)</text>
+        <text class="t-sub" x="216" y="72" text-anchor="middle">예민해짐</text>
+        <rect class="box hot" x="298" y="24" width="124" height="66" rx="8"/>
+        <text class="t-h" x="360" y="52" text-anchor="middle">Ca²⁺ 유입</text>
+        <text class="t-sub" x="360" y="72" text-anchor="middle">메시지</text>
+        <rect class="box acc" x="442" y="24" width="124" height="66" rx="8"/>
+        <text class="t-h" x="504" y="52" text-anchor="middle">키나아제 가족</text>
+        <text class="t-sub" x="504" y="72" text-anchor="middle">CaMKII · MLCK · PKC · MAPK</text>
+        <rect class="box hot" x="586" y="24" width="124" height="66" rx="8"/>
+        <text class="t-h" x="648" y="52" text-anchor="middle">장벽 · 염증</text>
+        <text class="t-sub" x="648" y="72" text-anchor="middle">밀착연접 열림</text>
+        <path class="e" d="M134 57H152" marker-end="url(#a2)"/>
+        <path class="e" d="M278 57H296" marker-end="url(#a2)"/>
+        <path class="e" d="M422 57H440" marker-end="url(#a2)"/>
+        <path class="e" d="M566 57H584" marker-end="url(#a2)"/>
+        <text class="t-sub" x="360" y="118" text-anchor="middle">문 → 메시지 → 실행자 → 결과</text>
+      </svg>
+      <figcaption>스트레스가 세포 안에서 번역되는 길</figcaption>
+    </figure>
+    <p>염증 신호는 세포막의 칼슘 통로(TRPA1 등)를 더 쉽게 열리는 상태로 만듭니다. 열린 문으로 들어온 칼슘은 키나아제 가족을 깨우고, 키나아제는 밀착연접을 열거나 염증 신호를 키웁니다.</p>
+    <p>그래서 이번 교육의 두 주인공은 <strong>칼슘 채널(문)</strong>과 <strong>키나아제 가족(실행자)</strong>입니다. 다음 단계에서 하나씩 살펴봅니다.</p>
+  </div>
+</article>
+
+<!-- STEP 2 -->
+<div class="chap-head" id="s2"><span class="n">2단계</span><h3>칼슘 채널과 키나아제 가족</h3><span class="q">문과 실행자는 각각 누구인가</span></div>
+
+<article class="card" id="c04">
+  <div class="meta"><span class="no">04 / 17</span><span>2단계 · 채널과 키나아제</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>TRPA1은 키나아제가 아니라 칼슘이 드나드는 문이다.</h2>
+    <p>반응성 높은 화학물질이 문을 두드리면 열리고, 칼슘이 세포 안으로 들어온다.</p>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <ul>
+      <li><strong>정체</strong>: 세포막에 박힌 이온 채널. 열리면 칼슘 등 양이온이 들어옵니다.</li>
+      <li><strong>여는 방법</strong>: 반응성 높은 화학물질이 채널 단백질의 특정 부위를 건드리면 열립니다. 정유 성분이 여기에 해당합니다.</li>
+      <li><strong>장에서의 위치</strong>: 장내분비세포와 감각신경. 장 호르몬 분비와 감각 신호에 관여합니다.</li>
+      <li><strong>TRP 가족</strong>: TRPA1 외에도 TRPV1(매운맛·열), TRPV3(따뜻함), TRPM8(차가움) 등이 있습니다.</li>
+    </ul>
+    <div class="callout"><strong>자주 하는 오해.</strong> "TRPA1이 추위를 느끼니 추위 스트레스는 TRPA1로 들어온다." 포유류에서 TRPA1이 추위를 직접 감지하는지는 아직 결론이 나지 않았습니다. 추위는 에너지 부족과 염증이라는 다른 길로 장에 영향을 줍니다.</div>
+  </div>
+</article>
+
+<article class="card" id="c05">
+  <div class="meta"><span class="no">05 / 17</span><span>2단계 · 채널과 키나아제</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>칼슘을 읽는 키나아제는 CaMKII, PKC, MLCK다. 그중 MLCK가 장벽을 연다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <div class="tbl"><table>
+      <thead><tr><th>키나아제</th><th>켜지는 방법</th><th>하는 일</th><th>장 건강과의 관계</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">CaMKII</td><td>칼슘 + 칼모듈린</td><td>칼슘 신호의 빈도와 세기를 기억하고 전달</td><td>다른 신호의 증폭</td></tr>
+        <tr><td class="gene">PKC</td><td>칼슘 + 막 지질 신호</td><td>채널과 다른 키나아제를 조절</td><td>TRP 채널을 더 예민하게 만들 수 있음</td></tr>
+        <tr><td class="gene">MLCK</td><td>칼슘 + 칼모듈린</td><td>미오신을 인산화해 세포 골격을 수축</td><td><span class="tag hot">밀착연접을 연다</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>MLCK가 켜지면 상피세포 가장자리의 수축 고리가 당겨지면서 세포 사이의 밀착연접이 느슨해집니다. 칼슘이 많이 들어올수록 장벽이 열리기 쉬운 이유입니다.</p>
+    <p class="note">KEGG: 밀착연접 <code class="k">map04530</code>, 염증 매개물질에 의한 TRP 채널 조절 <code class="k">map04750</code></p>
+  </div>
+</article>
+
+<article class="card" id="c06">
+  <div class="meta"><span class="no">06 / 17</span><span>2단계 · 채널과 키나아제</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>MAPK는 신호를 키우는 증폭기다. ERK는 회복을, p38과 JNK는 스트레스와 염증을 맡는다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <p>MAPK는 세 단계의 키나아제가 차례로 서로를 인산화하며 신호를 키우는 구조입니다. 칼슘, PKC, 염증 수용체(TLR4 등)에서 온 신호가 모두 이 증폭기로 모입니다.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>MAPK</th><th>주로 켜는 것</th><th>장에서의 결과</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">ERK</td><td>성장인자, 적당한 자극</td><td><span class="tag calm">세포 증식, 회복</span></td></tr>
+        <tr><td class="gene">p38</td><td>염증, 산화, 스트레스</td><td><span class="tag hot">염증 사이토카인, 장벽 약화</span></td></tr>
+        <tr><td class="gene">JNK</td><td>강한 스트레스</td><td><span class="tag hot">염증, 세포 사멸</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="flow" aria-label="2단계 요약">
+      <span>TRPA1</span><i>→</i><span class="hot">Ca²⁺</span><i>→</i><span>CaMKII · PKC · MLCK</span><i>→</i><span class="hl">MAPK</span><i>→</i><span>장벽과 염증</span>
+    </div>
+    <p class="note">KEGG: MAPK 신호 <code class="k">map04010</code></p>
+  </div>
+</article>
+
+<!-- STEP 3 -->
+<div class="chap-head" id="s3"><span class="n">3단계</span><h3>칼슘 스파이크의 원인과 문제점</h3><span class="q">칼슘은 양보다 모양이 중요하다</span></div>
+
+<article class="card" id="c07">
+  <div class="meta"><span class="no">07 / 17</span><span>3단계 · 칼슘 스파이크</span></div>
+  <div class="summary hot">
+    <span class="lbl">요약</span>
+    <h2>같은 칼슘이라도 크고 짧게 치솟으면 염증 스위치를, 낮고 오래 유지되면 다른 스위치를 켠다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <figure class="fig">
+      <svg viewBox="0 0 720 260" role="img" aria-label="칼슘 스파이크와 고원 개념도">
+        <path class="axis" d="M60 20V226H700"/>
+        <text class="t-sub" x="60" y="14">세포 안 Ca²⁺</text>
+        <text class="t-sub" x="700" y="246" text-anchor="end">시간</text>
+        <path class="c-hot" d="M60 222C92 222 100 44 130 44C168 44 186 196 250 212L690 216"/>
+        <path class="c-calm" d="M60 222C112 222 128 158 172 158L690 158"/>
+        <text class="t-hot" x="146" y="36">크고 짧은 스파이크 → JNK, NF-κB</text>
+        <text class="t-calm" x="400" y="148">낮고 오래 유지되는 고원 → NFAT</text>
+      </svg>
+      <figcaption>개념도. 실제 측정값이 아닙니다.</figcaption>
+    </figure>
+    <p>면역세포(B 림프구)에서 칼슘이 크고 짧게 치솟으면 스트레스·염증 스위치인 JNK와 NF-κB가 켜졌고, 낮게 오래 유지되면 NFAT라는 다른 스위치가 켜졌습니다 <span class="cite">Dolmetsch et al., 1997</span>.</p>
+    <p class="note">장 상피세포가 아닌 면역세포의 결과입니다. "같은 원리가 장에서도 작동할 가능성"으로 이해합니다.</p>
+  </div>
+</article>
+
+<article class="card" id="c08">
+  <div class="meta"><span class="no">08 / 17</span><span>3단계 · 칼슘 스파이크</span></div>
+  <div class="summary hot">
+    <span class="lbl">요약</span>
+    <h2>스파이크는 강한 자극, 예민해진 문, 느려진 칼슘 배출이 만든다. 설상가상의 장은 이 중 둘을 이미 갖고 있다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <div class="tbl"><table>
+      <thead><tr><th>원인</th><th>무슨 일이 일어나나</th><th>설상가상의 장</th></tr></thead>
+      <tbody>
+        <tr><td><strong>강한 외부 자극</strong></td><td>고농도 자극물질이 칼슘 채널을 한꺼번에 연다</td><td><span class="tag cool">들어오는 물질에 달림</span></td></tr>
+        <tr><td><strong>예민해진 문</strong></td><td>염증 매개물질이 채널을 쉽게 열리는 상태로 만든다</td><td><span class="tag hot">이미 있음 (염증)</span></td></tr>
+        <tr><td><strong>느려진 칼슘 배출</strong></td><td>칼슘을 퍼내는 펌프는 에너지(ATP)를 쓴다. 에너지가 부족하면 칼슘이 오래 머문다</td><td><span class="tag hot">이미 있음 (에너지 부족)</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>추위와 이유가 겹친 장은 예민해진 문과 느려진 배출을 이미 갖고 있습니다. 그래서 같은 자극에도 더 크고 긴 칼슘 스파이크가 생기기 쉽습니다. 남은 하나, 강한 외부 자극은 장에 무엇이 어떤 농도로 들어오느냐에 달려 있습니다. 4단계와 5단계의 주제입니다.</p>
+  </div>
+</article>
+
+<article class="card" id="c09">
+  <div class="meta"><span class="no">09 / 17</span><span>3단계 · 칼슘 스파이크</span></div>
+  <div class="summary hot">
+    <span class="lbl">요약</span>
+    <h2>과도한 칼슘 스파이크는 염증 스위치를 켜고, 장벽을 열고, 세포를 손상시킨다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <ol>
+      <li><strong>염증 스위치</strong>: JNK와 NF-κB가 켜져 염증 사이토카인이 늘어납니다.</li>
+      <li><strong>장벽 열림</strong>: 칼슘-칼모듈린이 MLCK를 켜고, 밀착연접이 느슨해집니다.</li>
+      <li><strong>세포 손상</strong>: 칼슘이 지나치게 쌓이면 미토콘드리아에 부담이 생겨 활성산소가 늘고 세포가 손상될 수 있습니다.</li>
+    </ol>
+    <div class="callout hot"><strong>1단계와의 연결.</strong> 이 세 가지는 모두 1단계의 설상가상 연쇄(염증, 장벽 약화)를 더 키우는 방향입니다. 이미 약해진 장에서 칼슘 스파이크는 악순환의 가속 페달이 될 수 있습니다.</div>
+  </div>
+</article>
+
+<!-- STEP 4 -->
+<div class="chap-head" id="s4"><span class="n">4단계</span><h3>정유와 칼슘 채널, 키나아제 가족</h3><span class="q">정유 성분은 이 회로의 어디에 작용하는가</span></div>
+
+<article class="card" id="c10">
+  <div class="meta"><span class="no">10 / 17</span><span>4단계 · 정유와 칼슘</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>cinnamaldehyde, thymol, carvacrol은 모두 같은 문(TRPA1)을 여는 열쇠다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <div class="tbl"><table>
+      <thead><tr><th>성분</th><th>원료</th><th>TRPA1</th><th>그 밖의 TRP 채널</th></tr></thead>
+      <tbody>
+        <tr><td class="gene">cinnamaldehyde</td><td>계피</td><td>강하게 활성화</td><td></td></tr>
+        <tr><td class="gene">thymol</td><td>타임</td><td>활성화</td><td>TRPV3</td></tr>
+        <tr><td class="gene">carvacrol</td><td>오레가노</td><td>활성화</td><td>TRPV3</td></tr>
+      </tbody>
+    </table></div>
+    <p>세 성분은 서로 다른 식물에서 왔지만, 장 세포 입장에서는 같은 문을 두드리는 열쇠입니다. 문이 열리면 2단계에서 본 칼슘 → 키나아제 가족의 길이 시작됩니다.</p>
+    <p class="note">thymol과 carvacrol의 TRPA1 활성은 세포 실험으로 알려진 내용입니다. 근거 문헌이 필요하면 Xu et al.(2006), Lee et al.(2008)을 추가합니다.</p>
+  </div>
+</article>
+
+<article class="card" id="c11">
+  <div class="meta"><span class="no">11 / 17</span><span>4단계 · 정유와 칼슘</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>돼지 장에서 cinnamaldehyde는 TRPA1을 거쳐 장 호르몬을 분비시켰다. 그런데 장 부위마다 반응이 달랐다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <p>돼지 장 조직 절편에 cinnamaldehyde(200 μmol/L)를 처리한 실험입니다 <span class="cite">Van Liefferinge et al., 2021</span>.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>반응</th><th>십이지장</th><th>회장</th></tr></thead>
+      <tbody>
+        <tr><td>CCK 분비</td><td><span class="tag calm">증가</span> TRPA1 억제제로 차단됨</td><td><span class="tag cool">변화 없음</span></td></tr>
+        <tr><td>GLP-1 분비</td><td><span class="tag calm">증가</span> TRPA1 억제제로 차단 안 됨</td><td><span class="tag calm">증가</span> TRPA1 억제제로 대부분 차단</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>cinnamaldehyde는 TRPA1 유전자 발현도 높였습니다.</li>
+      <li>반응성 알데하이드 부분이 없는 유사 물질은 CCK 분비 효과가 약했습니다.</li>
+    </ul>
+    <div class="callout"><strong>핵심.</strong> 같은 성분이라도 장 부위에 따라 반응이 다릅니다. 정유가 장의 어디에서 방출되느냐가 결과를 바꿀 수 있다는 첫 번째 근거입니다.</div>
+  </div>
+</article>
+
+<article class="card" id="c12">
+  <div class="meta"><span class="no">12 / 17</span><span>4단계 · 정유와 칼슘</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>정유는 진정제도 자극제도 될 수 있다. 칼슘 신호가 적당하면 유익하고, 과도하면 스파이크가 된다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <div class="tbl"><table>
+      <thead><tr><th>칼슘 신호</th><th>예상되는 결과</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag calm">적당한 신호</span></td><td>장 호르몬 분비, 세포의 적응 반응 등 유익한 효과</td></tr>
+        <tr><td><span class="tag hot">과도한 스파이크</span></td><td>3단계의 염증 스위치, 장벽 열림, 세포 손상</td></tr>
+      </tbody>
+    </table></div>
+    <p>정유 성분이 MAPK와 NF-κB를 억제해 염증을 줄인다는 보고도 많습니다. 다만 대부분 세포주 연구이고, 돼지 장에서 키나아제를 직접 측정한 연구는 아직 적습니다.</p>
+    <p>정리하면, 정유는 문(TRPA1)을 열어 칼슘을 들여보내는 열쇠입니다. 열쇠를 얼마나 세게, 어디서, 언제 돌리느냐에 따라 같은 성분이 진정제가 되기도 자극제가 되기도 합니다.</p>
+  </div>
+</article>
+
+<!-- STEP 5 -->
+<div class="chap-head" id="s5"><span class="n">5단계</span><h3>같은 정유, 다른 결과</h3><span class="q">총량이 같아도 곡선이 다르면 결과가 다르다</span></div>
+
+<article class="card" id="c13">
+  <div class="meta"><span class="no">13 / 17</span><span>5단계 · 같은 정유, 다른 결과</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>같은 총량이라도 일반 정유는 앞에서 높게 치솟고, 서방형 캡슐화 정유는 장을 따라 낮고 길게 퍼진다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <figure class="fig">
+      <svg viewBox="0 0 720 280" role="img" aria-label="일반 정유와 서방형 캡슐화 정유의 장내 농도 개념도">
+        <path class="axis" d="M60 20V230H700"/>
+        <text class="t-sub" x="60" y="14">장내 정유 농도</text>
+        <path class="thr" d="M60 82H700"/>
+        <text class="t-hot" x="696" y="74" text-anchor="end" style="font-size:11.5px">과도한 칼슘 신호 위험 구간 (개념)</text>
+        <path class="c-hot" d="M60 226C92 226 110 40 160 40C212 40 232 200 300 220L690 224"/>
+        <path class="c-calm" d="M60 226C160 226 200 152 300 142C420 132 480 136 560 152C620 166 650 200 690 218"/>
+        <text class="t-hot" x="176" y="34">일반 정유</text>
+        <text class="t-calm" x="420" y="124">서방형 캡슐화 정유</text>
+        <text class="t-sub" x="110" y="250" text-anchor="middle">위</text>
+        <text class="t-sub" x="230" y="250" text-anchor="middle">십이지장</text>
+        <text class="t-sub" x="380" y="250" text-anchor="middle">공장</text>
+        <text class="t-sub" x="530" y="250" text-anchor="middle">회장</text>
+        <text class="t-sub" x="650" y="250" text-anchor="middle">대장</text>
+        <text class="t-sub" x="380" y="272" text-anchor="middle">장 부위 (시간 흐름)</text>
+      </svg>
+      <figcaption>개념도. 실제 측정값이 아닙니다. 회사 제품의 방출 곡선 자료로 교체할 예정입니다.</figcaption>
+    </figure>
+    <ul>
+      <li><strong>일반 정유</strong>: 섭취 후 위와 소장 앞쪽에서 빠르게 흡수되어 짧고 높은 농도를 만듭니다. 3단계의 "강한 외부 자극" 조건입니다.</li>
+      <li><strong>서방형 캡슐화 정유</strong>: 장을 따라 천천히 방출되어 낮고 지속적인 농도를 만들고, 성분을 장 후반부까지 전달합니다.</li>
+    </ul>
+  </div>
+</article>
+
+<article class="card" id="c14">
+  <div class="meta"><span class="no">14 / 17</span><span>5단계 · 같은 정유, 다른 결과</span></div>
+  <div class="summary hot">
+    <span class="lbl">요약</span>
+    <h2>건강한 장은 스파이크를 견디지만, 설상가상의 장에서는 같은 스파이크가 손상을 키울 수 있다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>건강한 장</th><th>설상가상의 장 (추위 + 이유)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>일반 정유</strong><br><span class="note">짧고 높은 농도</span></td><td>스파이크가 와도 견딜 수 있음</td><td><span class="tag hot">손상 증폭 가능</span><br>예민해진 문, 이미 켜진 염증 스위치, 약해진 장벽 위에 스파이크가 더해짐</td></tr>
+        <tr><td><strong>서방형 캡슐화</strong><br><span class="note">낮고 지속적인 농도</span></td><td>적당한 신호</td><td><span class="tag calm">염증 스위치를 덜 건드림</span><br>성분을 장 후반부까지 전달</td></tr>
+      </tbody>
+    </table></div>
+    <p>스트레스받은 장에서 칼슘 스파이크는 MLCK와 p38·JNK를 더 크게 켜서 장벽을 더 열고 염증을 더 키울 수 있습니다. 서방형 방출은 낮은 신호만 주어 이 악순환을 피하면서 정유의 효과를 장 전체에 나눠 줄 수 있다는 것이 우리의 과학적 논리입니다.</p>
+  </div>
+</article>
+
+<article class="card" id="c15">
+  <div class="meta"><span class="no">15 / 17</span><span>5단계 · 같은 정유, 다른 결과</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>스트레스받은 자돈에서 정유 복합물이 오히려 염증을 키운 관찰은 이 가설과 방향이 맞다. 그러나 원인을 단정할 수는 없다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <p>cinnamaldehyde, carvacrol, thymol을 1:1:1로 섞은 복합물(사료 kg당 50 mg)을 이유자돈에 21일 급여한 뒤, 염증 유발물질(LPS)을 주사한 연구입니다 <span class="cite">Zhang et al., 2023</span>.</p>
+    <ul>
+      <li>설사는 줄었습니다.</li>
+      <li>그러나 흡수 기능 지표(D-자일로스)는 나빠지는 경향이었고, 공장과 장간막 림프절의 IL-6가 크게 늘었습니다.</li>
+      <li>항생제(콜리스틴) 대조군보다 효과가 낮았고, 저자들은 사료첨가제로 쓰려면 추가 연구가 필요하다고 결론 내렸습니다.</li>
+    </ul>
+    <div class="callout"><strong>해석의 한계.</strong> 이 연구는 일반 정유와 서방형 정유의 방출 형태를 비교하지 않았습니다. "한 번에 노출되어 스파이크가 생겼기 때문"이라고 단정할 수 없고, 가설과 방향이 맞는 관찰로만 소개합니다.</div>
+  </div>
+</article>
+
+<article class="card" id="c16">
+  <div class="meta"><span class="no">16 / 17</span><span>5단계 · 같은 정유, 다른 결과</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>서방형에도 다른 면이 있다. 이 이야기는 검증해야 할 가설이며, 제품 우월성 주장과는 구분한다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <h4>서방형의 다른 면</h4>
+    <p>낮은 농도에 오래 노출되면 TRPA1이 둔감해질 수 있습니다. 염증을 덜 일으키는 장점일 수 있지만, CCK 분비처럼 원하는 반응도 줄일 수 있습니다. 적정 방출 속도와 농도는 실험으로 찾아야 합니다.</p>
+    <h4>근거의 경계</h4>
+    <div class="tbl"><table>
+      <thead><tr><th>연결</th><th>근거 수준</th></tr></thead>
+      <tbody>
+        <tr><td>추위 + 이유 + 병원균 → 설사, 성장 저하</td><td><span class="tag calm">돼지 생체</span></td></tr>
+        <tr><td>추위 → 장 염증, 장벽 약화</td><td><span class="tag calm">돼지 생체</span></td></tr>
+        <tr><td>cinnamaldehyde → TRPA1 → 장 호르몬 (부위별 차이)</td><td><span class="tag calm">돼지 조직</span></td></tr>
+        <tr><td>칼슘 신호의 모양 → 다른 키나아제</td><td><span class="tag cool">면역세포</span></td></tr>
+        <tr><td>방출 형태에 따라 장의 키나아제 반응이 달라진다</td><td><span class="tag hot">가설</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout calm"><strong>사용 원칙.</strong> 이 내용은 학술적 가설로 교육과 토론에 사용합니다. 고객 자료에는 "가설"과 "자사 시험 결과"를 반드시 구분해서 씁니다.</div>
+  </div>
+</article>
+
+<!-- CLOSING -->
+<article class="card cover" id="c17">
+  <div class="meta"><span class="no">17 / 17</span><span>마치며</span></div>
+  <div class="summary">
+    <span class="lbl">요약</span>
+    <h2>추위와 이유는 장을 예민하게 만들고, 그 장에서는 칼슘 신호의 모양이 결과를 가른다.</h2>
+  </div>
+  <div class="detail">
+    <span class="lbl">자세히</span>
+    <ol>
+      <li>추위는 이유, 병원균과 겹칠 때 장 점막 약화와 설사를 키운다.</li>
+      <li>세포 안에서 스트레스는 칼슘 채널(TRPA1) → 칼슘 → 키나아제 가족(CaMKII, PKC, MLCK, MAPK)의 길을 지난다.</li>
+      <li>크고 짧은 칼슘 스파이크는 염증 스위치와 장벽 열림으로 이어지기 쉽고, 설상가상의 장은 스파이크가 생기기 쉬운 상태다.</li>
+      <li>cinnamaldehyde, thymol, carvacrol은 같은 문을 여는 열쇠이며, 장 부위에 따라 반응이 다르다.</li>
+      <li>같은 정유라도 방출 곡선이 다르면 결과가 다를 수 있다. 이것은 검증해야 할 가설이다.</li>
+    </ol>
+    <h4>참고문헌</h4>
+    <ol class="refs">
+      <li>Wathes CM, Miller BG, Bourne FJ. 1989. Cold stress and post-weaning diarrhoea in piglets inoculated orally or by aerosol. <em>Animal Production</em> 49(3):483–496.</li>
+      <li>Sun G, Song X, Zou Y, Teng T, Jiang L, Shi B. 2022. Dietary glucose ameliorates impaired intestinal development and immune homeostasis disorders induced by chronic cold stress in pig model. <em>International Journal of Molecular Sciences</em> 23(14):7730.</li>
+      <li>Dolmetsch RE, Lewis RS, Goodnow CC, Healy JI. 1997. Differential activation of transcription factors induced by Ca²⁺ response amplitude and duration. <em>Nature</em> 386:855–858.</li>
+      <li>Van Liefferinge E, Müller M, Van Noten N, Degroote J, Niknafs S, Roura E, Michiels J. 2021. Cinnamaldehyde induces release of cholecystokinin and glucagon-like peptide 1 by interacting with transient receptor potential ankyrin 1 in a porcine ex-vivo intestinal segment model. <em>Animals</em> 11(8):2262.</li>
+      <li>Zhang Y, Li Q, Wang Z, Dong Y, Yi D, Wu T, Wang L, Zhao D, Hou Y. 2023. Dietary supplementation with a complex of cinnamaldehyde, carvacrol, and thymol negatively affects the intestinal function in LPS-challenged piglets. <em>Frontiers in Veterinary Science</em> 10:1098579.</li>
+    </ol>
+  </div>
+</article>
+
+<footer>학술부 교육 자료 · 공개 문헌 기반 · 가설 생성 목적</footer>
+</main>
