@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>반추위 In Vitro 결과 해석을 위한 Check List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: single column of lecture cards. Each card = title, 주요내용 list, tinted 정상 형태 panel, bordered 상세설명 box. */
+:root{
+  --bg:#EEF1EF;--card:#FFFFFF;--ink:#18201E;--muted:#58645F;--line:#CFD8D4;
+  --accent:#1E6B66;--accent-soft:#DCEDEA;--warn:#B0412E;--warn-soft:#F7E3DE;--ok:#2E7A4F;--ok-soft:#DFF0E5;
+  --f-display:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101615;--card:#18201F;--ink:#E2EAE7;--muted:#97A6A1;--line:#2B3835;
+    --accent:#6CC3B8;--accent-soft:#1B3330;--warn:#EE8F7C;--warn-soft:#3A2420;--ok:#7CCB9C;--ok-soft:#1D3326;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101615;--card:#18201F;--ink:#E2EAE7;--muted:#97A6A1;--line:#2B3835;
+  --accent:#6CC3B8;--accent-soft:#1B3330;--warn:#EE8F7C;--warn-soft:#3A2420;--ok:#7CCB9C;--ok-soft:#1D3326;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;padding:0 16px;word-break:keep-all;overflow-wrap:break-word}
+.wrap{max-width:780px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:20px;counter-reset:card}
+
+.mast{display:flex;flex-direction:column;gap:10px;padding-block:8px 4px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mast h1{font-family:var(--f-display);font-weight:800;font-size:clamp(27px,6vw,38px);line-height:1.25;margin:0;text-wrap:balance}
+.mast p{margin:0;color:var(--muted);max-width:64ch}
+
+.nav{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.nav ul{list-style:none;margin:0 auto;padding:0;max-width:780px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a{display:inline-flex;gap:6px;align-items:center;white-space:nowrap;text-decoration:none;color:var(--ink);font-size:13px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.nav a b{font-family:var(--f-mono);font-weight:500;color:var(--accent)}
+.nav a:hover,.nav a:focus-visible{border-color:var(--accent);outline:none}
+
+.chap-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-block:20px 0;scroll-margin-top:64px}
+.chap-head .n{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+.chap-head h3{margin:0;font-family:var(--f-display);font-weight:700;font-size:19px}
+.chap-head .q{color:var(--muted);font-size:13.5px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 22px 22px;display:flex;flex-direction:column;gap:14px;counter-increment:card;scroll-margin-top:64px}
+.meta{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.meta .no{color:var(--accent)}
+.meta .no::before{content:"카드 " counter(card, decimal-leading-zero)}
+.ttl{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(20px,4.4vw,24px);line-height:1.35;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.core{font-family:var(--f-body);font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--warn-soft);color:var(--warn)}
+.lbl{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.blk ul,.blk ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:3px}
+.blk ul ul{margin-top:3px;gap:2px;font-size:14px;color:var(--muted)}
+.norm{background:var(--accent-soft);border-radius:11px;padding:13px 16px}
+.detail-box{border:1.5px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:13px 16px;font-size:14.5px;display:flex;flex-direction:column;gap:8px}
+.detail-box .lbl{color:var(--muted);margin-bottom:0}
+.detail-box p{margin:0}
+.ex{border:1.5px dashed var(--line);border-radius:10px;padding:12px 15px;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.ex .lbl{color:var(--warn);margin-bottom:0}
+.ex p{margin:0}
+.flag{color:var(--warn);font-weight:600}
+.cite{font-family:var(--f-mono);font-size:11.5px;color:var(--accent)}
+code.k{font-family:var(--f-mono);font-size:.88em;padding:1px 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.eq{font-family:var(--f-mono);font-size:13px;background:var(--bg);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap}
+pre{margin:0;font-family:var(--f-mono);font-size:12.5px;line-height:1.55;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:480px}
+th,td{text-align:left;vertical-align:top;padding:7px 11px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:12.5px;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+td.m{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.tag.no{background:var(--warn-soft);color:var(--warn)}
+.tag.mid{background:var(--accent-soft);color:var(--accent)}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13.5px}
+.flow span{padding:4px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg)}
+.flow span.hl{border-color:var(--warn);color:var(--warn);font-weight:600}
+.flow i{font-style:normal;color:var(--muted)}
+
+.fig{margin:0;overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px}
+.fig svg{display:block;width:100%;min-width:580px;height:auto}
+.fig figcaption{font-size:12.5px;color:var(--muted);padding:6px 6px 2px}
+svg text{font-family:var(--f-body);fill:var(--ink)}
+svg .t-h{font-size:13.5px;font-weight:600}
+svg .t-s{font-size:11.5px;fill:var(--muted)}
+svg .t-m{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+svg .t-acc{fill:var(--accent);font-weight:600;font-size:12px}
+svg .t-warn{fill:var(--warn);font-weight:600;font-size:12px}
+svg .t-ok{fill:var(--ok);font-weight:600;font-size:12px}
+svg .axis{fill:none;stroke:var(--muted);stroke-width:1.2}
+svg .band{fill:var(--accent-soft);stroke:none}
+svg .c-acc{fill:none;stroke:var(--accent);stroke-width:2.5}
+svg .c-ok{fill:none;stroke:var(--ok);stroke-width:2.5}
+svg .c-warn{fill:none;stroke:var(--warn);stroke-width:2.2;stroke-dasharray:6 5}
+svg .c-mute{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 5}
+svg .c-dot{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:2 4}
+svg .box{fill:var(--card);stroke:var(--line);stroke-width:1.3}
+svg .box.q{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.8}
+svg .e{fill:none;stroke:var(--muted);stroke-width:1.5}
+svg .mk{fill:var(--muted)}
+
+.check td:first-child{width:28px;text-align:center;color:var(--muted)}
+.refs{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:6px;padding-left:1.3em;margin:0}
+footer{font-size:12.5px;color:var(--muted);text-align:center;padding-top:8px}
+
+@media (max-width:480px){
+  body{font-size:14.5px}
+  .card{padding:12px 15px 18px}
+  .norm,.detail-box{padding:12px 13px}
+}
+@media print{
+  .nav{display:none}
+  body{background:#fff}
+  .card{break-inside:avoid;border-color:#bbb}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="부 바로가기">
+  <ul>
+    <li><a href="#p0"><b>0</b>시작</a></li>
+    <li><a href="#p1"><b>1</b>in vitro 이해</a></li>
+    <li><a href="#p2"><b>2</b>설계</a></li>
+    <li><a href="#p3"><b>3</b>발효성상 지표</a></li>
+    <li><a href="#p4"><b>4</b>통계</a></li>
+    <li><a href="#p5"><b>5</b>마무리</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+<header class="mast">
+  <span class="eyebrow">학술부 교육 · 2026.11</span>
+  <h1>반추위 In Vitro 결과 해석을 위한 Check List</h1>
+  <p>in vitro 반추위 배양 결과를 받았을 때 무엇을, 어떤 순서로 확인할지 정리한 점검표입니다. 카드마다 주요내용과 정상 형태를 먼저 보고, 상자 안의 상세설명으로 이유를 확인하세요.</p>
+</header>
+
+<!-- ============ PART 0 ============ -->
+<div class="chap-head" id="p0"><span class="n">0부</span><h3>시작</h3><span class="q">이 자료를 어떻게 쓰는가</span></div>
+
+<article class="card">
+  <div class="meta"><span>0부 · 시작</span><span class="no"></span></div>
+  <h2 class="ttl">이 자료의 사용법</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>in vitro 반추위 배양 결과(논문, 연구용역 보고서, 자사 시험)를 읽을 때 쓰는 점검표</li>
+    <li>카드 구성: 소제목 → 주요내용 → 정상 형태 · 권장 기준 → 상세설명</li>
+    <li><span class="core">핵심</span> 표시: 결과를 해석할 수 있는지를 가르는 6개 항목</li>
+    <li><b>가상 예시</b>: 계산 방법을 보여 주기 위한 숫자이며 특정 시험의 결과가 아님</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>결과표보다 방법 부분을 먼저 읽는다</li>
+    <li>항목마다 세 가지로 표시한다: <span class="tag ok">기재됨</span> <span class="tag mid">기재됐으나 문제</span> <span class="tag no">누락</span></li>
+    <li>누락 항목이 많을수록 결론의 강도를 낮춘다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>in vitro 반추위 배양은 조건에 따라 결과가 크게 달라지는 시험입니다. 같은 첨가물도 기질, 완충액, 접종원, 채취 방식이 바뀌면 반대 방향의 결과를 낼 수 있습니다. 그래서 숫자를 보기 전에 그 숫자가 어떤 조건에서 나왔는지를 먼저 확인해야 합니다.</p>
+    <p>가장 흔한 실수는 결과표의 유의성 문자(a, b, c)부터 보는 것입니다. 유의성은 "차이가 우연이 아닐 가능성"을 말할 뿐, 그 차이가 정상적인 발효에서 나온 것인지는 말해 주지 않습니다. 이 체크리스트는 그 판단을 순서대로 하도록 돕습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>0부 · 시작</span><span class="no"></span></div>
+  <h2 class="ttl">결과를 읽는 순서</h2>
+  <section class="blk"><span class="lbl">주요내용</span>
+    <div class="flow" aria-label="읽는 순서">
+      <span>① 설계 확인</span><i>→</i><span class="hl">② pH 관문</span><i>→</i><span>③ 개별 지표</span><i>→</i><span>④ 지표 간 교차 점검</span><i>→</i><span>⑤ 통계</span><i>→</i><span>⑥ 결론의 범위</span>
+    </div>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>앞 단계를 통과해야 다음 단계를 해석한다</li>
+    <li>pH가 정상 범위를 벗어나면 이후 지표는 모두 조건부로 해석한다</li>
+    <li>통계는 마지막에 본다. 통계적 유의성이 생물학적 타당성을 대신하지 못한다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p><b>pH는 관문이다.</b> pH는 배양병 안의 미생물 생태를 결정합니다. pH가 6 아래로 내려가면 섬유분해균과 메탄균이 억제되고, 5.5 아래에서는 젖산 생성균이 우세해지며, 5.0 근처에서는 대부분의 반추위 미생물이 활동을 멈춥니다. 이 상태에서 VFA, 가스, 암모니아가 바뀌었다면 그것은 첨가물의 효과라기보다 산성 환경의 효과일 수 있습니다.</p>
+    <p>따라서 pH가 정상 범위인지 먼저 확인하고, 벗어났다면 이후 지표에는 "이 pH 조건에서"라는 단서를 붙여 읽습니다. 순서를 지키지 않으면 비정상 발효를 "발효 활성 증가"로 잘못 해석하게 됩니다.</p>
+  </div>
+</article>
+
+<!-- ============ PART 1 ============ -->
+<div class="chap-head" id="p1"><span class="n">1부</span><h3>in vitro 배양의 이해</h3><span class="q">시험관은 반추위의 무엇을 대신하는가</span></div>
+
+<article class="card">
+  <div class="meta"><span>1부 · in vitro 이해</span><span class="no"></span></div>
+  <h2 class="ttl">in vitro는 닫힌 계다</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>생체 반추위에는 산물 흡수, 내용물 유출, 침 분비, 연속 섭취가 있다</li>
+    <li>배치(batch) 배양에는 이 넷이 없다: 산물은 쌓이고, 완충액은 정해진 양뿐이며, 기질은 한 번 들어간다</li>
+  </ul>
+    <div class="tbl" style="margin-top:8px"><table>
+      <thead><tr><th>생체 반추위</th><th>in vitro 배치 배양</th><th>결과</th></tr></thead>
+      <tbody>
+        <tr><td>침 (하루 100 L 이상, 중탄산 공급)</td><td>완충액 (정해진 양)</td><td>완충력에 한계가 있음</td></tr>
+        <tr><td>섭취량, 섭취 속도</td><td>기질량 (1회 투입)</td><td>기질/배양액 비율이 핵심 변수</td></tr>
+        <tr><td>VFA 흡수, 후위로 유출</td><td>없음</td><td>산물이 계속 쌓임</td></tr>
+        <tr><td>반추위 미생물</td><td>접종원 (희석됨)</td><td>미생물 밀도가 낮아짐</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>배치 배양 결과는 생성량의 비교이며, 반추위 농도를 재현한 것이 아니다</li>
+    <li>배양 시간이 길수록 생체와의 차이가 커진다 (보통 24~48시간 안에서 해석)</li>
+    <li>기본 용도는 같은 조건 안에서 처리 간 상대 비교이다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>생체 반추위에서는 만들어진 VFA의 대부분이 반추위 상피로 흡수되고, 침이 많은 양의 중탄산을 계속 공급해 pH를 지킵니다. in vitro에서는 이 역할을 완충액 하나가 대신합니다. 그래서 완충력에 비해 기질이 얼마나 많은가가 결과를 지배합니다.</p>
+    <p>산물이 빠져나가지 않는다는 점도 중요합니다. 산이 쌓이면 미생물이 스스로 만든 산물에 억제되는 산물 억제(product inhibition)가 생체보다 일찍 나타납니다. in vitro 결과를 읽을 때는 항상 "이 계는 출구가 없다"는 점을 기억해야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>1부 · in vitro 이해</span><span class="no"></span></div>
+  <h2 class="ttl">in vitro로 말할 수 있는 것과 없는 것</h2>
+  <section class="blk"><span class="lbl">주요내용</span>
+    <div class="tbl"><table>
+      <thead><tr><th>수준</th><th>내용</th><th>in vitro로</th></tr></thead>
+      <tbody>
+        <tr><td>관찰</td><td>같은 조건에서 처리 간 발효 패턴의 차이, 용량 반응의 방향</td><td><span class="tag ok">말할 수 있음</span></td></tr>
+        <tr><td>조건부 관찰</td><td>특정 기질, 특정 pH 조건에서의 효과</td><td><span class="tag mid">그 조건에 한정</span></td></tr>
+        <tr><td>가설</td><td>작용 기전의 후보, 다음 시험에서 볼 지표</td><td><span class="tag mid">가설로 명시</span></td></tr>
+        <tr><td>생산성, 현장 효과</td><td>증체, 유량, 사료효율, 제품의 실제 효과</td><td><span class="tag no">말할 수 없음</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>결론 문장은 "이 조건에서 ~한 경향을 보였다" 수준으로 쓴다</li>
+    <li>in vivo 효과를 주장하려면 in vivo 근거가 따로 필요하다</li>
+    <li>투여량, pH, 미생물 밀도가 in vivo와 얼마나 다른지 함께 적는다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>in vitro에서 in vivo로 넘어갈 때는 세 가지 간극이 있습니다. 첫째는 <b>투여량</b>입니다. 병에 넣은 양을 반추위 부피로 환산하면 실제 급여량보다 수백 배 많은 경우가 흔합니다. 둘째는 <b>환경</b>입니다. 생체는 흡수와 침으로 pH를 지키지만 배양병은 그렇지 못합니다. 셋째는 <b>미생물 생태</b>입니다. 생균제를 하루 10¹⁰ CFU 급여해도 반추위 세균은 10¹⁴~10¹⁵개가 넘어 넣어 준 균의 비중은 매우 작고, 포자 형태라면 반추위를 그대로 지나 장에서 작용할 가능성도 있습니다.</p>
+    <p>그래서 in vitro는 "효과의 증명"이 아니라 "가설을 세우고 조건을 고르는 도구"로 쓰는 것이 정확합니다.</p>
+  </div>
+</article>
+
+<!-- ============ PART 2 ============ -->
+<div class="chap-head" id="p2"><span class="n">2부</span><h3>설계 체크리스트</h3><span class="q">결과를 보기 전에 조건부터 확인한다</span></div>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">연구 질문</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>무엇을 비교하려는가: 첨가 유무, 용량, 제품 간 비교</li>
+    <li>어떤 반추위 상태를 모사하려는가: 조사료 위주, 고곡물, 스트레스 조건</li>
+    <li>어떤 지표가 어떻게 바뀌면 "효과"로 볼 것인가</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>질문에서 기질, 완충액, 배양 시간의 선택 근거가 이어진다</li>
+    <li>주요 지표(primary outcome)를 1~2개 미리 정한다</li>
+    <li>기대하는 변화 방향을 미리 적어 둔다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>질문과 조건이 어긋나면 결과가 질문에 답하지 못합니다. 예를 들어 섬유 소화를 개선한다는 첨가물을 전분이 많은 기질에서 시험하면, pH가 떨어져 섬유분해균이 억제되므로 효과를 볼 수 있는 조건 자체가 사라집니다.</p>
+    <p>주요 지표를 미리 정하지 않으면 수십 개 지표 가운데 유의하게 나온 것만 골라 보고하는 문제가 생깁니다. 지표가 많을수록 우연히 유의하게 나오는 결과도 늘어나기 때문입니다(4부 다중 검정 참고).</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">공여우와 그 사료 <span class="core">핵심</span></h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>공여 동물의 두수, 축종·품종, 생리 상태</li>
+    <li>개체별 접종인지, 여러 개체의 반추위액을 섞은 혼합 접종인지</li>
+    <li>공여우의 사료 조성, 조사료:농후사료 비율, 같은 사료를 먹인 기간(적응 기간)</li>
+    <li>마지막 급여 시각과 채취 시각의 간격</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>2~3두 이상의 반추위액을 섞거나, 회차마다 다른 개체를 쓴다</li>
+    <li>공여우 사료의 조성과 적응 기간을 적는다 (보통 2주 이상 같은 사료)</li>
+    <li>시험 기질과 공여우 사료가 크게 다르면 그 이유를 적는다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>반추위 미생물 군집은 먹던 사료에 적응해 있습니다. 조사료에 적응한 반추위에는 전분을 빨리 분해하는 균과 젖산을 소비하는 균이 적습니다. 여기에 전분이 많은 기질을 갑자기 넣으면 젖산 생성균(<i>Streptococcus bovis</i> 등)은 빠르게 늘지만 젖산 이용균(<i>Megasphaera elsdenii</i>, <i>Selenomonas ruminantium</i>)은 따라가지 못합니다. 젖산이 쌓이고 pH가 급락합니다. 소가 곡물을 갑자기 많이 먹었을 때 생기는 급성 산독증과 같은 경로입니다.</p>
+    <p>같은 사료를 먹어도 개체마다 미생물 구성이 다릅니다. 공여우가 1두이면 결과는 그 개체의 특성을 반영할 수 있으므로, 여러 개체를 쓰는 것이 원칙입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">반추위액 채취와 처리</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>채취 시점(급여 전/후)과 방법(반추위 캐뉼라, 위관)</li>
+    <li>운반 조건: 온도, 시간, 혐기 유지(CO₂를 채운 보온병)</li>
+    <li>여과 방법(거즈 겹수), 혼합, 정치나 원심 처리</li>
+    <li>채취부터 접종까지 걸린 시간</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>급여 전 채취: 배경 VFA와 남은 사료가 가장 적다</li>
+    <li>39°C 보온, CO₂ 충전, 가능한 한 빨리 접종</li>
+    <li>위관으로 채취했다면 침이 섞였을 가능성을 적는다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>급여 후에 채취하면 반추위액에 이미 VFA와 분해 중인 사료가 많이 들어 있습니다. 이 배경값이 높으면 처리 간 차이가 묻히고, 접종원 자체가 발효를 계속해 결과가 흔들립니다.</p>
+    <p>메탄균과 섬유분해균은 산소에 가장 민감한 엄격한 혐기균입니다. 운반이나 여과 중에 산소에 노출되면 이 균들이 먼저 손상되어 배양 초기의 지연기가 길어지고 메탄과 섬유 분해가 과소평가됩니다. 위관으로 채취하면 침이 섞여 pH와 완충력이 실제보다 높게 나올 수 있습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">접종원:배지 비율</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>반추위액과 완충 배지의 부피비</li>
+    <li>최종 배양액 부피와 접종원의 실제 희석 배수</li>
+    <li>어떤 표준 방법을 따랐는가</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>Tilley &amp; Terry 방법: 1:4 (반추위액 10 mL + 완충액 40 mL, 기질 0.5 g)</li>
+    <li>Menke 방법: 1:2 (반추위액 10 mL + 배지 20 mL, 기질 200 mg)</li>
+    <li>비율과 근거가 된 방법을 적는다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>이 비율은 미생물 밀도와 완충력을 동시에 결정합니다. 반추위액 비율이 높을수록 미생물이 많아 발효가 빠르고, 반추위액에 들어 있던 중탄산과 VFA도 더 많이 들어옵니다. 배경값이 함께 올라가는 것입니다.</p>
+    <p>방법이 다르면 같은 사료라도 가스량과 VFA 농도가 달라집니다. 서로 다른 시험의 숫자를 직접 비교하기 전에, 비율과 배지가 같은지부터 확인해야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">완충력 <span class="core">핵심</span></h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>완충 성분의 종류와 농도: 중탄산·탄산염, 인산염</li>
+    <li>최종 배양액 기준으로 mM 또는 mEq/L로 환산한 값</li>
+    <li>초기 pH와 조정 방법: CO₂ 버블링인지, 산·염기 첨가인지</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>대표 배지는 중탄산 기반이며, 최종 배양액에서 수십~100 mM 수준의 중탄산을 가진다
+      <ul><li>McDougall 인공타액 원액: NaHCO₃ 9.8 g/L (약 117 mM)</li></ul></li>
+    <li>중탄산 완충액은 CO₂ 기상과 짝을 이뤄야 pH 6.8 근처를 유지한다</li>
+    <li>배지 조성표에 원액 농도뿐 아니라 최종 농도를 제시한다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시 · 최종 농도 환산</span>
+    <p class="eq">최종 농도(mM) = 원액 농도(g/L) × (원액 부피 ÷ 전체 부피) ÷ 분자량 × 1000</p>
+    <p>NaHCO₃ 9.8 g/L 원액 40 mL + 반추위액 10 mL → 9.8 × 40/50 = 7.84 g/L ÷ 84.01 = <b>약 93 mM</b></p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>in vitro에서 완충액은 침의 대역입니다. 중탄산(pKa 6.35)은 반추위 pH 범위에서 가장 효과적인 완충제이고, 산과 반응하면 CO₂로 빠져나갑니다. 이 CO₂가 뒤에서 다룰 간접 가스의 원천입니다. 인산염(pKa 7.2)은 pH 6 아래에서는 완충 효과가 약합니다.</p>
+    <p>mEq/L는 그 배양액이 중화할 수 있는 산의 양입니다. 이 값을 알아야 기질이 만들어 낼 산의 양과 비교할 수 있습니다. 원액 농도만 적힌 배지표는 반드시 최종 농도로 다시 계산해 보세요.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">배지 질소원, 환원제, 혐기 지시약</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>질소원: 요소, 암모늄염 → NH₃-N의 출발점</li>
+    <li>환원제: Na₂S, 시스테인 → H₂S와 황의 출발점</li>
+    <li>미네랄 용액, 혐기 지시약(resazurin)</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>배지에서 온 NH₃-N과 황화물 양을 계산해 출발점으로 제시한다</li>
+    <li>0시간 시료로 실제 출발점을 확인한다</li>
+    <li>resazurin이 무색(환원 상태)이 된 뒤 접종한다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시 · 요소에서 오는 NH₃-N</span>
+    <p>배양액에 요소 0.1 g/L → 요소의 질소 함량 46.7% → <b>NH₃-N 약 47 mg/L</b>가 배지에서만 생김</p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>요소는 반추위 미생물의 요소분해효소(urease)로 빠르게 암모니아가 됩니다. 이 몫을 빼지 않으면 배지에서 온 암모니아를 미생물의 단백질 분해 결과로 착각하게 됩니다.</p>
+    <p>환원제로 넣은 황화물은 pH 7 아래에서 상당 부분이 H₂S 형태로 존재합니다. 따라서 측정한 H₂S에는 미생물이 만든 몫과 배지에서 온 몫이 섞여 있습니다. 악취 저감 같은 주장을 하려면 배지의 황 공급원을 통제해야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">기질 조성 <span class="core">핵심</span></h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>기질의 정체: 단일 원료, 배합사료, TMR, 조사료</li>
+    <li>원료 배합비와 가공 형태: 분쇄, 압편, 증기 처리</li>
+    <li>화학 조성: 조단백, NDF, ADF, 전분, 당 또는 NFC, 조지방, 조회분</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>조성표를 제시한다 (최소 조단백, NDF, 전분 또는 NFC)</li>
+    <li>공여우 사료와의 관계를 설명한다</li>
+    <li>NFC를 쓸 때는 계산식을 밝힌다: <code class="k">NFC = 100 − (CP + EE + 조회분 + NDF)</code></li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>기질은 in vitro 결과를 가장 크게 좌우하는 변수입니다. 발효 속도는 대체로 당 &gt; 전분 &gt; 가용성 섬유 &gt; NDF 순입니다. 곡류의 종류와 가공에 따라서도 전분 분해 속도가 크게 달라서, 밀과 보리는 옥수수보다 빠르고 수수는 더 느리며, 증기 압편은 건식 분쇄보다 빠릅니다.</p>
+    <p>같은 무게라도 조성에 따라 산 생성량과 pH 변화가 몇 배씩 달라집니다. 기질이 "시험사료"라고만 적혀 있다면 그 결과는 해석의 기준점이 없는 것과 같습니다. NFC는 계산값이라 다른 성분의 오차가 모두 모이므로, 가능하면 전분을 직접 분석한 값을 씁니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">기질량과 산 부하 계산 <span class="core">핵심</span></h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>기질 무게(건물 기준)와 배양액 부피 → g/L로 환산</li>
+    <li>입자도 (보통 1 mm 체를 통과하도록 분쇄)</li>
+    <li>예상 산 생성량 ÷ 완충력 = 산 부하 비율</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>대표 방법의 기질 농도는 약 5~10 g/L
+      <ul><li>Menke 200 mg/30 mL ≈ 6.7 g/L, Tilley &amp; Terry 0.5 g/50 mL = 10 g/L</li></ul></li>
+    <li>산 부하 비율이 1을 크게 넘으면 pH 붕괴를 예상한다 (대략적 판단 기준)</li>
+    <li>고곡물 조건을 일부러 모사한다면 그 의도와 근거를 밝힌다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시 · 산 부하 계산</span>
+    <p class="eq">헥소스(mmol) = NFC(g) ÷ 162 &nbsp;→&nbsp; 산 상한(mmol) ≈ 헥소스 × 2 &nbsp;→&nbsp; mEq/L = 산 ÷ 배양액(L)</p>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>기질(건물)</th><th>NFC 50%</th><th>산 상한</th><th>산 부하</th><th>완충력 93 mEq/L 대비</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td class="m">0.5 g / 50 mL</td><td class="m">0.25 g</td><td class="m">3.1 mmol</td><td class="m">62 mEq/L</td><td><span class="tag ok">0.7배</span></td></tr>
+        <tr><td>B</td><td class="m">3.0 g / 50 mL</td><td class="m">1.5 g</td><td class="m">18.5 mmol</td><td class="m">370 mEq/L</td><td><span class="tag no">4.0배</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>헥소스(포도당 단위) 1 mol이 발효되면 초산이나 프로피온산 경로에서는 산 2 mol, 낙산 경로에서는 1 mol이 생깁니다. 위 계산은 모든 NFC가 산 2 mol로 바뀐다고 본 상한값입니다. 실제로는 24시간 안에 일부만 발효되고 일부는 미생물 몸체를 만드는 데 쓰이므로 산 생성은 이보다 적습니다. 반대로 섬유에서도 산이 나오므로 정확한 값은 아닙니다.</p>
+    <p>그래도 이 계산은 배양을 시작하기 전에 결과를 예측하게 해 줍니다. 산 부하가 완충력의 몇 배가 된다면 pH가 무너지는 것은 실험의 우연이 아니라 설계에서 이미 정해진 결과입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">첨가물의 정체와 투여량 <span class="core">핵심</span></h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>균주명과 균주 번호, 형태(포자/영양세포), 생균수 기준(제품 g당인지 병당인지)</li>
+    <li>담체·부형제 조성: 포도당, 유당, 전분 등</li>
+    <li>병당 투여량(mg)과 첨가 방식: 분말, 현탁액, 사전 활성화</li>
+    <li>in vivo 급여량과의 환산 근거</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>병당 투여량과 CFU를 함께 적는다</li>
+    <li>반추위 액상 부피 기준의 환산값을 제시한다</li>
+    <li>제품 자체의 유기산·당 함량을 알면 함께 적는다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시 · in vivo 급여량 환산</span>
+    <p>급여량 10 g/일, 반추위 액상 70 L → 0.14 mg/mL → 배양액 50 mL에는 <b>약 7 mg</b></p>
+    <p>생균 10⁹ CFU/g 제품 10 g = 10¹⁰ CFU/일 ↔ 반추위 세균 10¹⁰~10¹¹/mL × 70,000 mL ≈ 10¹⁴~10¹⁵ → 넣어 준 균은 <b>약 10만~100만 분의 1</b></p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>제품의 담체로 쓰인 당은 배양병에서 곧바로 발효 기질이 됩니다. 담체 대조가 없으면 관찰된 변화가 균의 효과인지 담체 당의 효과인지 구분할 수 없습니다. 또 배양물째 건조한 제품에는 균이 배양 중에 만든 대사산물(유기산 염 등)이 남아 있을 수 있습니다. 동결건조로 날아가는 것은 물이고 염은 남기 때문입니다. 0시간 측정이 중요한 이유입니다.</p>
+    <p>in vitro 투여량이 in vivo 환산값보다 수백 배 높다면, 그 결과는 실제 급여 조건이 아니라 고농도 노출에 대한 반응으로 읽어야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">대조구 설계</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>음성 대조: 아무것도 넣지 않은 처리</li>
+    <li>담체 대조(placebo): 첨가물에서 활성 성분만 뺀 것</li>
+    <li>Blank: 기질 없이 접종원과 배지만 넣은 병 (배경 가스와 VFA)</li>
+    <li>양성·기준 대조: 효과가 알려진 물질</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>무첨가 대조와 blank는 기본이다. 담체가 있는 제품은 담체 대조를 넣는다</li>
+    <li>가스와 VFA는 blank 값을 빼서 순생성량으로 제시한다</li>
+    <li>기준물질과 비교할 때는 활성 성분의 공급량을 맞춘다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>Blank는 Menke 가스법에서 표준 절차입니다. 반추위액에는 이미 사료 조각과 VFA가 들어 있어 기질이 없어도 가스와 VFA가 생기므로, 이 몫을 빼야 기질에서 나온 양을 알 수 있습니다.</p>
+    <p>양성 대조는 그 배양계가 반응할 수 있는 상태인지를 보여 줍니다. 효과가 알려진 물질에도 반응이 없다면, 시험 첨가물의 무반응은 첨가물 탓이 아니라 배양계의 민감도 문제일 수 있습니다. 기준물질과 비교할 때 공급량이 다르면 "어느 쪽이 더 낫다"는 비교는 공정하지 않습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">용기, 헤드스페이스, 압력</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>용기 부피, 액체 부피, 헤드스페이스 부피</li>
+    <li>가스 측정과 배출 주기, 압력 측정 여부</li>
+    <li>기상 조성(CO₂ 충전), 개봉할 때의 혐기 유지</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>압력식 가스법은 정해진 간격으로 압력을 잰 뒤 가스를 뺀다</li>
+    <li>헤드스페이스 압력이 크게 오르기 전에 배출한다 (Theodorou 등의 방법 참고)</li>
+    <li>개봉할 때는 CO₂를 불어 넣어 혐기 상태를 유지한다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시 · 압력</span>
+    <p>헤드스페이스 30 mL에 가스 30 mL가 생기고 배출하지 않으면 → 절대압 <b>약 2기압</b> (용해를 무시한 근사)</p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>압력이 오르면 헨리 법칙에 따라 CO₂가 액체에 더 많이 녹습니다. 측정되는 가스는 줄어들고, 초기처럼 pH가 6 이상일 때는 녹은 CO₂가 탄산(pKa 6.35)이 되어 pH를 더 끌어내립니다. pH가 5 아래로 내려가면 탄산이 거의 해리되지 않아 압력이 pH에 주는 영향은 작아집니다. 높은 압력은 미생물 활성에도 영향을 줄 수 있습니다.</p>
+    <p>병을 열면 녹아 있던 CO₂가 빠져나가 pH가 일시적으로 오릅니다. 그래서 pH를 개봉 후 언제 쟀는지에 따라 값이 흔들립니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>2부 · 설계</span><span class="no"></span></div>
+  <h2 class="ttl">채취 방식과 0시간 시료 <span class="core">핵심</span></h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>독립 병(시간대마다 다른 병을 끝냄) vs 연속 채취(한 병에서 반복 채취)</li>
+    <li>채취 부피와 횟수, 채취할 때의 혐기 유지</li>
+    <li>0시간 시료가 있는가</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>독립 병 설계가 해석이 깔끔하다</li>
+    <li>연속 채취라면 채취량을 전체의 작은 비율로 하고, 누적 지표는 부피를 보정한다</li>
+    <li>0시간 시료는 필수다: 출발점, 첨가물 자체 성분 확인</li>
+    <li>채취 방식에 맞는 통계 모형을 쓴다 (4부)</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시 · 연속 채취에 따른 병 안의 변화 (100 mL 병, 배양액 60 mL, 기질 0.6 g, 10 mL씩 채취)</span>
+    <div class="tbl"><table>
+      <thead><tr><th>채취 시점</th><th>채취 전 액체</th><th>헤드스페이스</th><th>액체 대비 기질</th></tr></thead>
+      <tbody>
+        <tr><td>4h</td><td class="m">60 mL</td><td class="m">약 40 mL</td><td class="m">10 g/L</td></tr>
+        <tr><td>8h</td><td class="m">50 mL</td><td class="m">약 50 mL</td><td class="m">12 g/L</td></tr>
+        <tr><td>12h</td><td class="m">40 mL</td><td class="m">약 60 mL</td><td class="m">15 g/L</td></tr>
+        <tr><td>24h</td><td class="m">30 mL</td><td class="m">약 70 mL</td><td class="m">20 g/L</td></tr>
+      </tbody>
+    </table></div>
+    <p class="eq">누적량 A(t) = C(t) × V(t) + Σ [이전 채취 시점의 농도 × 채취 부피]</p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>한 병에서 연속으로 채취하면 시간대마다 조건이 달라집니다. 액체만 빠지고 고형 기질은 남으므로 남은 완충액에 비해 기질 비율이 계속 커지고, 헤드스페이스가 늘며, 개봉할 때마다 압력이 초기화되고 산소가 들어갈 수 있습니다. 사실상 시간대마다 다른 환경을 측정하는 셈입니다.</p>
+    <p>시료를 빼는 것 자체는 농도를 바꾸지 않습니다. 하지만 이후에 생기는 산물은 더 작은 부피에 쌓이므로 농도가 더 빨리 오릅니다. 그래서 VFA나 가스 같은 누적 지표는 농도가 아니라 병에 남은 양과 이미 빼낸 양을 더한 누적량으로 비교해야 합니다. 예를 들어 농도가 20 → 30 → 36 → 40 mM로 2배 올라도, 위 표의 부피로 계산한 누적량은 1.20 → 1.70 → 1.94 → 2.06 mmol로 1.7배입니다.</p>
+  </div>
+</article>
+
+<!-- ============ PART 3 ============ -->
+<div class="chap-head" id="p3"><span class="n">3부</span><h3>발효성상 지표</h3><span class="q">각 지표는 시간대별로 어떤 모양이어야 하는가</span></div>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">지표의 두 유형: 누적형과 상태형</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li><b>누적형</b>: 총 VFA의 양, 누적 가스, 메탄, 소화율. 생성된 총량</li>
+    <li><b>상태형</b>: pH, VFA 몰비율, NH₃-N, 젖산. 생성과 소비의 균형</li>
+    <li>연속 채취 시 누적형은 부피를 보정한 누적량(mmol)으로 판단</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>누적형: 지연기 → 급증기 → 정체기. 시간이 지나도 줄어들지 않는다</li>
+    <li>상태형: 오르내릴 수 있지만 변화가 매끄럽다</li>
+    <li><span class="flag">빨간불</span>: 누적량이 측정 오차를 넘어 감소, 한 시간대에서만 튀었다 돌아오는 값</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>닫힌 병에서 VFA와 가스는 소비되는 경로가 거의 없습니다. 그래서 그 총량은 시간이 지나면서 늘거나 멈출 뿐, 줄어들 수 없습니다. 누적량이 줄었다면 미생물이 아니라 시료 채취(고형물 혼입, 교반 불균일)나 분석 과정을 먼저 의심합니다.</p>
+    <p>상태형 지표는 다릅니다. 젖산은 만들어진 뒤 다른 균에게 소비되므로 올랐다 내려가는 것이 정상이고, NH₃-N도 분해와 흡수의 균형에 따라 오르내립니다. 지표를 보기 전에 이 지표가 어느 유형인지부터 정하면 "이 움직임이 가능한가"를 바로 판단할 수 있습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">pH: 발효 환경의 관문</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>측정 시점(개봉 직후 즉시인지), 병 안에서 쟀는지 채취 시료에서 쟀는지</li>
+    <li>초기 pH, 시간대별 값, 최저값</li>
+    <li>전극 보정, 온도 보정</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>0h: 초기 조정값 6.8~7.0 근처</li>
+    <li>0~8h: 가장 크게 떨어지는 구간 (발효가 빠른 탄수화물이 분해됨)</li>
+    <li>8~24h: 하강 속도가 줄며 정체. 24h 최종 pH는 대개 6.0~6.6 (조사료 기질은 거의 떨어지지 않음)</li>
+    <li><span class="flag">빨간불</span>: 4시간 안에 1단위 이상 급락 / 최종 5.8 미만 / 5.0 이하 / 크게 다시 오름</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>pH는 산이 만들어지는 속도와 완충력의 균형으로 정해집니다. 생체 기준으로 pH 5.5~5.8 아래 상태가 하루에 몇 시간씩 이어지면 아급성 반추위 산독증(SARA), 5.0 안팎 이하로 떨어지면 급성 산독증으로 봅니다<span class="cite"> Owens et al., 1998; Plaizier et al., 2008</span>.</p>
+    <p>pH 6 아래에서는 섬유분해균과 메탄균이 억제되고, 5.5 아래에서는 젖산 생성균이 우세해집니다. VFA의 pKa는 약 4.8이라 pH 4.8에서는 절반이 해리되지 않은 분자로 존재하는데, 이 분자는 세포막을 통과해 미생물을 억제합니다. 이렇게 pH에 따라 살아남는 미생물이 달라지므로, pH는 이후 모든 지표 해석의 전제가 됩니다. 산 생성이 멈추면 암모니아가 쌓이면서 pH가 다시 오르기도 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">총 VFA</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>분석법(GC-FID), 내부 표준, 시료 전처리(산 처리)</li>
+    <li>측정한 산의 종류: 초산, 프로피온산, 낙산, 이소낙산, 발레르산, 이소발레르산</li>
+    <li>0h 배경 농도와 순생성량</li>
+    <li>단위: mM 권장. mg/dL이면 mM로 환산</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>0h: 반추위액을 희석한 만큼의 배경 농도</li>
+    <li>0~12h 빠르게 증가, 12~24h 증가 둔화 (가스 곡선과 같은 모양)</li>
+    <li>총 VFA = 개별 VFA의 합 (어떤 산을 합했는지 명시)</li>
+    <li><span class="flag">빨간불</span>: 누적량 감소, 0h 없이 4h 값이 비정상적으로 큼, pH 하락 폭에 비해 VFA 증가가 작음</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p class="eq">mM = mg/dL × 10 ÷ 분자량 &nbsp;(초산 60.05, 프로피온산 74.08, 낙산 88.11)</p>
+    <p>VFA는 몰 단위로 바꿔야 산끼리, 그리고 가스와 화학량론적으로 비교할 수 있습니다. mg/dL은 분자량이 큰 낙산을 실제보다 크게 보이게 합니다.</p>
+    <p>pH가 크게 떨어졌는데 VFA 증가가 작다면, 측정하지 않은 다른 산이 있다는 신호입니다. 대개 젖산입니다. 반대로 0시간 값 없이 4시간에 이미 VFA가 매우 높다면 접종원의 배경이나 첨가물 자체에 든 유기산을 의심합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">VFA 몰비율과 A:P</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>농도가 아닌 몰%: 각 산(mM) ÷ 총 VFA(mM) × 100</li>
+    <li>초산:프로피온산 비(A:P)</li>
+    <li>시간대에 따른 비율 변화</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>대략 초산 55~70%, 프로피온산 15~30%, 낙산 10~20%, A:P 약 2~4 (기질에 따라 다름)</li>
+    <li>비율은 농도보다 안정적이며 시간에 따라 서서히 이동한다</li>
+    <li>전분 기질: 4~12h에 프로피온산 비율 상승 / 섬유 기질: 후반에 초산 비율 상승</li>
+    <li><span class="flag">빨간불</span>: 한 시간대 사이에 비율이 20%p 이상 출렁임, 낙산 30% 이상</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>몰비율은 수소의 흐름을 보여 줍니다<span class="cite"> Wolin, 1960</span>. 포도당이 초산으로 가면 수소 4개, 낙산으로 가면 2개가 나오고, 프로피온산으로 가면 수소가 소비됩니다. 나온 수소는 대부분 메탄균이 메탄으로 처리합니다. 그래서 프로피온산 비율이 오르면 메탄이 줄어드는 방향이 됩니다.</p>
+    <p>pH가 떨어지면 섬유분해균이 억제되어 초산의 <b>비율</b>이 줄어듭니다. 이때 초산의 <b>농도</b>는 다른 이유로 오를 수도 있습니다. "pH가 떨어졌는데 초산이 늘었다" 같은 혼란은 대부분 농도와 비율을 섞어 읽어서 생깁니다. 생태적 해석은 비율로 하는 것이 원칙입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">분지쇄 VFA</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>이소낙산, 이소발레르산(2-메틸낙산 포함), 발레르산</li>
+    <li>측정 여부, 총 VFA에서 차지하는 비율</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>총 VFA의 수 % 수준</li>
+    <li>단백질 분해와 함께 시간에 따라 서서히 증가</li>
+    <li>NH₃-N과 같은 방향으로 움직인다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>분지쇄 VFA는 분지쇄 아미노산이 탈아미노화된 산물입니다. 발린은 이소낙산, 류신은 이소발레르산, 이소류신은 2-메틸낙산이 됩니다. 그래서 단백질 분해를 직접 보여 주는 지표이며, 섬유분해균의 필수 성장인자이기도 합니다.</p>
+    <p>NH₃-N은 배지의 요소, 미생물의 흡수에 따라 함께 움직이므로 단독으로는 해석이 애매합니다. 분지쇄 VFA를 함께 보면 "암모니아가 낮은 것이 분해가 적어서인지, 흡수가 많아서인지"를 구분하는 데 도움이 됩니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">젖산</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>측정 여부와 방법: HPLC, 효소·비색법 (일반적인 VFA용 GC 조건으로는 대개 잡히지 않음)</li>
+    <li>D형/L형 구분 (선택)</li>
+    <li>pH 5.5 이하라면 반드시 측정</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>정상 발효에서는 수 mM 이하</li>
+    <li>전분 기질: 초기(2~6h)에 잠깐 올랐다가, 젖산 이용균이 소비하면서 다시 내려감</li>
+    <li><span class="flag">빨간불</span>: 쌓인 채 내려오지 않음, pH 5.5 이하인데 미측정</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>젖산의 pKa는 3.86으로 VFA(약 4.8)보다 약 10배 강한 산입니다. 같은 양이면 pH를 훨씬 더 낮춥니다. 정상 반추위에서는 젖산 생성균(<i>S. bovis</i>, 유산균)과 젖산 이용균(<i>Megasphaera</i>, <i>Selenomonas</i>)이 균형을 이뤄 젖산이 거의 쌓이지 않습니다.</p>
+    <p>문제는 젖산 이용균이 pH 저하에 더 약하다는 점입니다. pH가 떨어지면 이용균이 먼저 억제되고, 젖산이 더 쌓여 pH가 더 떨어지는 악순환이 생깁니다. pH가 5 근처인데 측정된 VFA가 적다면, 빠진 산은 대개 젖산입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">NH₃-N</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>분석법(페놀-차아염소산 비색법 등), 표준곡선 범위와 시료 희석</li>
+    <li>0h 값, 배지 질소원(요소)에서 온 몫</li>
+    <li>순변화 = 측정값 − 출발점</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>0~4h: 상승 (단백질 분해, 탈아미노화, 요소 가수분해)</li>
+    <li>4~24h: 기질 에너지가 충분하면 미생물이 흡수해 정체·하락 / 에너지 부족·고단백 기질이면 계속 상승</li>
+    <li>미생물 단백질 합성에 필요한 최소 수준 약 50 mg/L<span class="cite"> Satter &amp; Slyter, 1974</span></li>
+    <li><span class="flag">빨간불</span>: 출발점을 무시한 절대값 비교, 표준곡선 상한을 넘는 값을 희석 없이 보고</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>NH₃-N은 생산(단백질 분해, 요소 분해)과 소비(미생물 단백질 합성)의 차이입니다. 그래서 낮은 값은 "질소를 효율적으로 썼다"는 뜻일 수도, "단백질 분해가 줄었다"는 뜻일 수도 있습니다. 분지쇄 VFA, 소화율과 함께 봐야 어느 쪽인지 알 수 있습니다.</p>
+    <p>배치 배양에서는 흡수가 없어 생체보다 높게 쌓입니다. 배지에 요소가 들어 있으면 출발점 자체가 높으므로, 출발점보다 낮아진 값은 미생물 흡수가 분해보다 많았다는 뜻으로 읽습니다. 표준곡선 범위를 넘는 시료는 희석해서 다시 측정해야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">총가스</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>측정 방식: 주사기 눈금, 압력계</li>
+    <li>보고값이 누적량인지 구간(직전 측정 이후) 생성량인지</li>
+    <li>측정 상한, blank 보정</li>
+    <li>직접 가스(발효 CO₂, 메탄) vs 간접 가스(완충액에서 나온 CO₂)</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>0~2h 지연기 → 2~12h 급증(농후사료) → 12~24(48)h 정체에 접근</li>
+    <li>섬유 기질은 급증기가 늦고 길다</li>
+    <li>구간 생성량은 급증기에 가장 크고 이후 줄어든다</li>
+    <li><span class="flag">빨간불</span>: 기질이 많은데 초기 가스 ND, 누적량 감소, 측정 상한 도달, VFA 곡선과 모양이 다름</li>
+  </ul></section>
+  <figure class="fig">
+    <svg viewBox="0 0 720 270" role="img" aria-label="농후사료와 조사료의 누적 가스 생성 곡선 개념도">
+      <rect class="band" x="70" y="30" width="26" height="190"/>
+      <rect class="band" x="96" y="30" width="129" height="190" opacity=".45"/>
+      <text class="t-m" x="83" y="24" text-anchor="middle">지연기</text>
+      <text class="t-m" x="160" y="24" text-anchor="middle">급증기 (농후사료)</text>
+      <text class="t-m" x="450" y="24" text-anchor="middle">정체기에 접근</text>
+      <path class="axis" d="M70 30V220H690"/>
+      <text class="t-s" x="64" y="40" text-anchor="end">누적</text>
+      <text class="t-s" x="64" y="54" text-anchor="end">가스</text>
+      <path class="c-acc" d="M70 218C88 217 98 208 118 180S196 70 250 60S500 47 690 44"/>
+      <path class="c-ok" d="M70 219C110 218 140 212 182 192S320 116 420 92S600 72 690 68"/>
+      <text class="t-acc" x="290" y="80">농후사료</text>
+      <text class="t-ok" x="430" y="112">조사료</text>
+      <text class="t-m" x="70" y="238" text-anchor="middle">0</text>
+      <text class="t-m" x="147" y="238" text-anchor="middle">6</text>
+      <text class="t-m" x="225" y="238" text-anchor="middle">12</text>
+      <text class="t-m" x="380" y="238" text-anchor="middle">24</text>
+      <text class="t-m" x="690" y="238" text-anchor="middle">48 h</text>
+      <text class="t-s" x="380" y="262" text-anchor="middle">배양 시간</text>
+    </svg>
+    <figcaption>개념도. 실제 측정값이 아니며, 곡선의 모양(지연기 → 급증기 → 정체기)을 보기 위한 그림입니다.</figcaption>
+  </figure>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>중탄산 완충 배지에서는 산 1 mmol이 완충액의 CO₂ 약 1 mmol을 밀어냅니다. 그래서 측정 가스의 상당 부분이 발효 자체가 아니라 완충액에서 나온 간접 가스입니다<span class="cite"> Getachew et al., 1998</span>. 완충액이 바닥나면 간접 가스는 더 나오지 않으므로, 산이 계속 생겨도 가스는 늘지 않아 발효량을 과소평가하게 됩니다. 39°C, 1기압에서 기체 1 mmol은 약 25.6 mL입니다.</p>
+    <p>누적 가스 곡선은 보통 지수 모형 <code class="k">G(t) = b × (1 − e^(−c(t − lag)))</code>으로 적합합니다<span class="cite"> Ørskov &amp; McDonald, 1979</span>. b는 잠재 생성량, c는 속도, lag는 지연기입니다. 보고값이 누적량인지 구간량인지에 따라 같은 숫자의 해석이 완전히 달라지므로 반드시 확인합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">메탄</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>측정 여부와 방법 (GC), 헤드스페이스 채취 시점</li>
+    <li>총가스 중 메탄 농도와 생성량(mL, mmol) 계산</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>누적형: 총가스와 함께 꾸준히 증가</li>
+    <li>pH 6 이하에서는 메탄균이 억제되어 증가가 둔화</li>
+    <li>프로피온산 비율과 반대 방향으로 움직인다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>메탄균은 수소와 CO₂로 메탄을 만들며, 반추위에서 수소를 처리하는 주된 경로입니다. 프로피온산 생성은 수소를 소비하는 대체 경로입니다. 그래서 메탄이 줄었을 때 수소가 프로피온산으로 갔는지(VFA 비율 변화), 그냥 쌓였는지를 함께 봐야 합니다.</p>
+    <p>pH가 떨어져서 메탄이 줄어든 것은 첨가물의 메탄 저감 효과가 아닙니다. 메탄 저감을 주장하려면 pH가 정상 범위에 있고 소화율이 유지된 상태에서 메탄이 줄었는지 확인해야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">H₂S와 NH₃ 가스</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>센서의 측정 범위와 해상도</li>
+    <li>배지에서 온 몫: 환원제의 황화물, 요소</li>
+    <li>pH에 따른 기체 형태와 용존 형태의 비율(pKa)</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>NH₃ 기체 형태의 비율 = 1 ÷ (1 + 10^(9.25 − pH)): pH 7에서 약 0.6%, pH 6에서 약 0.06%</li>
+    <li>H₂S(pKa 약 7.0): pH 7에서 절반, pH 6 이하에서는 대부분 H₂S 형태</li>
+    <li>처리 간 비교 전에 pH 차이를 먼저 확인한다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>암모니아는 대부분 NH₄⁺ 이온으로 녹아 있고, 기체로 나오는 NH₃는 pH가 1 오를 때마다 약 10배 늘어납니다. 그래서 처리 간 NH₃ 가스 차이는 질소 대사보다 pH 차이로 설명되는 경우가 많습니다. "NH₃ 가스가 줄었으니 질소 이용 효율이 좋아졌다"고 해석하기 전에 pH와 NH₃-N 총량을 함께 확인해야 합니다.</p>
+    <p>H₂S는 배지 환원제, 황산염 환원, 황 함유 아미노산 분해에서 함께 나옵니다. 배지에 황화물이 들어 있으면 출발점이 0이 아니므로, 미생물이 만든 몫을 구분하기 어렵습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">소화율</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>IVDMD(건물), IVOMD(유기물), IVNDFD(NDF) 소화율</li>
+    <li>측정 시간(24h, 48h), 잔사 처리 방법</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>누적형: 정체기를 향해 증가</li>
+    <li>농후사료는 12~24h에 상당 부분 분해, 섬유는 24~48h 이상 서서히 증가</li>
+    <li>가스, VFA 생성량과 같은 방향으로 움직인다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>VFA와 가스는 발효의 산물이고, 소화율은 기질이 실제로 얼마나 분해됐는지를 보여 주는 직접 증거입니다. "발효가 개선됐다"고 말하려면 소화율 근거가 있어야 합니다.</p>
+    <p>VFA는 늘었는데 소화율이 그대로라면, 늘어난 VFA가 기질이 아니라 첨가물 자체(담체 당, 제품에 남은 유기산)에서 왔거나 측정에 문제가 있을 가능성을 봐야 합니다. Tilley &amp; Terry 2단계법은 반추위액 배양 뒤 펩신 처리를 더해 소화율을 측정합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">시간대 교차 점검</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>급증 시점이 일치하는가: pH 급락 = VFA 급증 = 가스 급증</li>
+    <li>함께 움직여야 하는 쌍
+      <ul>
+        <li>총 VFA ↑ ↔ 가스 ↑</li>
+        <li>프로피온산 비율 ↑ ↔ 메탄 ↓</li>
+        <li>NH₃-N ↓ ↔ 미생물 성장 ↑ (에너지가 충분할 때)</li>
+      </ul></li>
+    <li>처리 간 차이가 시간에 따라 어떻게 벌어지는가</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>세 지표의 급변 구간이 같은 시간대에 나타난다</li>
+    <li>처리 간 차이는 서서히 벌어지거나 유지된다</li>
+    <li><span class="flag">빨간불</span>: 지표 간 급변 시점이 몇 시간 이상 어긋남, 4h에 이미 최대 차이를 보인 뒤 줄어듦</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>pH, VFA, 가스는 같은 발효의 서로 다른 얼굴입니다. 산이 빨리 만들어지는 구간에 pH가 떨어지고, 같은 구간에 가스가 가장 많이 나와야 합니다. 한 지표만 다른 시간에 움직인다면 그 지표의 측정이나 보고 방식(누적인지 구간인지)을 먼저 확인합니다.</p>
+    <p>처리 간 차이가 배양 4시간에 이미 가장 크고 이후 줄어든다면, 미생물이 만든 차이라기보다 처음부터 들어간 차이일 가능성이 있습니다. 첨가물 자체의 유기산이나 당이 대표적입니다. 이때 0시간 값이 결정적인 단서가 됩니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">내부 일관성 빠른 점검</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ol>
+    <li><b>합계</b>: 총 VFA = 개별 VFA의 합인가</li>
+    <li><b>범위</b>: pH, VFA 몰비율, NH₃-N이 생리적 범위 안인가</li>
+    <li><b>단조성</b>: 누적량이 시간에 따라 줄지 않는가</li>
+    <li><b>화학량론</b>: VFA 생성과 가스 생성이 비례하는가</li>
+    <li><b>산 수지</b>: pH 하락 폭에 맞는 만큼 산이 측정됐는가</li>
+  </ol></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>다섯 항목을 모두 통과한다</li>
+    <li>하나라도 실패하면 원인을 확인할 때까지 처리 효과의 해석을 보류한다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>이 다섯 가지는 원자료 없이 보고서의 숫자만으로 할 수 있는 점검입니다. 화학량론 점검은 Wolin(1960)의 발효 수지에 근거합니다. 포도당이 초산이나 낙산으로 갈 때는 CO₂가 나오고, 중탄산 배지에서는 생긴 산만큼 간접 CO₂도 나옵니다. 따라서 VFA가 크게 늘었는데 가스가 줄었다면 둘 중 하나는 설명이 필요합니다.</p>
+    <p>산 수지 점검은 pH와 VFA를 함께 봅니다. VFA의 pKa는 약 4.8이므로, 완충액이 있는 배양에서 VFA만으로 pH를 4대까지 끌어내리려면 아주 많은 양이 필요합니다. 측정된 VFA가 그만큼 많지 않다면 젖산 같은 다른 산을 의심합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>3부 · 지표</span><span class="no"></span></div>
+  <h2 class="ttl">시간대별 정상 패턴 종합</h2>
+  <section class="blk"><span class="lbl">주요내용</span>
+    <figure class="fig">
+      <svg viewBox="0 0 720 340" role="img" aria-label="pH, 누적형 지표, NH3-N, 젖산의 시간대별 정상 패턴 개념도">
+        <!-- panel A: pH -->
+        <text class="t-h" x="60" y="30">pH</text>
+        <path class="axis" d="M60 40V140H340"/>
+        <path class="c-dot" d="M60 120H340"/>
+        <text class="t-m" x="344" y="124">5.8</text>
+        <path class="c-acc" d="M60 50C85 56 120 84 153 90S230 99 340 101"/>
+        <text class="t-s" x="54" y="54" text-anchor="end">6.8</text>
+        <text class="t-acc" x="230" y="90">하락 후 정체</text>
+        <!-- panel B: cumulative -->
+        <text class="t-h" x="410" y="30">누적형: 총 VFA · 가스</text>
+        <path class="axis" d="M410 40V140H690"/>
+        <path class="c-acc" d="M410 125C440 110 480 80 503 72S600 52 690 48"/>
+        <path class="c-ok" d="M410 140C425 140 440 134 457 115S520 74 550 66S640 54 690 52"/>
+        <text class="t-acc" x="470" y="64">총 VFA</text>
+        <text class="t-ok" x="560" y="86">가스</text>
+        <text class="t-m" x="404" y="129" text-anchor="end">배경</text>
+        <!-- panel C: NH3-N -->
+        <text class="t-h" x="60" y="200">NH₃-N</text>
+        <path class="axis" d="M60 210V310H340"/>
+        <path class="c-dot" d="M60 265H340"/>
+        <text class="t-m" x="300" y="280" text-anchor="end">출발점 (배지 + 접종원)</text>
+        <path class="c-acc" d="M60 265C80 252 95 245 107 245S170 250 200 252S300 255 340 256"/>
+        <path class="c-mute" d="M107 245C170 238 250 228 340 220"/>
+        <text class="t-s" x="190" y="214">에너지 부족 · 고단백</text>
+        <text class="t-acc" x="200" y="246">에너지 충분</text>
+        <!-- panel D: lactate -->
+        <text class="t-h" x="410" y="200">젖산</text>
+        <path class="axis" d="M410 210V310H690"/>
+        <path class="c-acc" d="M410 300C425 300 435 266 452 265C470 264 485 296 520 299L690 300"/>
+        <path class="c-warn" d="M452 265C500 250 600 232 690 226"/>
+        <text class="t-acc" x="530" y="292">잠깐 상승 후 소비</text>
+        <text class="t-warn" x="560" y="222">빨간불: 축적</text>
+        <!-- x ticks -->
+        <g class="t-m">
+          <text class="t-m" x="60" y="154" text-anchor="middle">0</text><text class="t-m" x="107" y="154" text-anchor="middle">4</text><text class="t-m" x="153" y="154" text-anchor="middle">8</text><text class="t-m" x="200" y="154" text-anchor="middle">12</text><text class="t-m" x="340" y="154" text-anchor="middle">24 h</text>
+          <text class="t-m" x="410" y="154" text-anchor="middle">0</text><text class="t-m" x="457" y="154" text-anchor="middle">4</text><text class="t-m" x="503" y="154" text-anchor="middle">8</text><text class="t-m" x="550" y="154" text-anchor="middle">12</text><text class="t-m" x="690" y="154" text-anchor="middle">24 h</text>
+          <text class="t-m" x="60" y="324" text-anchor="middle">0</text><text class="t-m" x="107" y="324" text-anchor="middle">4</text><text class="t-m" x="153" y="324" text-anchor="middle">8</text><text class="t-m" x="200" y="324" text-anchor="middle">12</text><text class="t-m" x="340" y="324" text-anchor="middle">24 h</text>
+          <text class="t-m" x="410" y="324" text-anchor="middle">0</text><text class="t-m" x="457" y="324" text-anchor="middle">4</text><text class="t-m" x="503" y="324" text-anchor="middle">8</text><text class="t-m" x="550" y="324" text-anchor="middle">12</text><text class="t-m" x="690" y="324" text-anchor="middle">24 h</text>
+        </g>
+      </svg>
+      <figcaption>개념도. 농후사료 기질, 일반 완충 조건을 가정한 대략적 모양이며 실제 측정값이 아닙니다.</figcaption>
+    </figure>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span>
+    <div class="tbl"><table>
+      <thead><tr><th>지표</th><th>유형</th><th>0~4h</th><th>4~12h</th><th>12~24h</th></tr></thead>
+      <tbody>
+        <tr><td>pH</td><td>상태</td><td>하락 시작</td><td>가장 크게 하락</td><td>정체 (6.0~6.6)</td></tr>
+        <tr><td>총 VFA</td><td>누적</td><td>배경에서 상승 시작</td><td>빠르게 증가</td><td>증가 둔화</td></tr>
+        <tr><td>VFA 몰비율</td><td>상태</td><td>반추위액 비율 유지</td><td>프로피온산 비율 ↑</td><td>초산 비율 다시 ↑</td></tr>
+        <tr><td>젖산</td><td>상태</td><td>잠깐 상승 가능</td><td>소비되어 하락</td><td>낮게 유지</td></tr>
+        <tr><td>NH₃-N</td><td>상태</td><td>상승</td><td>정체 또는 하락</td><td>기질에 따라 다름</td></tr>
+        <tr><td>총가스</td><td>누적</td><td>지연기 후 상승</td><td>급증</td><td>정체에 접근</td></tr>
+        <tr><td>메탄</td><td>누적</td><td>낮음</td><td>증가</td><td>꾸준히 증가</td></tr>
+        <tr><td>소화율</td><td>누적</td><td>낮음</td><td>빠르게 증가</td><td>증가 둔화</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>정상 범위와 시간은 기질, 완충액, 접종원에 따라 달라지므로 숫자 하나하나보다 <b>모양</b>, 즉 방향과 순서를 기준으로 판단합니다. 누적형은 줄지 않고, 상태형은 매끄럽게 움직이며, 급변 구간은 지표끼리 같은 시간대에 나타나야 합니다.</p>
+    <p>결과표를 받으면 처리구별로 시간 곡선을 직접 그려 이 그림과 비교해 보세요. 표에서는 보이지 않던 이상한 움직임이 그림에서는 바로 드러납니다.</p>
+  </div>
+</article>
+
+<!-- ============ PART 4 ============ -->
+<div class="chap-head" id="p4"><span class="n">4부</span><h3>통계</h3><span class="q">설계에 맞는 분석인가, 표의 숫자는 믿을 만한가</span></div>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">실험 단위와 반복</h2>
+  <section class="blk"><span class="lbl">주요내용</span>
+    <div class="tbl"><table>
+      <thead><tr><th>수준</th><th>예</th><th>역할</th></tr></thead>
+      <tbody>
+        <tr><td>배양 회차(run)</td><td>날짜와 반추위액이 다른 배양</td><td><b>진짜 반복</b>. 블록(변량효과)으로 넣음</td></tr>
+        <tr><td>병(bottle)</td><td>같은 회차 안의 병들</td><td>회차 안의 반복, 실험 단위</td></tr>
+        <tr><td>채취 시점</td><td>같은 병의 4·8·12·24h</td><td>병 안의 반복측정. 독립 반복이 아님</td></tr>
+        <tr><td>분석 반복</td><td>같은 시료를 2번 주입</td><td>평균을 내서 값 1개로 사용</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>서로 다른 날, 다른 접종원으로 2~3회차 이상 배양한다<span class="cite"> Yáñez-Ruiz et al., 2016</span></li>
+    <li>회차를 블록으로 모형에 넣는다</li>
+    <li>n이 무엇을 센 것인지(회차, 병) 명시한다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>한 번의 배양에서 나온 병들은 같은 반추위액, 같은 날의 조건을 공유합니다. 이 병들을 독립 반복으로 세면 그 날 그 접종원에서만 나타난 차이를 일반적인 효과로 착각하게 됩니다. 이것을 의사반복(pseudoreplication)이라 합니다.</p>
+    <p>의사반복은 오차를 작게 만들어 p값을 낮추고 유의성 문자를 늘립니다. 결과표에 차이가 많이 나타날수록 n이 무엇인지 먼저 확인해야 하는 이유입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">독립 병 설계의 분석</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>시간대마다 다른 병이므로 시간도 병 사이의 요인이 된다</li>
+    <li>처리 × 시간 이원 요인 분산분석, 회차는 블록</li>
+  </ul>
+    <p class="eq" style="margin-top:8px">Y = 처리 + 시간 + 처리×시간 + 회차(변량) + 오차</p>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>처리×시간 상호작용을 먼저 검정한다</li>
+    <li>상호작용이 유의하면 시간대별로 처리를 비교한다 (다중비교 보정)</li>
+    <li>장점: 시간대 간 독립, 부피·압력 변화 없음 / 단점: 병 수가 시간대 수만큼 늘어남</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>독립 병 설계에서는 각 병이 한 시간대에서만 측정되므로 측정값끼리 독립이고, 일반적인 요인 분산분석을 쓸 수 있습니다. 시간대마다 따로 일원분산분석을 하는 것도 계산상 가능하지만, 그러면 "처리 효과가 시간에 따라 달라지는가"라는 상호작용 정보를 잃고 검정 횟수가 시간대 수만큼 늘어납니다.</p>
+    <p>한 모형에 시간과 처리를 함께 넣으면 모든 자료로 오차를 추정하므로 검정력도 좋아집니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">연속 채취 설계의 분석</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>같은 병의 측정값끼리 상관되어 있다 (4h에 높은 병은 8h에도 높기 쉬움)</li>
+    <li>방법 ① <b>반복측정 혼합모형</b> (권장): 고정효과 처리, 시간, 처리×시간 / 변량효과 회차, 회차 안의 병 / 반복 대상 = 병</li>
+    <li>방법 ② 반복측정 분산분석: 구형성 검정(Mauchly), 위반 시 Greenhouse-Geisser 보정</li>
+    <li>방법 ③ <b>요약 측정치</b>: 병마다 곡선 모수(가스의 b, c, lag)나 곡선 아래 면적(AUC)을 구해 일원분산분석</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>공분산 구조를 비교해 AIC/BIC로 고른다
+      <ul>
+        <li>CS: 모든 시점 간 상관이 같음 / AR(1): 시점이 멀수록 상관 감소 (같은 간격)</li>
+        <li>SP(POW): 간격이 다를 때의 AR(1). 4·4·4·12h 같은 간격에 적합</li>
+        <li>UN: 제약 없음. 모수가 많아 반복이 적으면 불안정</li>
+      </ul></li>
+    <li>자유도는 Kenward-Roger로 보정한다</li>
+    <li>누적 지표는 부피를 보정한 누적량으로 분석한다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">코드 예시</span>
+<pre>## R (nlme, emmeans)
+m &lt;- lme(y ~ trt * time, random = ~ 1 | run/bottle,
+         correlation = corCAR1(form = ~ hour | run/bottle),  # 간격이 다른 시점
+         data = d, method = "REML")
+anova(m)                                              # trt, time, trt:time
+emmeans(m, pairwise ~ trt | time, adjust = "tukey")   # 상호작용 유의 시 시간대별 비교</pre>
+<pre>/* SAS */
+proc mixed data=d;
+  class run trt time bottle;
+  model y = trt|time / ddfm=kr;
+  random run;
+  repeated time / subject=bottle(run*trt) type=sp(pow)(hour);
+  slice trt*time / sliceby=time;
+run;</pre>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>같은 병에서 나온 측정값을 독립으로 보고 시간대마다 따로 분석하면 상관 구조를 무시하게 되고, 처리×시간 상호작용도 검정할 수 없습니다. 혼합모형은 병을 반복 대상으로 지정해 이 상관을 모형 안에서 다룹니다<span class="cite"> Littell et al., 1998</span>.</p>
+    <p>반복측정 분산분석은 결측값이 하나라도 있으면 그 병 전체가 빠지고 구형성 가정이 까다로워서, 요즘은 혼합모형을 더 많이 씁니다. 가스처럼 곡선 모양이 분명한 누적 지표는 병마다 곡선을 적합한 뒤 모수를 비교하는 요약 측정치 방법이 간단하고 해석도 쉽습니다. 병당 값이 1개가 되므로 독립성 문제가 사라집니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">시간대 자료: 상호작용부터 본다</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ol>
+    <li><b>처리×시간 상호작용이 유의하면</b>: 처리 효과가 시간에 따라 다르다. 처리 주효과는 해석하지 않고, 시간대별로 처리를 비교한다(simple effect, slice). 이때 다중비교를 보정한다</li>
+    <li><b>유의하지 않으면</b>: 처리 주효과와 시간 주효과를 해석한다. 처리 평균은 모든 시간대의 평균으로 제시한다</li>
+    <li><b>용량 실험이면</b>: 용량 1차 효과 × 시간 상호작용도 본다 ("용량 반응의 기울기가 시간에 따라 변하는가")</li>
+  </ol></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>분석 전에 처리별 시간 곡선을 그려 상호작용을 눈으로 확인한다 (선이 평행하면 상호작용 없음)</li>
+    <li>결과표에 처리, 시간, 처리×시간의 p값을 함께 제시한다</li>
+    <li><span class="flag">빨간불</span>: 상호작용 검정 없이 시간대별 유의성 문자만 제시</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>상호작용은 귀찮은 통계 항목이 아니라 생물학적 발견일 때가 많습니다. 예를 들어 생균을 적게 넣은 처리는 늦게, 많이 넣은 처리는 빨리 같은 수준에 도달한다면, 균 수는 속도를 바꾸고 최종량은 환경이 정한다는 뜻입니다. 이것이 바로 용량×시간 상호작용이며, 시간대별 일원분산분석으로는 검정할 수 없습니다.</p>
+    <p>상호작용이 유의한데 처리 주효과만 보고하면 "평균적으로 차이가 없다"는 잘못된 결론이 나올 수 있습니다. 시간대에 따라 효과의 방향이 바뀌면 평균에서 서로 상쇄되기 때문입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">용량-반응: 1차·2차 효과</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li><b>직교 다항 대비</b>: 용량이 늘수록 반응이 직선으로 변하는가(1차), 휘는가(2차)
+      <ul><li>같은 간격 3수준 계수 → 1차 (−1, 0, +1), 2차 (+1, −2, +1)</li>
+      <li>4수준 이상이면 3차까지. 간격이 다르면 직교 계수를 따로 계산 (SAS PROC IML의 ORPOL, R의 <code class="k">contr.poly(scores=)</code>)</li></ul></li>
+    <li><b>용량 척도</b>: 10배씩 올린 용량(10⁶, 10⁷, 10⁸)은 log 척도에서 같은 간격(6, 7, 8)</li>
+    <li><b>무첨가 대조구</b>: log(0)은 정의되지 않으므로 대조구는 용량 계열에서 분리한다</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span>
+    <p style="margin:0 0 6px">질문을 둘로 나눈다: ① 대조구 vs 첨가구 평균 (첨가 효과) ② 첨가 수준 안에서 1차·2차 (용량 효과)</p>
+    <div class="tbl"><table>
+      <thead><tr><th class="c">대조 vs 첨가</th><th class="c">1차</th><th class="c">2차</th><th>해석</th></tr></thead>
+      <tbody>
+        <tr><td class="c">유의</td><td class="c">유의</td><td class="c">–</td><td>첨가 효과가 있고 용량에 비례</td></tr>
+        <tr><td class="c">유의</td><td class="c">ns</td><td class="c">유의</td><td>중간 용량에서 최대(또는 최소)</td></tr>
+        <tr><td class="c">유의</td><td class="c">ns</td><td class="c">ns</td><td>첨가 효과는 있으나 시험 범위에서 용량 차이 없음</td></tr>
+        <tr><td class="c">ns</td><td class="c">ns</td><td class="c">ns</td><td>효과 없음</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>미생물이나 효소처럼 10배씩 올리는 시험은 log 용량으로 분석하는 것이 일반적입니다. 원 척도(1, 10, 100)로 보면 간격이 크게 달라 최고 용량 하나가 결과를 좌우합니다.</p>
+    <p>"첨가 수준보다 첨가 여부가 중요하다"는 주장은 위 표의 셋째 줄, 즉 대조 vs 첨가가 유의하고 1차·2차가 유의하지 않을 때만 할 수 있습니다. 다중비교 문자만으로 이 결론을 내리면 안 됩니다. 수준이 3개면 2차 효과는 "휘었다"는 것만 알려 줍니다. 최적 용량이나 정체점을 추정하려면(broken-line, 지수 모형) 4~5수준 이상이 필요합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">용량 계열과 비교구가 섞인 설계</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>처리구의 성격을 먼저 나눈다: 음성 대조, 용량 계열, 비교 제품, 기준물질(양성 대조)</li>
+    <li>모든 처리구를 한 모형에 넣어 공통 오차(MSE)를 추정하고, 질문은 대비로 검정한다</li>
+    <li>질문은 데이터를 보기 전에 정한다 (사전 계획 대비)</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span>
+    <p style="margin:0 0 6px">직교 대비 세트 예시 (6처리 → 자유도 5 → 대비 5개)</p>
+    <div class="tbl"><table>
+      <thead><tr><th>대비</th><th class="c">대조</th><th class="c">저</th><th class="c">중</th><th class="c">고</th><th class="c">비교제품</th><th class="c">기준물질</th><th>질문</th></tr></thead>
+      <tbody>
+        <tr><td>①</td><td class="c m">5</td><td class="c m">−1</td><td class="c m">−1</td><td class="c m">−1</td><td class="c m">−1</td><td class="c m">−1</td><td>첨가물 전체 vs 무첨가</td></tr>
+        <tr><td>②</td><td class="c m">0</td><td class="c m">2</td><td class="c m">2</td><td class="c m">2</td><td class="c m">−3</td><td class="c m">−3</td><td>시험물질 계열 vs (비교제품 + 기준물질)</td></tr>
+        <tr><td>③</td><td class="c m">0</td><td class="c m">0</td><td class="c m">0</td><td class="c m">0</td><td class="c m">1</td><td class="c m">−1</td><td>비교제품 vs 기준물질</td></tr>
+        <tr><td>④</td><td class="c m">0</td><td class="c m">−1</td><td class="c m">0</td><td class="c m">1</td><td class="c m">0</td><td class="c m">0</td><td>용량 1차 (log)</td></tr>
+        <tr><td>⑤</td><td class="c m">0</td><td class="c m">1</td><td class="c m">−2</td><td class="c m">1</td><td class="c m">0</td><td class="c m">0</td><td>용량 2차 (log)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl" style="margin-top:8px"><table>
+      <thead><tr><th>질문</th><th>방법</th></tr></thead>
+      <tbody>
+        <tr><td>모든 쌍 비교</td><td>Tukey HSD</td></tr>
+        <tr><td>각 처리 vs 대조구</td><td>Dunnett</td></tr>
+        <tr><td>용량 경향</td><td>직교 다항 대비</td></tr>
+        <tr><td>미리 정한 몇 개의 질문</td><td>계획 대비 (+ 비직교면 Holm 보정)</td></tr>
+        <tr><td>사후 탐색, 보정이 약함</td><td>Duncan, LSD → <span class="tag no">비권장</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>직교 대비는 서로 독립이라 각 p값을 보정 없이 쓸 수 있습니다. 하지만 생물학적으로 더 궁금한 비교(예: 대조 vs 기준물질, 고용량 vs 비교제품)는 직교가 아닐 수 있습니다. 이때는 비직교 대비로 검정하고 Holm이나 Bonferroni로 다중성을 보정합니다.</p>
+    <p>비교가 공정하려면 조건이 맞아야 합니다. "시험물질이 기준물질보다 낫다"고 말하려면 두 처리의 활성 성분 공급량이 비교 가능해야 하고, "성분을 추가한 복합제가 낫다"고 말하려면 공통 성분의 양이 같아야 합니다. 모든 쌍을 Duncan으로 비교한 뒤 문자만 보고 용량 경향과 제품 우월성을 함께 주장하는 것은 가장 흔한 잘못입니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">Mean ± SD로 보고된 경우: CV로 오차 점검</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>CV(%) = SD ÷ 평균 × 100. 처리구마다, 시간대마다 계산해 지표별 분포를 본다</li>
+    <li>처리구 간 SD 비율: 최대 SD ÷ 최소 SD</li>
+    <li>SD에서 SEM 역산: SEM = SD ÷ √n</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span>
+    <p style="margin:0 0 6px">in vitro 지표별 CV 참고값 (경험적 기준이며 실험실과 방법에 따라 다름)</p>
+    <div class="tbl"><table>
+      <thead><tr><th>지표</th><th>양호</th><th>주의</th></tr></thead>
+      <tbody>
+        <tr><td>pH</td><td>&lt; 2%</td><td>&gt; 3%</td></tr>
+        <tr><td>총 VFA, 주요 개별 VFA</td><td>&lt; 10%</td><td>&gt; 15~20%</td></tr>
+        <tr><td>NH₃-N</td><td>&lt; 10~15%</td><td>&gt; 20%</td></tr>
+        <tr><td>총가스</td><td>&lt; 10%</td><td>&gt; 15%</td></tr>
+        <tr><td>센서로 잰 기체 (H₂S 등)</td><td>변동이 큼</td><td>&gt; 30%</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <div class="ex"><span class="lbl">가상 예시</span>
+    <p>평균 50, SD 10, n = 4 → CV 20% (총 VFA라면 <span class="flag">주의</span>), SEM = 10 ÷ √4 = 5</p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p><b>CV가 너무 크면</b> 측정 문제, 병 사이의 불균일(고형물 혼입, 교반 차이), 이상치를 의심합니다. <b>CV가 너무 작으면</b>(0에 가까우면) 측정 해상도의 한계(예: 주사기 1 mL 눈금)나, 같은 시료를 여러 번 잰 분석 반복을 독립 반복으로 보고했을 가능성을 봅니다. 생물학적 시료가 완전히 같은 값을 내는 일은 드뭅니다.</p>
+    <p>같은 지표 안에서 처리구 간 SD가 3배 이상 차이 나면 등분산 가정이 성립하지 않습니다. 이때는 로그 변환, 처리구별 분산을 허용하는 이분산 모형, 비모수 검정을 고려합니다. 이 점검 없이 붙은 유의성 문자는 신뢰하기 어렵습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">Mean과 SEM으로 보고된 경우: 실험 오차 역산</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li>처리 평균과 공통(pooled) SEM 하나를 제시하는 표에서 오차를 거꾸로 계산한다 (처리구당 반복 수 n이 같을 때)</li>
+  </ul>
+    <p class="eq" style="margin-top:8px">잔차 SD = SEM × √n &nbsp;|&nbsp; MSE = SEM² × n &nbsp;|&nbsp; 실험 CV = 잔차 SD ÷ 전체 평균 × 100 &nbsp;|&nbsp; SED = √2 × SEM</p>
+    <p class="eq">LSD(5%) ≈ t(오차 자유도) × SED ≈ 2.8 × SEM (자유도가 충분할 때) &nbsp;|&nbsp; Tukey HSD = q(처리 수, 오차 자유도) × SEM</p>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>n이 표나 각주에 기재되어 있다 (없으면 역산할 수 없음)</li>
+    <li>SEM이 공통값인지 처리구별 값인지 밝힌다. 처리구별로 다르면 그 이유(불균형, 이분산)를 적는다</li>
+    <li>유의성 문자가 위 계산의 최소 유의차와 맞는다</li>
+  </ul></section>
+  <div class="ex"><span class="lbl">가상 예시</span>
+    <p>6처리, 처리당 4반복(오차 자유도 18), SEM 5, 전체 평균 200</p>
+    <p>→ 잔차 SD = 5 × √4 = 10, 실험 CV = 5% / q(6, 18) ≈ 4.49 → HSD ≈ 22.5</p>
+    <p>두 평균의 차이가 22.5보다 작은데 Tukey 문자가 다르다면 표기 오류를 의심</p>
+  </div>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>SEM은 평균의 정밀도이지 개체 간 변동이 아닙니다. 그래서 SEM만 보면 오차가 작아 보이지만, √n을 곱해 SD로 되돌리면 실제 변동을 알 수 있습니다. 반대로 SEM이 지나치게 작다면 병이나 분석 반복을 n으로 셌는지(의사반복) 의심합니다. n이 클수록 SEM은 작아지기 때문입니다.</p>
+    <p>그래프의 오차 막대를 읽을 때도 주의가 필요합니다. ±1 SEM 막대가 겹치지 않는다고 해서 유의한 차이는 아닙니다. 같은 n, 큰 자유도 기준으로 대략 막대 끝 사이가 SEM 하나 이상 벌어져야 p &lt; 0.05에 가까워집니다. 보고서가 SD로 줬다면 SEM으로, SEM으로 줬다면 SD로 바꿔 보는 습관을 들이면 좋습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">기타 점검 항목</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ul>
+    <li><b>측정 상한 자료</b> ("&gt;120" 같은 값): 실제 값을 모르므로 분산분석과 유의성 문자를 붙이면 안 된다</li>
+    <li><b>가정 점검</b>: 잔차의 정규성(Q-Q plot, Shapiro-Wilk), 등분산(Levene), 이상치(스튜던트화 잔차)</li>
+    <li><b>다중 검정</b>: 지표 수 × 시간대 수만큼 검정이 늘어난다</li>
+    <li><b>"경향" 표현</b>: 미리 정한 기준(보통 0.05 ≤ p &lt; 0.10)일 때만 쓴다</li>
+  </ul></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span>
+    <p style="margin:0 0 6px">권장 결과표 양식</p>
+    <div class="tbl"><table style="min-width:640px">
+      <thead><tr><th>지표</th><th>처리별 평균</th><th>SEM</th><th>P: 처리</th><th>P: 시간</th><th>P: 처리×시간</th><th>P: 대조 vs 첨가</th><th>P: 1차</th><th>P: 2차</th></tr></thead>
+      <tbody><tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr></tbody>
+    </table></div>
+    <ul style="margin-top:8px">
+      <li>n, 회차 수, 모형, 공분산 구조, 다중비교 방법을 표 각주에 적는다</li>
+    </ul>
+  </section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>측정 상한에 걸린 값은 "적어도 그 이상"이라는 정보만 있는 중도절단 자료입니다. 이 값을 그대로 평균 내고 유의성 문자를 붙이면 계산 자체가 성립하지 않습니다. 가장 좋은 대응은 측정 설계를 고치는 것입니다(큰 주사기, 압력계, 주기적 가스 배출). 사후에는 중도절단 회귀(Tobit) 같은 방법이 있지만 제한적입니다.</p>
+    <p>지표 10개를 시간대 4개에서 검정하면 40번입니다. 아무 효과가 없어도 p &lt; 0.05가 평균 2개쯤 나옵니다. 그래서 주요 지표를 미리 정하고, 나머지는 탐색적 결과로 구분해 보고하는 것이 원칙입니다. p = 0.7 같은 값을 "경향"이라고 부르는 것은 통계적 근거가 없습니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>4부 · 통계</span><span class="no"></span></div>
+  <h2 class="ttl">통계 방법 선택 흐름도</h2>
+  <section class="blk"><span class="lbl">주요내용</span>
+    <figure class="fig">
+      <svg viewBox="0 0 720 490" role="img" aria-label="in vitro 결과의 통계 방법 선택 흐름도">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0 0L10 5L0 10z"/></marker></defs>
+        <rect class="box q" x="240" y="14" width="240" height="46" rx="10"/>
+        <text class="t-h" x="360" y="42" text-anchor="middle">① 채취 방식은?</text>
+        <rect class="box" x="60" y="96" width="220" height="52" rx="8"/>
+        <text class="t-h" x="170" y="118" text-anchor="middle">시간대마다 독립 병</text>
+        <text class="t-s" x="170" y="137" text-anchor="middle">처리×시간 이원 분산분석</text>
+        <rect class="box" x="440" y="96" width="220" height="52" rx="8"/>
+        <text class="t-h" x="550" y="118" text-anchor="middle">한 병에서 연속 채취</text>
+        <text class="t-s" x="550" y="137" text-anchor="middle">반복측정 혼합모형</text>
+        <rect class="box q" x="240" y="190" width="240" height="46" rx="10"/>
+        <text class="t-h" x="360" y="218" text-anchor="middle">② 처리 × 시간 상호작용?</text>
+        <rect class="box" x="60" y="270" width="220" height="52" rx="8"/>
+        <text class="t-h" x="170" y="292" text-anchor="middle">유의</text>
+        <text class="t-s" x="170" y="311" text-anchor="middle">시간대별 처리 비교 + 보정</text>
+        <rect class="box" x="440" y="270" width="220" height="52" rx="8"/>
+        <text class="t-h" x="550" y="292" text-anchor="middle">유의하지 않음</text>
+        <text class="t-s" x="550" y="311" text-anchor="middle">처리 주효과 (시간 평균)</text>
+        <rect class="box q" x="240" y="356" width="240" height="46" rx="10"/>
+        <text class="t-h" x="360" y="384" text-anchor="middle">③ 처리구의 성격은?</text>
+        <rect class="box" x="20" y="424" width="220" height="56" rx="8"/>
+        <text class="t-h" x="130" y="447" text-anchor="middle">용량 계열만</text>
+        <text class="t-s" x="130" y="467" text-anchor="middle">1차·2차 다항 대비</text>
+        <rect class="box" x="250" y="424" width="220" height="56" rx="8"/>
+        <text class="t-h" x="360" y="447" text-anchor="middle">비교구만</text>
+        <text class="t-s" x="360" y="467" text-anchor="middle">Dunnett · Tukey</text>
+        <rect class="box" x="480" y="424" width="220" height="56" rx="8"/>
+        <text class="t-h" x="590" y="447" text-anchor="middle">용량 + 비교구 혼합</text>
+        <text class="t-s" x="590" y="467" text-anchor="middle">계획 대비 + Holm 보정</text>
+        <path class="e" d="M330 60L190 94" marker-end="url(#ar)"/>
+        <path class="e" d="M390 60L530 94" marker-end="url(#ar)"/>
+        <path class="e" d="M170 148L320 188" marker-end="url(#ar)"/>
+        <path class="e" d="M550 148L400 188" marker-end="url(#ar)"/>
+        <path class="e" d="M330 236L190 268" marker-end="url(#ar)"/>
+        <path class="e" d="M390 236L530 268" marker-end="url(#ar)"/>
+        <path class="e" d="M170 322L320 354" marker-end="url(#ar)"/>
+        <path class="e" d="M550 322L400 354" marker-end="url(#ar)"/>
+        <path class="e" d="M320 402L140 422" marker-end="url(#ar)"/>
+        <path class="e" d="M360 402V422" marker-end="url(#ar)"/>
+        <path class="e" d="M400 402L580 422" marker-end="url(#ar)"/>
+      </svg>
+      <figcaption>회차(run)는 모든 경우에 블록(변량효과)으로 넣고, 가정 점검(정규성·등분산)은 모든 단계에서 함께 합니다.</figcaption>
+    </figure>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>① 설계에 맞는 모형 → ② 상호작용 판단 → ③ 처리구 성격에 맞는 비교 순서로 진행한다</li>
+    <li>③의 비교는 상호작용이 유의하면 시간대별로, 아니면 시간 평균에서 한다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>보고서를 읽을 때는 이 흐름도를 거꾸로 씁니다. 보고서의 설계(채취 방식, 처리구 구성)를 확인한 뒤, 사용한 분석이 흐름도의 어느 칸과 맞는지 봅니다. 연속 채취인데 시간대별 일원분산분석을 했거나, 용량 시험인데 다중비교 문자만 있다면 결론을 그대로 받아들이기 전에 한 번 더 따져 봐야 합니다.</p>
+  </div>
+</article>
+
+<!-- ============ PART 5 ============ -->
+<div class="chap-head" id="p5"><span class="n">5부</span><h3>마무리</h3><span class="q">한 장으로 정리한다</span></div>
+
+<article class="card">
+  <div class="meta"><span>5부 · 마무리</span><span class="no"></span></div>
+  <h2 class="ttl">첫 5분 점검표</h2>
+  <section class="blk"><span class="lbl">주요내용</span><ol>
+    <li><b>공여우의 사료</b>는 무엇이고, 시험 기질과 맞는가?</li>
+    <li><b>완충력</b>은 최종 배양액 기준으로 몇 mM(mEq/L)인가?</li>
+    <li><b>기질 조성</b>(최소 CP, NDF, 전분 또는 NFC)이 있는가?</li>
+    <li><b>기질량</b>은 몇 g/L이고, 산 부하는 완충력의 몇 배인가?</li>
+    <li><b>첨가물 투여량</b>은 병당 몇 mg이고, in vivo로 환산하면 몇 배인가?</li>
+    <li><b>채취 방식</b>은 독립 병인가 연속 채취인가, 0시간 시료가 있는가?</li>
+  </ol></section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>여섯 항목 모두 방법 부분에서 답을 찾을 수 있다</li>
+    <li>하나라도 답이 없으면 결론을 "이 조건에서의 관찰"로 낮춰 읽는다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>이 여섯 항목은 결과를 해석할 수 있는지를 가르는 기준점입니다. 앞의 네 개는 배양병 안의 환경(특히 pH)을 결정하고, 다섯째는 결과를 현장으로 옮길 수 있는지를, 여섯째는 숫자를 어떤 통계로 읽어야 하는지를 정합니다.</p>
+    <p>보고서를 받으면 결과표를 펼치기 전에 이 여섯 가지부터 확인하세요. 대부분 5분이면 충분하고, 이 5분이 이후의 해석 방향을 정합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>5부 · 마무리</span><span class="no"></span></div>
+  <h2 class="ttl">전체 체크리스트 한 장</h2>
+  <section class="blk"><span class="lbl">주요내용</span>
+    <div class="tbl"><table class="check">
+      <thead><tr><th></th><th>구분</th><th>확인 항목</th></tr></thead>
+      <tbody>
+        <tr><td>☐</td><td>질문</td><td>모사할 반추위 조건, 주요 지표와 기대 방향</td></tr>
+        <tr><td>☐</td><td>접종원</td><td>공여우 두수·혼합 여부, <b>공여우 사료</b>, 채취 시점, 운반·혐기 유지</td></tr>
+        <tr><td>☐</td><td>배지</td><td>접종원:배지 비율, <b>완충력(최종 mM)</b>, 질소원·환원제, 초기 pH 조정법</td></tr>
+        <tr><td>☐</td><td>기질</td><td><b>조성(CP, NDF, 전분/NFC)</b>, <b>기질량(g/L)</b>, 입자도, 산 부하 ÷ 완충력</td></tr>
+        <tr><td>☐</td><td>첨가물</td><td>균주·형태·담체, CFU 기준, <b>병당 투여량</b>, in vivo 환산</td></tr>
+        <tr><td>☐</td><td>대조구</td><td>무첨가, 담체 대조, blank, 기준물질의 공급량</td></tr>
+        <tr><td>☐</td><td>배양 운영</td><td>헤드스페이스, 압력 관리, <b>채취 방식</b>, <b>0시간 시료</b></td></tr>
+        <tr><td>☐</td><td>pH</td><td>시간 패턴, 최종값, 빨간불(4h 1단위 급락, 5.8, 5.0)</td></tr>
+        <tr><td>☐</td><td>VFA</td><td>mM 환산, 몰비율, 누적량 단조성, 분지쇄 VFA</td></tr>
+        <tr><td>☐</td><td>젖산</td><td>pH 5.5 이하라면 측정 여부</td></tr>
+        <tr><td>☐</td><td>질소</td><td>NH₃-N 출발점과 순변화, 표준곡선 범위</td></tr>
+        <tr><td>☐</td><td>가스</td><td>누적/구간, 상한, blank, 간접 CO₂, 메탄, pH에 따른 NH₃·H₂S</td></tr>
+        <tr><td>☐</td><td>소화율</td><td>IVDMD/IVNDFD 측정 여부</td></tr>
+        <tr><td>☐</td><td>교차 점검</td><td>급변 시점 일치, 합계·범위·단조성·화학량론·산 수지</td></tr>
+        <tr><td>☐</td><td>반복</td><td>회차 수, 병 수, n의 정의</td></tr>
+        <tr><td>☐</td><td>모형</td><td>독립 병 → 요인 분산분석 / 연속 채취 → 혼합모형, 상호작용</td></tr>
+        <tr><td>☐</td><td>비교</td><td>용량 1차·2차, 계획 대비, 다중비교 방법</td></tr>
+        <tr><td>☐</td><td>오차</td><td>CV, SD 비율, SEM 역산, 측정 상한, "경향" 표현</td></tr>
+        <tr><td>☐</td><td>결론</td><td>주장의 수준(관찰 / 조건부 / 가설), in vivo 간극</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="blk norm"><span class="lbl">정상 형태 · 권장 기준</span><ul>
+    <li>굵게 표시한 항목이 첫 5분 점검표의 핵심 6항목이다</li>
+    <li>인쇄해서 보고서 옆에 두고 표시하며 읽는다</li>
+  </ul></section>
+  <div class="detail-box"><span class="lbl">상세설명</span>
+    <p>이 표는 앞의 카드를 한 장으로 줄인 것입니다. 항목마다 기재됨, 기재됐으나 문제, 누락으로 표시하면 그 보고서가 어느 정도까지 해석 가능한지가 한눈에 보입니다. 누락이 설계 쪽(위쪽)에 몰려 있으면 결과 전체를 조건부로, 통계 쪽(아래쪽)에 몰려 있으면 유의성 판단을 다시 해야 합니다.</p>
+  </div>
+</article>
+
+<article class="card">
+  <div class="meta"><span>5부 · 마무리</span><span class="no"></span></div>
+  <h2 class="ttl">참고문헌</h2>
+  <section class="blk"><span class="lbl">배양법과 설계</span>
+    <ol class="refs">
+      <li>Tilley JMA, Terry RA (1963). A two-stage technique for the in vitro digestion of forage crops. <em>Journal of the British Grassland Society</em> 18:104–111.</li>
+      <li>McDougall EI (1948). Studies on ruminant saliva. 1. The composition and output of sheep's saliva. <em>Biochemical Journal</em> 43:99–109.</li>
+      <li>Menke KH, Steingass H (1988). Estimation of the energetic feed value obtained from chemical analysis and in vitro gas production using rumen fluid. <em>Animal Research and Development</em> 28:7–55.</li>
+      <li>Theodorou MK, Williams BA, Dhanoa MS, McAllan AB, France J (1994). A simple gas production method using a pressure transducer to determine the fermentation kinetics of ruminant feeds. <em>Animal Feed Science and Technology</em> 48:185–197.</li>
+      <li>Getachew G, Blümmel M, Makkar HPS, Becker K (1998). In vitro gas measuring techniques for assessment of nutritional quality of feeds: a review. <em>Animal Feed Science and Technology</em> 72:261–281.</li>
+      <li>Rymer C, Huntington JA, Williams BA, Givens DI (2005). In vitro cumulative gas production techniques: history, methodological considerations and challenges. <em>Animal Feed Science and Technology</em> 123–124:9–30.</li>
+      <li>Yáñez-Ruiz DR, Bannink A, Dijkstra J, et al. (2016). Design, implementation and interpretation of in vitro batch culture experiments to assess enteric methane mitigation in ruminants—a review. <em>Animal Feed Science and Technology</em> 216:1–18.</li>
+    </ol>
+  </section>
+  <section class="blk"><span class="lbl">지표와 생태</span>
+    <ol class="refs" start="8">
+      <li>Wolin MJ (1960). A theoretical rumen fermentation balance. <em>Journal of Dairy Science</em> 43:1452–1459.</li>
+      <li>Satter LD, Slyter LL (1974). Effect of ammonia concentration on rumen microbial protein production in vitro. <em>British Journal of Nutrition</em> 32:199–208.</li>
+      <li>Ørskov ER, McDonald I (1979). The estimation of protein degradability in the rumen from incubation measurements weighted according to rate of passage. <em>Journal of Agricultural Science</em> 92:499–503.</li>
+      <li>Owens FN, Secrist DS, Hill WJ, Gill DR (1998). Acidosis in cattle: a review. <em>Journal of Animal Science</em> 76:275–286.</li>
+      <li>Russell JB, Rychlik JL (2001). Factors that alter rumen microbial ecology. <em>Science</em> 292:1119–1122.</li>
+      <li>Plaizier JC, Krause DO, Gozho GN, McBride BW (2008). Subacute ruminal acidosis in dairy cows: the physiological causes, incidence and consequences. <em>The Veterinary Journal</em> 176:21–31.</li>
+    </ol>
+  </section>
+  <section class="blk"><span class="lbl">통계</span>
+    <ol class="refs" start="14">
+      <li>Littell RC, Henry PR, Ammerman CB (1998). Statistical analysis of repeated measures data using SAS procedures. <em>Journal of Animal Science</em> 76:1216–1231.</li>
+      <li>Kenward MG, Roger JH (1997). Small sample inference for fixed effects from restricted maximum likelihood. <em>Biometrics</em> 53:983–997.</li>
+    </ol>
+  </section>
+</article>
+
+<footer>학술부 교육 자료 · 공개 문헌 기반 · 정상 범위와 패턴은 대표 문헌과 일반 조건 기준이며 실험 조건에 따라 달라질 수 있습니다</footer>
+</main>
+</body>
+</html>
